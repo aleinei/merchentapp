@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.esi.easyorder.activites.CategoryActivity"
+    android:orientation="vertical">
+    <include layout="@layout/custom_action_bar" />
+    <GridView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/categoryGrid"
+        tools:listitem="@layout/section_field_layout"
+        android:verticalSpacing="10dp">
+
+    </GridView>
+</LinearLayout>

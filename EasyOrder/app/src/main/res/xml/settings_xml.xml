@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory android:title="Server Settings" >
+    <EditTextPreference
+        android:key="IPAddress"
+        android:title="Server IP"
+        android:defaultValue="192.168.1.5" />
+
+        <EditTextPreference android:key="databaseName"
+            android:title="Database Name"
+            android:defaultValue="ESI"/>
+        <EditTextPreference android:title="Database username"
+            android:key="prefUsername"
+            android:summary="Databae Username"
+            />
+
+        <EditTextPreference android:title="Database password"
+            android:key="prefPassword"
+            android:summary="Database Password" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="Activity Settings" >
+        <ListPreference android:title="Activity Type"
+            android:key="storeType"
+            android:defaultValue="cafeType"
+            android:entryValues="@array/activityTypesValues"
+            android:entries="@array/storeTypes"
+            android:summary="The Store type for this application"/>
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title= "Interface Settings" >
+        <ListPreference android:title="Item UI Type"
+            android:key="uiType"
+            android:entries="@array/uitypes"
+            android:entryValues="@array/uitypesvalues"
+            android:summary="The view of the items (Text, Picture, Text and Picture)"/>
+    </PreferenceCategory>
+</PreferenceScreen>

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_height="wrap_content"
+    android:padding="5dp"
+    android:orientation="vertical">
+
+   <android.support.v7.widget.CardView
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:layout_gravity="center"
+       app:cardCornerRadius="4dp"
+       >
+       <LinearLayout
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:orientation="vertical">
+           <pl.polidea.webimageview.WebImageView
+               android:id="@+id/sectionImage"
+               android:layout_width="match_parent"
+               android:layout_height="150dp"
+               android:layout_gravity="center"
+               android:adjustViewBounds="true"
+               android:src="@drawable/no_image_available"
+               android:scaleType="centerCrop" />
+
+         <LinearLayout
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:orientation="horizontal"
+             android:background="#6c5ce7"
+             android:id="@+id/textLayout">
+             <TextView
+                 android:id="@+id/sectionName"
+                 android:layout_width="0dip"
+                 android:layout_weight="7"
+                 android:layout_height="wrap_content"
+                 android:gravity="end"
+                 android:fontFamily="sans-serif"
+                 android:textStyle="bold"
+                 android:text="Section Name"
+                 android:background="#6c5ce7"
+                 android:textColor="@android:color/white"
+                 android:textSize="20sp"
+                 android:autoSizeTextType="uniform"
+                 android:padding="5dp"
+                 android:textDirection="rtl"/>
+             <TextView
+                 android:layout_width="0dip"
+                 android:layout_height="wrap_content"
+                 android:layout_weight="3"
+                 android:layout_gravity="start"
+                 android:id="@+id/sectionPrice"
+                 android:textColor="@android:color/white"
+                 android:textSize="20sp"
+                 android:padding="5dp"
+                 android:text="10LE" />
+
+
+
+         </LinearLayout>
+       </LinearLayout>
+
+   </android.support.v7.widget.CardView>
+
+
+</android.support.design.widget.CoordinatorLayout>

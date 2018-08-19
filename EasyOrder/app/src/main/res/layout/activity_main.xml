@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.esi.easyorder.activites.MainActivity"
+    android:orientation="vertical">
+    <include layout="@layout/custom_action_bar" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="10dp"
+        android:layout_marginTop="20dp">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Please Sign in to continue"
+            android:textSize="28sp"
+            android:layout_marginBottom="5dp"/>
+
+       <com.wrapp.floatlabelededittext.FloatLabeledEditText
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content">
+           <EditText
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:hint="Username"
+               android:id="@+id/userName"
+               android:layout_marginBottom="10dp"
+               android:inputType="textPersonName"
+               />
+       </com.wrapp.floatlabelededittext.FloatLabeledEditText>
+        <com.wrapp.floatlabelededittext.FloatLabeledEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Password"
+                android:id="@+id/password"
+                android:inputType="textPassword"
+                android:layout_marginBottom="10dp"
+                />
+        </com.wrapp.floatlabelededittext.FloatLabeledEditText>
+    <CheckBox
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Remember Me"
+        android:id="@+id/rememberMe"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="10dp">
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Sign in"
+                android:id="@+id/signin"
+                android:layout_marginRight="10dp"
+                android:background="#00b894"
+                android:textColor="@android:color/white"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Sign up"
+                android:id="@+id/register"
+                android:textColor="@android:color/white"
+                android:background="#d63031"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

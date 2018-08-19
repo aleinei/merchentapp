@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.esi.easyorder.activites.CartActivity"
+    android:orientation="vertical">
+    <include layout="@layout/custom_action_bar" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="لا يوجد اي اوردر"
+            android:textSize="34sp"
+            android:textColor="@android:color/black"
+            android:id="@+id/noOrders"
+            android:visibility="gone"/>
+
+        <GridView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="8"
+            android:id="@+id/cartGridView"
+            tools:listitem="@layout/cart_item_layout"
+            android:verticalSpacing="10dp">
+
+        </GridView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="4"
+                android:text="10LE"
+                android:textSize="26sp"
+                android:padding="10dp"
+                android:textColor="@android:color/black"
+                android:id="@+id/cartCost"
+                />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="5"
+                android:text="الاجمالي :"
+                android:textSize="30sp"
+                android:padding="10dp"
+                android:textColor="@android:color/black" />
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

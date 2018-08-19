@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:fancy="http://schemas.android.com/tools"
+    android:id="@+id/testID"
+    android:layout_height="match_parent">
+
+   <ScrollView
+       android:layout_width="match_parent"
+       android:layout_height="match_parent">
+       <LinearLayout
+           android:layout_width="match_parent"
+           android:layout_height="match_parent"
+           android:orientation="vertical"
+           android:padding="30dp">
+           <com.wrapp.floatlabelededittext.FloatLabeledEditText
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:layout_marginBottom="10sp">
+               <EditText
+                   android:layout_width="match_parent"
+                   android:layout_height="match_parent"
+                   android:id="@+id/profileUsername"
+                   android:hint="Username"
+                   android:enabled="false"
+                   android:inputType="textPersonName"/>
+           </com.wrapp.floatlabelededittext.FloatLabeledEditText>
+
+           <com.wrapp.floatlabelededittext.FloatLabeledEditText
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:layout_marginBottom="10sp">
+               <EditText
+                   android:layout_width="match_parent"
+                   android:layout_height="match_parent"
+                   android:id="@+id/profileEmail"
+                   android:enabled="false"
+                   android:hint="Email"
+                   android:inputType="textEmailAddress"/>
+           </com.wrapp.floatlabelededittext.FloatLabeledEditText>
+
+           <com.wrapp.floatlabelededittext.FloatLabeledEditText
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:layout_marginBottom="10sp">
+               <EditText
+                   android:layout_width="match_parent"
+                   android:layout_height="match_parent"
+                   android:id="@+id/profileAddress"
+                   android:enabled="false"
+                   android:hint="Address"/>
+           </com.wrapp.floatlabelededittext.FloatLabeledEditText>
+
+
+           <LinearLayout
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:orientation="vertical"
+               android:id="@+id/addressLayout"
+               android:visibility="gone">
+
+               <com.dd.processbutton.iml.ActionProcessButton
+                   android:id="@+id/getLocation"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:layout_marginBottom="10dp"
+                   android:text="Locate Me"
+                   android:textColor="@android:color/white"
+                   app:pb_cornerRadius="4dp"
+                   app:pb_textComplete="Located"
+                   app:pb_textError="Failed to locate the location"
+                   app:pb_textProgress="Locating... " />
+
+               <com.wrapp.floatlabelededittext.FloatLabeledEditText
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:layout_marginBottom="10sp">
+                   <EditText
+                       android:layout_width="match_parent"
+                       android:layout_height="match_parent"
+                       android:id="@+id/profileAddressBuilding"
+                       android:enabled="true"
+                       android:hint="Building Number"
+                       android:inputType="number"/>
+               </com.wrapp.floatlabelededittext.FloatLabeledEditText>
+
+               <com.wrapp.floatlabelededittext.FloatLabeledEditText
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:layout_marginBottom="10sp">
+                   <EditText
+                       android:layout_width="match_parent"
+                       android:layout_height="match_parent"
+                       android:id="@+id/profileAddressFloor"
+                       android:enabled="true"
+                       android:hint="Floor Apartment"
+                       android:inputType="textPersonName"/>
+               </com.wrapp.floatlabelededittext.FloatLabeledEditText>
+               <com.wrapp.floatlabelededittext.FloatLabeledEditText
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:layout_marginBottom="10sp">
+                   <EditText
+                       android:layout_width="match_parent"
+                       android:layout_height="match_parent"
+                       android:id="@+id/profileAddressApt"
+                       android:enabled="true"
+                       android:hint="Apartment"
+                       android:inputType="textPersonName"/>
+               </com.wrapp.floatlabelededittext.FloatLabeledEditText>
+           </LinearLayout>
+           <com.wrapp.floatlabelededittext.FloatLabeledEditText
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:layout_marginBottom="10sp">
+               <EditText
+                   android:layout_width="match_parent"
+                   android:layout_height="match_parent"
+                   android:id="@+id/profilePhone"
+                   android:enabled="false"
+                   android:hint="Phone Number"
+                   android:inputType="phone"/>
+           </com.wrapp.floatlabelededittext.FloatLabeledEditText>
+           <LinearLayout
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:id="@+id/passwordChange"
+               android:orientation="vertical"
+               android:visibility="gone">
+               <View
+                   android:layout_width="match_parent"
+                   android:layout_height="1dp"
+                   android:background="@android:color/darker_gray"
+                   android:layout_marginBottom="10dp"/>
+               <TextView
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:gravity="center"
+                   android:text="Password Change"/>
+               <com.wrapp.floatlabelededittext.FloatLabeledEditText
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:layout_marginBottom="10sp">
+                   <EditText
+                       android:layout_width="match_parent"
+                       android:layout_height="match_parent"
+                       android:id="@+id/profileCurrentPassword"
+                       android:enabled="true"
+                       android:hint="Current password"
+                       android:inputType="textPassword"/>
+               </com.wrapp.floatlabelededittext.FloatLabeledEditText>
+
+               <com.wrapp.floatlabelededittext.FloatLabeledEditText
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:layout_marginBottom="10sp">
+                   <EditText
+                       android:layout_width="match_parent"
+                       android:layout_height="match_parent"
+                       android:id="@+id/profileNewPassword"
+                       android:enabled="true"
+                       android:hint="New password"
+                       android:inputType="textPassword"/>
+               </com.wrapp.floatlabelededittext.FloatLabeledEditText>
+
+               <com.wrapp.floatlabelededittext.FloatLabeledEditText
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:layout_marginBottom="10sp">
+                   <EditText
+                       android:layout_width="match_parent"
+                       android:layout_height="match_parent"
+                       android:id="@+id/profileNewPasswordConfirm"
+                       android:enabled="true"
+                       android:hint="Confirm password"
+                       android:inputType="textPassword"/>
+               </com.wrapp.floatlabelededittext.FloatLabeledEditText>
+           </LinearLayout>
+
+           <LinearLayout
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:orientation="horizontal"
+               android:gravity="center"
+               android:id="@+id/profileControlLayout"
+               android:layout_marginBottom="20dp"
+               android:visibility="gone">
+               <mehdi.sakout.fancybuttons.FancyButton
+                   android:layout_width="100sp"
+                   android:layout_height="wrap_content"
+                   app:fb_text="Save"
+                   app:fb_radius="5dp"
+                   app:fb_defaultColor="#72f231"
+                   app:fb_focusColor="@android:color/white"
+                   android:layout_marginRight="4dp"
+                   android:id="@+id/saveChanges"/>
+               <mehdi.sakout.fancybuttons.FancyButton
+                   android:layout_width="100sp"
+                   android:layout_height="wrap_content"
+                   app:fb_text="Cancel"
+                   app:fb_radius="5dp"
+                   app:fb_defaultColor="#ec1010"
+                   app:fb_focusColor="@android:color/white"
+                   android:id="@+id/cancelChanges"/>
+           </LinearLayout>
+
+
+           <LinearLayout
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:orientation="vertical"
+               android:gravity="center"
+               android:id="@+id/updateLayout"
+               android:layout_marginBottom="10dp"
+               android:visibility="gone">
+
+               <TextView
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:textAlignment="center"
+                   android:text="Updating..."
+                   android:layout_marginBottom="10dp"
+                   android:textSize="18sp"
+                   android:id="@+id/updateText"/>
+
+               <com.github.rahatarmanahmed.cpv.CircularProgressView
+                   android:layout_width="40dp"
+                   android:layout_height="40dp"
+                   app:cpv_animAutostart="true"
+                   app:cpv_indeterminate="true"/>
+           </LinearLayout>
+       </LinearLayout>
+   </ScrollView>
+
+    <com.github.clans.fab.FloatingActionMenu
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right|bottom"
+        app:menu_colorPressed="#65cca0"
+        app:menu_icon="@drawable/ic_profile_edit_small"
+        android:id="@+id/fab_menu">
+
+        <com.github.clans.fab.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_profile_password_small"
+            app:fab_label="Change password"
+            app:fab_colorNormal="#65cca0"
+            android:id="@+id/fab_changePassword"/>
+
+        <com.github.clans.fab.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_profile_email_small"
+            app:fab_label="Change Email/Username"
+            app:fab_colorNormal="#65cca0"
+            android:id="@+id/fab_changeEmail"/>
+
+        <com.github.clans.fab.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_profile_location_small"
+            app:fab_label="Change Location"
+            app:fab_colorNormal="#65cca0"
+            android:id="@+id/fab_changeLocation"/>
+
+        <com.github.clans.fab.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_profile_phone"
+            app:fab_label="Change Phone"
+            app:fab_colorNormal="#65cca0"
+            android:id="@+id/fab_changePhone"/>
+
+    </com.github.clans.fab.FloatingActionMenu>
+</android.support.design.widget.CoordinatorLayout>
