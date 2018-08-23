@@ -183,6 +183,9 @@ public class RegisterActivity extends AppCompatActivity {
                 locationClient.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
                     @Override
                     public void onSuccess(final Location location) {
+                        if(location == null) {
+
+                        }
                         Geocoder geocoder = new Geocoder(RegisterActivity.this, Locale.getDefault());
                         try {
                             List<Address> addressList = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
