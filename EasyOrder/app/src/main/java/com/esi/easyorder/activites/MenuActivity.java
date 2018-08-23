@@ -49,7 +49,7 @@ public class MenuActivity extends AppCompatActivity {
 
     public ServerService serverService;
     boolean mBound = false;
-    public boolean menuLoaded;
+    public boolean menuLoaded = false;
     public MenuData menuData;
     LinearLayout gridViewLayout;
     LinearLayout loadingStart;

@@ -30,7 +30,7 @@ public class MenuFragment extends Fragment {
         View view = inflater.inflate(R.layout.menu_layout, null);
         loadingStart = view.findViewById(R.id.loadingStart);
         gridViewLayout = view.findViewById(R.id.menuGridLayout);
-        if(menuActivity.menuLoaded)
+        if(menuActivity != null && menuActivity.menuLoaded)
             LoadMenu();
         return view;
     }
