@@ -34,5 +34,8 @@
             android:entries="@array/uitypes"
             android:entryValues="@array/uitypesvalues"
             android:summary="The view of the items (Text, Picture, Text and Picture)"/>
+
+        <CheckBoxPreference android:title="Uses Stock"
+            android:key="useStock"/>
     </PreferenceCategory>
 </PreferenceScreen>

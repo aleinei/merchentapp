@@ -30,6 +30,7 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -184,47 +185,41 @@ public class RegisterActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(final Location location) {
                         if(location == null) {
+                            Log.d("Location", "Location is null");
+                            return;
+                        }
 
-                        }
-                        Geocoder geocoder = new Geocoder(RegisterActivity.this, Locale.getDefault());
-                        try {
-                            List<Address> addressList = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
-                            if(addressList.size() > 0)
-                            {
-                               /* String uri = String.format(Locale.ENGLISH, "http://maps.google.com/maps?daddr=%f,%f", location.getLatitude(), location.getLongitude());
-                                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
-                                startActivity(intent);*/
-                               new Thread(new Runnable() {
-                                   @Override
-                                   public void run() {
-                                       String uri = String.format(Locale.ENGLISH, "https://maps.googleapis.com/maps/api/distancematrix/json?origins=%f,%f&destinations=%f,%f", location.getLatitude(), location.getLongitude(), 30.075807f, 31.281116f);
-                                       OkHttpClient client = new OkHttpClient();
-                                       Request request = new Request.Builder().url(uri).build();
-                                       Response response = null;
-                                       try {
-                                           response = client.newCall(request).execute();
-                                           String fullString = response.body().string();
-                                           JSONObject object = new JSONObject(fullString);
-                                           String time = object.getJSONArray("rows").getJSONObject(0).getJSONArray("elements").getJSONObject(0).getJSONObject("duration").getString("text");
-                                           Log.d("Time to get there is", time);
-                                       } catch (IOException e) {
-                                           e.printStackTrace();
-                                       } catch (JSONException e) {
-                                           e.printStackTrace();
-                                       }
-                                   }
-                               }).start();
-                                RegisterActivity.this.location = location;
-                                Address address = addressList.get(0);
-                                address1.setText(address.getAddressLine(0));
-                                locationLocated = true;
-                                l.setProgress(100);
-                                Toast.makeText(RegisterActivity.this, "Make sure that we have your current location correctly, in case it is not try renabling your gps or moving around.", Toast.LENGTH_LONG).show();
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                String uri = String.format(Locale.ENGLISH, "https://maps.googleapis.com/maps/api/geocode/json?latlng=%f,%f&key=AIzaSyCRd8xi9kaak4xo7EuqkQLLQhjaaaNbxac", location.getLatitude(), location.getLongitude());
+                                OkHttpClient client = new OkHttpClient();
+                                Request request = new Request.Builder().url(uri).build();
+                                Response response = null;
+                                try {
+                                    response = client.newCall(request).execute();
+                                    String fullString = response.body().string();
+                                    JSONObject object = new JSONObject(fullString);
+                                    Log.d("JSON Recieved", fullString);
+                                    JSONArray results = object.getJSONArray("results");
+                                    final String address = results.getJSONObject(0).getString("formatted_address");
+                                    runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            address1.setText(address);
+                                        }
+                                    });
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
                             }
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                            l.setProgress(-1);
-                        }
+                        }).start();
+                        RegisterActivity.this.location = location;
+                        locationLocated = true;
+                        l.setProgress(100);
+                        Toast.makeText(RegisterActivity.this, "Make sure that we have your current location correctly, in case it is not try renabling your gps or moving around.", Toast.LENGTH_LONG).show();
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
@@ -265,6 +260,7 @@ public class RegisterActivity extends AppCompatActivity {
         if(serverService != null) {
             serverService.setMessage(new HandleMessage());
         }
+        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 55);
     }
 
     public class HandleMessage implements Runnable, ServerMessage {

@@ -1,18 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.esi.easyorder.activites.CategoryActivity"
-    android:orientation="vertical">
-    <include layout="@layout/custom_action_bar" />
-    <GridView
+    android:orientation="vertical"
+    android:background="#ffffff">
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/categoryGrid"
-        tools:listitem="@layout/section_field_layout"
-        android:verticalSpacing="10dp">
+        android:orientation="vertical">
+        <include layout="@layout/custom_action_bar" />
+        <android.support.v7.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/categoryGrid"
+            android:paddingRight="10dp"
+            android:paddingLeft="10dp" />
+    </LinearLayout>
 
-    </GridView>
-</LinearLayout>
+    <com.github.clans.fab.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:src="@drawable/baseline_shopping_cart_white_18dpx2"
+        app:fabSize="mini"
+        app:fab_colorNormal="@color/colorPrimary"
+        android:id="@+id/confirmCart"/>
+
+</android.support.design.widget.CoordinatorLayout>
