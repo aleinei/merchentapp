@@ -36,6 +36,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.text.DecimalFormat;
 
 public class CartActivity extends AppCompatActivity {
 
@@ -90,7 +91,8 @@ public class CartActivity extends AppCompatActivity {
                             editor.remove("cart");
                             if(gridAdapter.GetCart().Items.size() > 0) {
                                 editor.putString("cart", gridAdapter.GetCart().toObject().toString());
-                                cartCost.setText(String.valueOf(gridAdapter.GetCart().cost));
+                                DecimalFormat df = new DecimalFormat("#.000");
+                                cartCost.setText(df.format(gridAdapter.GetCart().cost));
 
                             } else {
                                 findViewById(R.id.noOrders).setVisibility(View.VISIBLE);
@@ -110,7 +112,8 @@ public class CartActivity extends AppCompatActivity {
                     aDialog.show();
                 }
             });
-            cartCost.setText(String.valueOf(mCart.cost));
+            DecimalFormat df = new DecimalFormat("#.000");
+            cartCost.setText(df.format(gridAdapter.GetCart().cost));
             isEmpty = false;
         } else {
             findViewById(R.id.noOrders).setVisibility(View.VISIBLE);
@@ -202,6 +205,7 @@ public class CartActivity extends AppCompatActivity {
                                         cart.put("takeaway", false);
                                         JSONArray items = new JSONArray();
                                         for (Item i : gridAdapter.cart.Items) {
+                                            i.qty = Double.valueOf(new DecimalFormat("#.000").format(i.qty));
                                             items.put(i.toObject());
                                         }
                                         cart.put("items", items);
@@ -230,6 +234,7 @@ public class CartActivity extends AppCompatActivity {
                                         cart.put("takeaway", true);
                                         JSONArray items = new JSONArray();
                                         for (Item i : gridAdapter.cart.Items) {
+                                            i.qty = Double.valueOf(new DecimalFormat("#.000").format(i.qty));
                                             items.put(i.toObject());
                                         }
                                         cart.put("items", items);

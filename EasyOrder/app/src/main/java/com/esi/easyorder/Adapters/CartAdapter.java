@@ -11,6 +11,8 @@ import android.widget.TextView;
 import com.esi.easyorder.ActiveCart;
 import com.esi.easyorder.R;
 
+import java.text.DecimalFormat;
+
 /**
  * Created by Server on 28/02/2018.
  */
@@ -46,12 +48,12 @@ public class CartAdapter extends BaseAdapter {
     public View getView(int i, View view, ViewGroup viewGroup) {
         View view2 = inflater.inflate(R.layout.cart_item_layout, null);
         TextView sectionName = view2.findViewById(R.id.cartItemName);
-        String stringBuilder = (" " + cart.Items.get(i).qty) +
-                "x " +
-                cart.Items.get(i).itemName;
+        DecimalFormat df = new DecimalFormat("#.000");
+        String stringBuilder = (" " + df.format(cart.Items.get(i).qty) +
+                "x " + cart.Items.get(i).itemName);
         sectionName.setText(stringBuilder);
         TextView cartPrice = view2.findViewById(R.id.cartItemPrice);
-        cartPrice.setText(String.valueOf(cart.Items.get(i).itemPrice * cart.Items.get(i).qty));
+        cartPrice.setText(df.format(cart.Items.get(i).itemPrice * cart.Items.get(i).qty));
         return view2;
     }
 

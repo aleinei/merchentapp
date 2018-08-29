@@ -35,14 +35,15 @@
                     android:text="طعميه"
                     android:textSize="30sp" />
 
-                <TextView
+                <pl.polidea.webimageview.WebImageView
                     android:id="@+id/itemDesc"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_width="200dp"
+                    android:layout_height="150dp"
                     android:layout_marginBottom="30dp"
-                    android:gravity="start"
-                    android:text="Description will be here.. "
-                    android:textSize="20sp" />
+                    android:gravity="center"
+                    android:textSize="20sp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/no_image_available"/>
             </LinearLayout>
 
             <LinearLayout

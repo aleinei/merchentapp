@@ -29,6 +29,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import pl.polidea.webimageview.WebImageView;
+
 public class ItemActivity extends AppCompatActivity {
 
     com.github.clans.fab.FloatingActionButton addBtn;
@@ -71,6 +73,9 @@ public class ItemActivity extends AppCompatActivity {
                 String itemName = it.getString("itemName");
                 double itemPrice = it.getDouble("itemPrice");
                 String name = it.getString("itemName");
+                String url = it.getString("imageURL");
+                WebImageView image = findViewById(R.id.itemDesc);
+                image.setImageURL(url);
                 double price = it.getDouble("itemPrice");
                 int Id = it.getInt("itemId");
                 int maxChild = it.getInt("maxChild");

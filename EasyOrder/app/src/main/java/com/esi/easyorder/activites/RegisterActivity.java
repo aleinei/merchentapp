@@ -177,6 +177,7 @@ public class RegisterActivity extends AppCompatActivity {
                 }
                 if (ActivityCompat.checkSelfPermission(RegisterActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(RegisterActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                     Toast.makeText(RegisterActivity.this, "Location permission is blocked, please allow the application to use GPS", Toast.LENGTH_SHORT).show();
+                    ActivityCompat.requestPermissions(RegisterActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 55);
                     l.setProgress(-1);
                     return;
                 }
@@ -260,7 +261,7 @@ public class RegisterActivity extends AppCompatActivity {
         if(serverService != null) {
             serverService.setMessage(new HandleMessage());
         }
-        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 55);
+
     }
 
     public class HandleMessage implements Runnable, ServerMessage {
