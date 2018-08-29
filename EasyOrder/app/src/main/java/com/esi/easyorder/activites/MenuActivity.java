@@ -64,7 +64,7 @@ public class MenuActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
         menuData = new MenuData();
-        serverIP = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString("IPAddress", "192.168.1.5");
+        serverIP = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString("IPAddress", "196.218.98.134");
         toolbar = findViewById(R.id.customActionbar);
         setSupportActionBar(toolbar);
         drawerLayout = findViewById(R.id.drawerLayout);

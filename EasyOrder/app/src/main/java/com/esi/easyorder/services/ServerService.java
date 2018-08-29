@@ -25,8 +25,8 @@ public class ServerService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-        serverIP = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString("IPAddress", "192.168.1.5");
-        DatabaseName = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString("databaseName", "ESI");
+        serverIP = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString("IPAddress", "196.218.98.134");
+        DatabaseName = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString("databaseName", "Aghethia"); // change later
     }
 
     public class Binder extends android.os.Binder {
