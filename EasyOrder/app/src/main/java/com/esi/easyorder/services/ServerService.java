@@ -26,7 +26,7 @@ public class ServerService extends Service {
     public void onCreate() {
         super.onCreate();
         serverIP = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString("IPAddress", "196.218.98.134");
-        DatabaseName = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString("databaseName", "vfFoodZina"); // change later
+        DatabaseName = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString("databaseName", "vffoodzina"); // change later
     }
 
     public class Binder extends android.os.Binder {
@@ -66,7 +66,7 @@ public class ServerService extends Service {
             connected = true;
             JSONObject msg = new JSONObject();
             try {
-                String type = PreferenceManager.getDefaultSharedPreferences(activity).getString("storeType", "storeType");
+                String type = PreferenceManager.getDefaultSharedPreferences(activity).getString("storeType", "cafeType");
                 msg.put("Msg", "reg_db");
                 msg.put("db", DatabaseName);
                 msg.put("type", type);

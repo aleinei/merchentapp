@@ -404,6 +404,7 @@ public class MenuActivity extends AppCompatActivity {
                     }
                 }
             } catch (JSONException e) {
+                e.printStackTrace();
                 try {
                     JSONObject msg = new JSONObject(message);
                     if(msg.getString("Msg").equals("user_update"))
