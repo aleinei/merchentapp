@@ -8,3 +8,6 @@ to-do
 
 2- calculate the distance between the customer location and the store location
 
+3- create a shortcut after application is installed
+
+4- create logo(Vegetables stores - Supermarket - Coffe shop)
