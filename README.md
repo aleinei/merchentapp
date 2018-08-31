@@ -18,3 +18,6 @@ to-do
 6- Change the price to "E.x : 5 EGP Per K.g" 
 
 7- Add another buttons for grams if applicable
+
+
+8- Save order in the application if server is offline
