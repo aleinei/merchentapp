@@ -10,4 +10,4 @@ to-do
 
 3- create a shortcut after application is installed
 
-4- create logo(Vegetables stores - Supermarket - Coffe shop)
+4- create logo(Vegetables stores - Supermarket - Coffe shop - Burger)
