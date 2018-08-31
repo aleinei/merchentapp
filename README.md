@@ -11,3 +11,10 @@ to-do
 3- create a shortcut after application is installed
 
 4- create logo(Vegetables stores - Supermarket - Coffe shop - Burger)
+
+
+5- change EGP to جنيه if the phone is in arabic
+
+6- Change the price to "E.x : 5 EGP Per K.g" 
+
+7- Add another buttons for grams if applicable
