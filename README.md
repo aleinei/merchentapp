@@ -6,7 +6,7 @@ to-do
 
 3- create a shortcut after application is installed - on progress
 
-4- create logo(Vegetables stores - Supermarket - Coffe shop - Burger)
+4- create logo(Vegetables stores - Supermarket - Coffe shop - Burger) - waiting
 
 5- change EGP to جنيه if the phone is in arabic - done
 
