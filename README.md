@@ -2,16 +2,11 @@
 
 to-do
 
-
-1- add on settings options to print a work order or a receipt or both
-
-
-2- calculate the distance between the customer location and the store location
+2- calculate the distance between the customer location and the store location - waiting
 
 3- create a shortcut after application is installed
 
 4- create logo(Vegetables stores - Supermarket - Coffe shop - Burger)
-
 
 5- change EGP to جنيه if the phone is in arabic
 
@@ -19,8 +14,6 @@ to-do
 
 7- Add another buttons for grams if applicable
 
-
 8- Save order in the application if server is offline
 
-
-9- change latitude to lat - longtiude to long
+9- change latitude to lat - longtiude to long - waiting
