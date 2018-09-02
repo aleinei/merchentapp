@@ -18,12 +18,4 @@ to-do
 
 9- change latitude to lat - longtiude to long - waiting
 
-Please add These Projects for the Merchant Project:
-
-  1-  Easy Pilot
-  
-  2-  Easy Preparation
-  
-  3-  Easy Cashier
-  
-  4-  Easy Merchant
+On the receipt please show customer name, Customer address, phone number, each or separate line with font size 12
