@@ -4,7 +4,7 @@ to-do
 
 2- calculate the distance between the customer location and the store location - waiting
 
-3- create a shortcut after application is installed - on progress
+3- create a shortcut after application is installed - done
 
 4- create logo(Vegetables stores - Supermarket - Coffe shop - Burger) - waiting
 
@@ -20,6 +20,9 @@ to-do
 
 Please add These Projects for the Merchant Project:
   1-  Easy Pilot
+  
   2-  Easy Preparation
+  
   3-  Easy Cashier
+  
   4-  Easy Merchant
