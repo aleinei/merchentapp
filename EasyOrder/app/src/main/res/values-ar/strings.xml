@@ -58,4 +58,5 @@
     <string name="located">تم تحديد موقعك</string>
     <string name="kg"> كجم</string>
     <string name="grams">جم</string>
+    <string name="welcome"> اهلا %s</string>
 </resources>

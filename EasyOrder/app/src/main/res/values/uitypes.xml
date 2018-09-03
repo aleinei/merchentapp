@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string-array name="uitypes">
+    <string-array name="uitypes" translatable="false">
         <item>Text</item>
         <item>Pictures</item>
         <item>Text with Pictures</item>

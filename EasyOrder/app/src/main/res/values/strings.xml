@@ -22,7 +22,7 @@
     <string name="logout">Log out</string>
     <string name="orders">Orders</string>
     <string name="profile">profile</string>
-    <string name="menuprofile">'s profile</string>
+    <string name="menuprofile">\'s profile</string>
     <string name="pleasesignin">Please sign in to continue</string>
     <string name="yourorders">Your Orders</string>
     <string name="ordernumber">Order Number %d</string>
@@ -38,7 +38,6 @@
     <string name="no">No</string>
     <string name="shoppingcart">Shopping Cart</string>
     <string name="total">Total: </string>
-    <string name="gravity">start</string>
     <string name="addressconfirm">Confirm Address</string>
     <string name="addressconfirmbody">This order will be delivered to your current address, would you like to update your address?</string>
     <string name="changeaddress">Change My Address</string>
@@ -58,4 +57,5 @@
     <string name="located">Located</string>
     <string name="kg">K.G</string>
     <string name="grams">G.M</string>
+    <string name="welcome">Welcome %s</string>
 </resources>

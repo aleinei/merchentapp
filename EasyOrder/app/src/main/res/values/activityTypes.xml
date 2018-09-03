@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string-array name="storeTypes">
+    <string-array name="storeTypes" translatable="false">
         <item>Cafe</item>
         <item>Store</item>
     </string-array>

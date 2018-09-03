@@ -37,14 +37,15 @@ public class MenuReycleAdapter extends RecyclerView.Adapter<MenuViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(MenuViewHolder holder, final int position) {
+    public void onBindViewHolder(MenuViewHolder holder, int position) {
+        final int pos = position;
         holder.sectionName.setText(data.Sections.get(position).name);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent category = new Intent(context, SectionActivity.class);
                 category.putExtra("menuData", data.toString());
-                category.putExtra("sectionId", position);
+                category.putExtra("sectionId", pos);
                 context.startActivity(category);
             }
         });

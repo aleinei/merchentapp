@@ -62,13 +62,14 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ItemVi
     }
 
     @Override
-    public void onBindViewHolder(ItemViewHolder holder, final int position) {
+    public void onBindViewHolder(ItemViewHolder holder,  int position) {
+        final int pos = position;
         holder.bind(data.Sections.get(sectionId).categories.get(categoryId).items.get(position));
         holder.image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent itemActivity = new Intent(context, ItemActivity.class);
-                itemActivity.putExtra("item", data.Sections.get(sectionId).categories.get(categoryId).items.get(position).toObject().toString());
+                itemActivity.putExtra("item", data.Sections.get(sectionId).categories.get(categoryId).items.get(pos).toObject().toString());
                 context.startActivity(itemActivity);
             }
         });

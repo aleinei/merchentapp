@@ -1,8 +1,10 @@
 package com.esi.easyorder.Adapters;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,7 +40,8 @@ public class SectionReycleAdapter extends RecyclerView.Adapter<SectionViewHolder
     }
 
     @Override
-    public void onBindViewHolder(final SectionViewHolder holder, final int position) {
+    public void onBindViewHolder(@NonNull final SectionViewHolder holder, @SuppressLint("RecyclerView") int position) {
+        final int pos = position;
         holder.textView.setText(data.Sections.get(SectionID).categories.get(position).name);
         holder.sectionID = SectionID;
         holder.categoryID = position;
@@ -48,7 +51,7 @@ public class SectionReycleAdapter extends RecyclerView.Adapter<SectionViewHolder
                 Intent categoryActivity = new Intent(context, CategoryActivity.class);
                 categoryActivity.putExtra("menuData", data.toString());
                 categoryActivity.putExtra("sectionId", SectionID);
-                categoryActivity.putExtra("categoryId", position);
+                categoryActivity.putExtra("categoryId", pos);
                 context.startActivity(categoryActivity);
             }
         });

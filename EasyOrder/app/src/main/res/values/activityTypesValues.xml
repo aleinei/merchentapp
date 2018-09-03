@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string-array name="activityTypesValues">
+    <string-array name="activityTypesValues" translatable="false">
         <item>cafeType</item>
         <item>storeType</item>
     </string-array>

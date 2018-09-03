@@ -167,7 +167,7 @@ public class MainActivity extends AppCompatActivity {
                     passwordText.setText("");
                     loggedInPressed = false;
                 } else if(msg.getString("Msg").equals("user_verified")) {
-                    Toast.makeText(MainActivity.this, "Welcome " + usernameText.getText().toString(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, getString(R.string.welcome,  usernameText.getText().toString()), Toast.LENGTH_SHORT).show();
                     SharedPreferences.Editor ed = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit();
                     user.ID = msg.getInt("Id");
                     user.username = usernameText.getText().toString();
