@@ -20,5 +20,6 @@ to-do
 
 11- ask for the location on sumbiting order ( Ask if default location or another one ) - waiting
 
+12- add a button for merchents to register
 
 On the receipt please show customer name, Customer address, phone number, each or separate line with font size 12
