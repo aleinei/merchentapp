@@ -104,7 +104,7 @@ public class ProfileFragment extends Fragment {
             email.setText(user.Email);
             address.setText(user.Address);
             phone.setText(user.Telephone);
-            menuActivity.setTitle(user.username + "'s Profile");
+            menuActivity.setTitle(user.username + getString(R.string.menuprofile));
         }
         changePassword.setOnClickListener(new View.OnClickListener() {
             @Override

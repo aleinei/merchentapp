@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,8 +31,13 @@ public class MenuFragment extends Fragment {
         View view = inflater.inflate(R.layout.menu_layout, null);
         loadingStart = view.findViewById(R.id.loadingStart);
         gridViewLayout = view.findViewById(R.id.menuGridLayout);
+        if(menuActivity == null) {
+            menuActivity = (MenuActivity)getActivity();
+        }
         if(menuActivity != null && menuActivity.menuLoaded)
             LoadMenu();
+        else
+            Log.d("Something", (menuActivity != null) + " " + menuActivity.menuLoaded);
         return view;
     }
 

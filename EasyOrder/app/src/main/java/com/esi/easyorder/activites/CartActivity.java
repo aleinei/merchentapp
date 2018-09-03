@@ -1,5 +1,6 @@
 package com.esi.easyorder.activites;
 
+import android.app.Dialog;
 import android.content.ComponentName;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -34,9 +35,11 @@ import com.esi.easyorder.services.ServerService;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.io.IOException;
 import java.text.DecimalFormat;
+import java.util.Set;
 
 public class CartActivity extends AppCompatActivity {
 
@@ -50,6 +53,7 @@ public class CartActivity extends AppCompatActivity {
     TextView cartCost;
     boolean isEmpty = true;
     boolean orderSent;
+    Boolean isChangeAddress = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,11 +84,11 @@ public class CartActivity extends AppCompatActivity {
                     AlertDialog aDialog;
                     TextView textView = new TextView(CartActivity.this);
                     textView.setGravity(Gravity.CENTER);
-                    textView.setText("Are you sure you want to remove this item?");
+                    textView.setText(getString(R.string.confirmremovingitem));
                     textView.setPadding(0,5,0,0);
                     textView.setTextSize(18);
-                    dialog.setTitle("Are you sure you want to remove this item?");
-                    dialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    dialog.setTitle(getString(R.string.confirmremovingitem));
+                    dialog.setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
                             gridAdapter.DeleteItem(index);
@@ -96,13 +100,14 @@ public class CartActivity extends AppCompatActivity {
 
                             } else {
                                 findViewById(R.id.noOrders).setVisibility(View.VISIBLE);
+
                                 isEmpty = true;
                             }
                             editor.apply();
                         }
                     });
 
-                    dialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    dialog.setNegativeButton(getString(R.string.no), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
                             dialogInterface.cancel();
@@ -118,7 +123,7 @@ public class CartActivity extends AppCompatActivity {
         } else {
             findViewById(R.id.noOrders).setVisibility(View.VISIBLE);
         }
-        setTitle("سلة المشتريات");
+        setTitle(getString(R.string.shoppingcart));
     }
 
     @Override
@@ -146,7 +151,12 @@ public class CartActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.cart_menu, menu);
+        if(mCart != null) {
+            getMenuInflater().inflate(R.menu.cart_menu, menu);
+            if(mCart.Items.size() <= 0) {
+                menu.getItem(0).setVisible(false);
+            }
+        }
         return true;
     }
 
@@ -176,6 +186,7 @@ public class CartActivity extends AppCompatActivity {
                             option2.setTextColor(Color.BLACK);
                             option2.setTextSize(21);
 
+
                             option1.setText("Delivery");
                             option2.setText("Pickup");
                             layout.addView(option1);
@@ -193,11 +204,28 @@ public class CartActivity extends AppCompatActivity {
                             PreferenceManager.getDefaultSharedPreferences(this).edit().remove("user").apply();
                             PreferenceManager.getDefaultSharedPreferences(this).edit().putString("user", currentUser.toObject().toString()).apply();
                             final AlertDialog dialog = builder.create();
-                            dialog.show();
-                            option1.setOnClickListener(new View.OnClickListener() {
+                            AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
+                            TextView text = new TextView(this);
+                            text.setText(getString(R.string.addressconfirmbody));
+                            text.setPadding(20,10,20,10);
+                            text.setTextColor(Color.BLACK);
+                            text.setTextSize(18);
+                            builder1.setView(text);
+                            builder1.setTitle(getString(R.string.addressconfirm));
+
+                            builder1.setPositiveButton(R.string.changeaddress, new DialogInterface.OnClickListener() {
                                 @Override
-                                public void onClick(View view) {
-                                    dialog.dismiss();
+                                public void onClick(DialogInterface tdialog, int which) {
+                                    tdialog.dismiss();
+                                    Intent profileIntent = new Intent(CartActivity.this, MenuActivity.class);
+                                    profileIntent.putExtra("load_profile", true);
+                                    startActivity(profileIntent);
+                                }
+                            });
+                            builder1.setNegativeButton(R.string.usecurrentaddress, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface tdialog, int which) {
+                                    tdialog.dismiss();
                                     JSONObject cart = new JSONObject();
                                     try {
                                         cart.put("Msg", "new_order_d");
@@ -205,7 +233,6 @@ public class CartActivity extends AppCompatActivity {
                                         cart.put("takeaway", false);
                                         JSONArray items = new JSONArray();
                                         for (Item i : gridAdapter.cart.Items) {
-                                            i.qty = Double.valueOf(new DecimalFormat("#.000").format(i.qty));
                                             items.put(i.toObject());
                                         }
                                         cart.put("items", items);
@@ -213,6 +240,7 @@ public class CartActivity extends AppCompatActivity {
                                         serverService.sendMessage(cart.toString());
                                         editor.remove("cart");
                                         editor.apply();
+                                        orderSent = true;
                                         onBackPressed();
                                         finish();
                                     } catch (JSONException e) {
@@ -222,6 +250,17 @@ public class CartActivity extends AppCompatActivity {
                                     }
                                 }
                             });
+                            final Dialog dialog2 = builder1.create();
+                            dialog.show();
+                            option1.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                        dialog.dismiss();
+                                        dialog2.show();
+                                    }
+
+                                 }
+                            );
 
                             option2.setOnClickListener(new View.OnClickListener() {
                                 @Override
@@ -234,7 +273,7 @@ public class CartActivity extends AppCompatActivity {
                                         cart.put("takeaway", true);
                                         JSONArray items = new JSONArray();
                                         for (Item i : gridAdapter.cart.Items) {
-                                            i.qty = Double.valueOf(new DecimalFormat("#.000").format(i.qty));
+
                                             items.put(i.toObject());
                                         }
                                         cart.put("items", items);
@@ -242,6 +281,7 @@ public class CartActivity extends AppCompatActivity {
                                         serverService.sendMessage(cart.toString());
                                         editor.remove("cart");
                                         editor.apply();
+                                        orderSent = true;
                                         onBackPressed();
                                         finish();
                                     } catch (JSONException e) {
@@ -251,6 +291,7 @@ public class CartActivity extends AppCompatActivity {
                                     }
                                 }
                             });
+
                         } else {
                             Toast.makeText(getApplicationContext(), "Id not read", Toast.LENGTH_SHORT).show();
                             return false;
@@ -261,7 +302,6 @@ public class CartActivity extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(), "User not read", Toast.LENGTH_SHORT).show();
                         return false;
                     }
-                    orderSent = true;
                 }
                 return true;
         }

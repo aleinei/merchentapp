@@ -35,13 +35,13 @@ public class ViewOrderActivity extends AppCompatActivity {
             }
         });
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        setTitle("Order Details");
+        setTitle(getString(R.string.orderdetails));
         String order = getIntent().getStringExtra("order");
         if(order != null)
         {
             Order order1 = new Order();
             order1.Deseralize(order);
-            orderName.setText("Order Number " + order1.ID);
+            orderName.setText(getString(R.string.ordernumber, order1.ID) );
             orderAddress.setText(order1.OrderAddress);
             CartAdapter adapter = new CartAdapter(this, order1.cartOrder);
             gridView.setAdapter(adapter);

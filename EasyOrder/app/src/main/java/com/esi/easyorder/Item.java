@@ -5,7 +5,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.Serializable;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
+import java.util.Currency;
+import java.util.Locale;
 
 public class Item implements Serializable{
     static final long serialVersionUID = 43L;
@@ -21,6 +25,23 @@ public class Item implements Serializable{
     public int maxAddableItems = -1;
     public String Source = "";
     public int unit = 1;
+
+    public String getQty(String quantity) {
+        String arabic = "\u06f0\u06f1\u06f2\u06f3\u06f4\u06f5\u06f6\u06f7\u06f8\u06f9";
+
+            char[] chars = new char[quantity.length()];
+            for (int i = 0; i < quantity.length(); i++) {
+                char ch = quantity.charAt(i);
+                if (ch >= 0x0660 && ch <= 0x0669)
+                    ch -= 0x0660 - '0';
+                else if (ch >= 0x06f0 && ch <= 0x06F9)
+                    ch -= 0x06f0 - '0';
+                chars[i] = ch;
+            }
+            return new String(chars);
+        }
+
+
 
     public Item(String name, double price, int id, String image) {
         itemName = name;
@@ -43,7 +64,7 @@ public class Item implements Serializable{
             item.put("itemDesc", itemDesc);
             item.put("itemId", id);
             item.put("imageURL", imageURL);
-            item.put("qty", qty);
+            item.put("qty",qty);
             item.put("maxChild", maxAddableItems);
             item.put("Source", Source);
             item.put("unit", unit);

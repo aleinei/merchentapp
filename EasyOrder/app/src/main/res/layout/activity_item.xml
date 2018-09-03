@@ -1,83 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.esi.easyorder.activites.ItemActivity">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_margin="5dp">
 
-    <android.support.v4.widget.NestedScrollView
+    <android.support.v7.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fillViewport="true">
+        android:layout_height="300dp"
+        app:cardBackgroundColor="@android:color/transparent"
+        app:cardCornerRadius="1dp">
 
-        <LinearLayout
+        <android.support.design.widget.CoordinatorLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
-            <include layout="@layout/custom_action_bar" />
+            android:layout_marginBottom="2dp">
 
-            <LinearLayout
-                android:id="@+id/itemViewLayout"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center|top"
-                android:orientation="vertical"
-                android:padding="20dp">
 
-                <TextView
-                    android:id="@+id/itemName"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="30dp"
-                    android:gravity="center"
-                    android:textStyle="bold"
-                    android:text="طعميه"
-                    android:textSize="30sp" />
-
-                <pl.polidea.webimageview.WebImageView
-                    android:id="@+id/itemDesc"
-                    android:layout_width="200dp"
-                    android:layout_height="150dp"
-                    android:layout_marginBottom="30dp"
-                    android:gravity="center"
-                    android:textSize="20sp"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/no_image_available"/>
-            </LinearLayout>
-
-            <LinearLayout
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginBottom="30dp"
-                android:gravity="end"
-                android:orientation="horizontal">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="كيلو"
-                    android:textSize="22sp"
-                    android:id="@+id/kiloText"
-                    android:visibility="gone"/>
+                android:layout_gravity="top|center"
+                android:text="Item name"
+                android:textSize="16sp"
+                android:padding="6dp"
+                android:id="@+id/itemName"
+                android:textColor="#243a4d"
+                android:textAlignment="center"/>
 
-                <EditText
-                    android:id="@+id/itemQty"
-                    android:layout_width="50dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="10dp"
-                    android:inputType="number"
-                    android:text="1"
-                    android:textAlignment="center"
-                    android:textSize="18sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="الكميه :"
-                    android:textSize="22sp" />
-
-            </LinearLayout>
+            <pl.polidea.webimageview.WebImageView
+                android:layout_width="match_parent"
+                android:layout_height="130dp"
+                app:layout_anchorGravity="bottom"
+                app:layout_anchor="@id/itemName"
+                android:layout_gravity="bottom"
+                android:src="@drawable/no_image_available"
+                android:scaleType="centerCrop"
+                android:id="@+id/itemImage"
+                android:padding="3dp"/>
 
             <LinearLayout
                 android:id="@+id/itemButtonLayout"
@@ -127,21 +87,98 @@
                     android:visibility="gone"
                     android:layout_margin="5sp"/>
             </LinearLayout>
-        </LinearLayout>
 
-    </android.support.v4.widget.NestedScrollView>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_anchor="@id/itemImage"
+                app:layout_anchorGravity="bottom"
+                android:layout_gravity="bottom"
+                android:orientation="vertical">
 
-    <com.github.clans.fab.FloatingActionButton
-        android:id="@+id/addToOrder"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:src="@drawable/ic_add_shopping_cart_white_24dp"
-        app:elevation="6dp"
-        android:layout_margin="10dp"
-        app:fab_label="Add to basket"
-        app:fab_size="normal"
-        app:fab_colorPressed="@color/colorAccent"
-        app:fab_colorNormal="@color/colorPrimary"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:orientation="horizontal"
+                    android:gravity="center"
+                    android:id="@+id/description_layout"
+                    android:padding="10dp">
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/unitCurrency"
+                        android:textSize="16sp"
+                        android:textAlignment="center"
+                        android:id="@+id/itemPrice"
+                        android:textColor="#a9d47c"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center"
+                    android:layout_gravity="bottom"
+                    android:layout_marginTop="10dp"
+                    android:paddingTop="10dp">
+                    <ImageButton
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:background="#8dc648"
+                        android:src="@drawable/baseline_add_white_18dp"
+                        android:id="@+id/increase"/>
+                    <TextView
+                        android:layout_width="64dp"
+                        android:layout_height="wrap_content"
+                        android:text="0 kg"
+                        android:textAlignment="center"
+                        android:background="@android:color/transparent"
+                        android:id="@+id/itemCount"/>
+                    <ImageButton
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:background="#ef1c26"
+                        android:src="@drawable/baseline_remove_white_18dp"
+                        android:id="@+id/decrease"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center"
+                    android:layout_gravity="bottom"
+                    android:layout_marginTop="10dp"
+                    android:id="@+id/gramLayout">
+                    <ImageButton
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:background="#8dc648"
+                        android:src="@drawable/baseline_add_white_18dp"
+                        android:id="@+id/gIncrease"/>
+                    <TextView
+                        android:layout_width="64dp"
+                        android:layout_height="wrap_content"
+                        android:text="0 gm"
+                        android:textAlignment="center"
+                        android:background="@android:color/transparent"
+                        android:id="@+id/gItemCount"/>
+                    <ImageButton
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:background="#ef1c26"
+                        android:src="@drawable/baseline_remove_white_18dp"
+                        android:id="@+id/gDecrease"/>
+                </LinearLayout>
 
+            </LinearLayout>
+        </android.support.design.widget.CoordinatorLayout>
+    </android.support.v7.widget.CardView>
+<com.github.clans.fab.FloatingActionButton
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:id="@+id/addToOrder"
+    android:layout_gravity="bottom|right"
+    android:src="@drawable/baseline_shopping_cart_white_18dpx2"
+    app:fab_colorNormal="@color/colorPrimary"/>
 </android.support.design.widget.CoordinatorLayout>

@@ -2,10 +2,10 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <group
         android:checkableBehavior="single">
-        <item android:id="@+id/Home" android:title="Home" android:icon="@drawable/ic_home_black_24dp" android:checked="true" />
-        <item android:id="@+id/userOrders" android:title="Orders" android:icon="@drawable/ic_orders" />
-        <item android:id="@+id/userSettings" android:title="Profile" android:icon="@drawable/ic_settings_black_24dp" />
-        <item android:id="@+id/userLogout" android:title="Log out" android:icon="@drawable/ic_exit_to_app_black_24dp" />
+        <item android:id="@+id/Home" android:title="@string/home" android:icon="@drawable/ic_home_black_24dp" android:checked="true" />
+        <item android:id="@+id/userOrders" android:title="@string/orders" android:icon="@drawable/ic_orders" />
+        <item android:id="@+id/userSettings" android:title="@string/profile" android:icon="@drawable/ic_settings_black_24dp" />
+        <item android:id="@+id/userLogout" android:title="@string/logout" android:icon="@drawable/ic_exit_to_app_black_24dp" />
     </group>
 
 </menu>

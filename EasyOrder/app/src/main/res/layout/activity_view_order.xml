@@ -30,7 +30,7 @@
                 android:layout_height="match_parent"
                 android:id="@+id/deliveryAddress"
                 android:enabled="false"
-                android:hint="Delivery Address"
+                android:hint="@string/deliveryaddress"
                 android:focusable="false"/>
         </com.wrapp.floatlabelededittext.FloatLabeledEditText>
 
@@ -42,7 +42,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Order Details"
+                android:text="@string/orderdetails"
                 android:textSize="18sp"/>
             <View
                 android:layout_width="match_parent"
@@ -53,7 +53,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"
-                android:text="لا يوجد اي اوردر"
+                android:text="@string/noorder"
                 android:textColor="@android:color/black"
                 android:textSize="34sp"
                 android:visibility="gone" />
@@ -73,7 +73,15 @@
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:orientation="horizontal">
-
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="5"
+                    android:padding="10dp"
+                    android:text="@string/total"
+                    android:textColor="@android:color/black"
+                    android:textSize="30sp"
+                    android:gravity="start"/>
                 <TextView
                     android:id="@+id/cartCost"
                     android:layout_width="0dp"
@@ -82,16 +90,8 @@
                     android:padding="10dp"
                     android:text="10LE"
                     android:textColor="@android:color/black"
-                    android:textSize="26sp" />
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="5"
-                    android:padding="10dp"
-                    android:text="الاجمالي :"
-                    android:textColor="@android:color/black"
-                    android:textSize="30sp" />
+                    android:textSize="26sp"
+                    android:gravity="end"/>
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>

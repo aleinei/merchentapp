@@ -13,7 +13,7 @@
             android:layout_gravity="center"
             android:gravity="center"
             android:textSize="24sp"
-            android:text="Loading Menu..."/>
+            android:text="@string/loadingmenu"/>
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"

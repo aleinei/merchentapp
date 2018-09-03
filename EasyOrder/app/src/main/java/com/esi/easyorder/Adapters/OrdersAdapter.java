@@ -43,17 +43,17 @@ public class OrdersAdapter extends BaseAdapter {
         TextView orderNumber = view2.findViewById(R.id.orderNumber);
         TextView orderPrice = view2.findViewById(R.id.orderPrice);
         TextView orderStatus = view2.findViewById(R.id.orderStatus);
-        orderNumber.setText("Order Number " + (i + 1));
+        orderNumber.setText(context.getString(R.string.ordernumber,(i + 1)));
         orders.get(i).ID = i + 1;
-        orderPrice.setText(orders.get(i).cartOrder.cost + " L.E");
+        orderPrice.setText(orders.get(i).cartOrder.cost + context.getString(R.string.LE));
         if(orders.get(i).delivered)
         {
-            orderStatus.setText("Delievered");
+            orderStatus.setText(" " + context.getString(R.string.deliviered));
             orderStatus.setTextColor(Color.parseColor("#ee3b0e"));
         }
         else
         {
-            orderStatus.setText("On Going");
+            orderStatus.setText(" " +context.getString(R.string.ongoing));
             orderStatus.setTextColor(Color.parseColor("#72f231"));
         }
         return view2;

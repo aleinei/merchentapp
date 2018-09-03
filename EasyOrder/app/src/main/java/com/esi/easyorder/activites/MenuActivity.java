@@ -79,12 +79,12 @@ public class MenuActivity extends AppCompatActivity {
                 switch (item.getItemId())
                 {
                     case R.id.Home:
-                        LoadHome();
-                        setTitle("Menu");
+                        LoadHome(true);
+                        setTitle(getString(R.string.menu));
                         break;
                     case R.id.userOrders:
                         LoadOrders();
-                        setTitle("Your Orders");
+                        setTitle(getString(R.string.yourorders));
                         break;
                     case R.id.userSettings:
                         currentFragment = new ProfileFragment();
@@ -116,7 +116,15 @@ public class MenuActivity extends AppCompatActivity {
             userName.setText(currentUser.username);
             email.setText(currentUser.Email);
         }
-        LoadHome();
+        boolean loadProfile = getIntent().getBooleanExtra("load_profile", false);
+        if(!loadProfile)
+            LoadHome(false);
+        else {
+            currentFragment = new ProfileFragment();
+            ((ProfileFragment)currentFragment).menuActivity = MenuActivity.this;
+            getFragmentManager().beginTransaction().replace(R.id.frameContent, currentFragment).commit();
+        }
+
     }
 
     @Override
@@ -425,20 +433,20 @@ public class MenuActivity extends AppCompatActivity {
         }
     }
 
-    public void LoadHome()
+    public void LoadHome(boolean loadMenu)
     {
         currentFragment = new MenuFragment();
         ((MenuFragment)currentFragment).menuActivity = this;
         getFragmentManager().beginTransaction().replace(R.id.frameContent, currentFragment).commit();
         NavView.getMenu().getItem(0).setChecked(true);
-        setTitle("Menu");
+        setTitle(getString(R.string.menu));
     }
 
     public void LoadOrders()
     {
         currentFragment = new OrdersFragment();
         getFragmentManager().beginTransaction().replace(R.id.frameContent, currentFragment).commit();
-        setTitle("Your Orders");
+        setTitle(getString(R.string.yourorders));
     }
 
     @Override
@@ -451,6 +459,6 @@ public class MenuActivity extends AppCompatActivity {
         if(currentFragment instanceof MenuFragment)
             super.onBackPressed();
         else
-            LoadHome();
+            LoadHome(true);
     }
 }

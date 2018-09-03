@@ -16,7 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:text="لا يوجد اي اوردر"
+            android:text="@string/noorder"
             android:textSize="34sp"
             android:textColor="@android:color/black"
             android:id="@+id/noOrders"
@@ -28,7 +28,8 @@
             android:layout_weight="8"
             android:id="@+id/cartGridView"
             tools:listitem="@layout/cart_item_layout"
-            android:verticalSpacing="10dp">
+            android:verticalSpacing="10dp"
+            >
 
         </GridView>
 
@@ -40,21 +41,22 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
+                android:layout_weight="5"
+                android:text="@string/total"
+                android:textSize="30sp"
+                android:padding="10dp"
+                android:textColor="@android:color/black" />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
                 android:layout_weight="4"
                 android:text="10LE"
                 android:textSize="26sp"
                 android:padding="10dp"
                 android:textColor="@android:color/black"
                 android:id="@+id/cartCost"
+                android:gravity="end"
                 />
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="5"
-                android:text="الاجمالي :"
-                android:textSize="30sp"
-                android:padding="10dp"
-                android:textColor="@android:color/black" />
         </LinearLayout>
     </LinearLayout>
 

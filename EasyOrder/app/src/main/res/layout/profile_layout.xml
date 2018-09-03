@@ -22,7 +22,7 @@
                    android:layout_width="match_parent"
                    android:layout_height="match_parent"
                    android:id="@+id/profileUsername"
-                   android:hint="Username"
+                   android:hint="@string/username"
                    android:enabled="false"
                    android:inputType="textPersonName"/>
            </com.wrapp.floatlabelededittext.FloatLabeledEditText>
@@ -36,7 +36,7 @@
                    android:layout_height="match_parent"
                    android:id="@+id/profileEmail"
                    android:enabled="false"
-                   android:hint="Email"
+                   android:hint="@string/emailaddress"
                    android:inputType="textEmailAddress"/>
            </com.wrapp.floatlabelededittext.FloatLabeledEditText>
 
@@ -49,7 +49,7 @@
                    android:layout_height="match_parent"
                    android:id="@+id/profileAddress"
                    android:enabled="false"
-                   android:hint="Address"/>
+                   android:hint="@string/address"/>
            </com.wrapp.floatlabelededittext.FloatLabeledEditText>
 
 
@@ -65,12 +65,12 @@
                    android:layout_width="wrap_content"
                    android:layout_height="wrap_content"
                    android:layout_marginBottom="10dp"
-                   android:text="Locate Me"
+                   android:text="@string/locateme"
                    android:textColor="@android:color/white"
                    app:pb_cornerRadius="4dp"
-                   app:pb_textComplete="Located"
-                   app:pb_textError="Failed to locate the location"
-                   app:pb_textProgress="Locating... " />
+                   app:pb_textComplete="@string/located"
+                   app:pb_textError="@string/failedtolocate"
+                   app:pb_textProgress="@string/locating" />
 
                <com.wrapp.floatlabelededittext.FloatLabeledEditText
                    android:layout_width="match_parent"
@@ -81,7 +81,7 @@
                        android:layout_height="match_parent"
                        android:id="@+id/profileAddressBuilding"
                        android:enabled="true"
-                       android:hint="Building Number"
+                       android:hint="@string/buildingnumber"
                        android:inputType="number"/>
                </com.wrapp.floatlabelededittext.FloatLabeledEditText>
 
@@ -94,7 +94,7 @@
                        android:layout_height="match_parent"
                        android:id="@+id/profileAddressFloor"
                        android:enabled="true"
-                       android:hint="Floor Apartment"
+                       android:hint="@string/floornumber"
                        android:inputType="textPersonName"/>
                </com.wrapp.floatlabelededittext.FloatLabeledEditText>
                <com.wrapp.floatlabelededittext.FloatLabeledEditText
@@ -106,7 +106,7 @@
                        android:layout_height="match_parent"
                        android:id="@+id/profileAddressApt"
                        android:enabled="true"
-                       android:hint="Apartment"
+                       android:hint="@string/apartmentnumber"
                        android:inputType="textPersonName"/>
                </com.wrapp.floatlabelededittext.FloatLabeledEditText>
            </LinearLayout>
@@ -119,7 +119,7 @@
                    android:layout_height="match_parent"
                    android:id="@+id/profilePhone"
                    android:enabled="false"
-                   android:hint="Phone Number"
+                   android:hint="@string/phonenumber"
                    android:inputType="phone"/>
            </com.wrapp.floatlabelededittext.FloatLabeledEditText>
            <LinearLayout
@@ -137,7 +137,7 @@
                    android:layout_width="match_parent"
                    android:layout_height="wrap_content"
                    android:gravity="center"
-                   android:text="Password Change"/>
+                   android:text="@string/changepassword"/>
                <com.wrapp.floatlabelededittext.FloatLabeledEditText
                    android:layout_width="match_parent"
                    android:layout_height="wrap_content"
@@ -147,8 +147,9 @@
                        android:layout_height="match_parent"
                        android:id="@+id/profileCurrentPassword"
                        android:enabled="true"
-                       android:hint="Current password"
-                       android:inputType="textPassword"/>
+                       android:hint="@string/currentpassword"
+                       android:inputType="textPassword"
+                       />
                </com.wrapp.floatlabelededittext.FloatLabeledEditText>
 
                <com.wrapp.floatlabelededittext.FloatLabeledEditText
@@ -160,8 +161,9 @@
                        android:layout_height="match_parent"
                        android:id="@+id/profileNewPassword"
                        android:enabled="true"
-                       android:hint="New password"
-                       android:inputType="textPassword"/>
+                       android:hint="@string/newpassword"
+                       android:inputType="textPassword"
+                       />
                </com.wrapp.floatlabelededittext.FloatLabeledEditText>
 
                <com.wrapp.floatlabelededittext.FloatLabeledEditText
@@ -173,8 +175,9 @@
                        android:layout_height="match_parent"
                        android:id="@+id/profileNewPasswordConfirm"
                        android:enabled="true"
-                       android:hint="Confirm password"
-                       android:inputType="textPassword"/>
+                       android:hint="@string/passwordconfirm"
+                       android:inputType="textPassword"
+                       />
                </com.wrapp.floatlabelededittext.FloatLabeledEditText>
            </LinearLayout>
 
@@ -189,16 +192,17 @@
                <mehdi.sakout.fancybuttons.FancyButton
                    android:layout_width="100sp"
                    android:layout_height="wrap_content"
-                   app:fb_text="Save"
+                   app:fb_text="@string/save"
                    app:fb_radius="5dp"
                    app:fb_defaultColor="#72f231"
                    app:fb_focusColor="@android:color/white"
                    android:layout_marginRight="4dp"
+                   android:layout_marginEnd="4dp"
                    android:id="@+id/saveChanges"/>
                <mehdi.sakout.fancybuttons.FancyButton
                    android:layout_width="100sp"
                    android:layout_height="wrap_content"
-                   app:fb_text="Cancel"
+                   app:fb_text="@string/cancel"
                    app:fb_radius="5dp"
                    app:fb_defaultColor="#ec1010"
                    app:fb_focusColor="@android:color/white"
@@ -219,7 +223,7 @@
                    android:layout_width="wrap_content"
                    android:layout_height="wrap_content"
                    android:textAlignment="center"
-                   android:text="Updating..."
+                   android:text="@string/updating"
                    android:layout_marginBottom="10dp"
                    android:textSize="18sp"
                    android:id="@+id/updateText"/>
@@ -245,7 +249,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_profile_password_small"
-            app:fab_label="Change password"
+            app:fab_label="@string/changepassword"
             app:fab_colorNormal="#65cca0"
             android:id="@+id/fab_changePassword"/>
 
@@ -253,7 +257,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_profile_email_small"
-            app:fab_label="Change Email/Username"
+            app:fab_label="@string/changeusernameemail"
             app:fab_colorNormal="#65cca0"
             android:id="@+id/fab_changeEmail"/>
 
@@ -261,7 +265,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_profile_location_small"
-            app:fab_label="Change Location"
+            app:fab_label="@string/changelocation"
             app:fab_colorNormal="#65cca0"
             android:id="@+id/fab_changeLocation"/>
 
@@ -269,7 +273,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_profile_phone"
-            app:fab_label="Change Phone"
+            app:fab_label="@string/changephone"
             app:fab_colorNormal="#65cca0"
             android:id="@+id/fab_changePhone"/>
 
