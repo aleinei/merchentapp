@@ -293,16 +293,6 @@ public class CartActivity extends AppCompatActivity {
                                 }
                             });
 
-                            if(addressChanged){
-                                Order order = new Order();
-                                order.cartOrder = gridAdapter.cart;
-                                order.viewd = false;
-                                order.ID = 1;
-                                order.OrderAddress = currentUser.Address;
-                                currentUser.Orders.add(order);
-                                PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().remove("user").apply();
-                                PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putString("user", currentUser.toObject().toString()).apply();
-                            }
                             if(!isChangeAddress) {
                                 Order order = new Order();
                                 order.cartOrder = gridAdapter.cart;
