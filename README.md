@@ -22,4 +22,6 @@ to-do
 
 12- add a button for merchents to register
 
+13- account can only be logged in once confirmed from phone
+
 On the receipt please show customer name, Customer address, phone number, each or separate line with font size 12
