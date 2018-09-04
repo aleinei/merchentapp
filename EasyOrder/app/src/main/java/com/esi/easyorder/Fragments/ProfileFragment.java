@@ -4,6 +4,7 @@ import android.Manifest;
 import android.animation.Animator;
 import android.app.Fragment;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
@@ -14,7 +15,9 @@ import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
@@ -27,6 +30,8 @@ import com.daimajia.androidanimations.library.YoYo;
 import com.dd.processbutton.iml.ActionProcessButton;
 import com.esi.easyorder.R;
 import com.esi.easyorder.User;
+import com.esi.easyorder.activites.CartActivity;
+import com.esi.easyorder.activites.MainActivity;
 import com.esi.easyorder.activites.MenuActivity;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
@@ -49,7 +54,6 @@ import mehdi.sakout.fancybuttons.FancyButton;
  */
 
 public class ProfileFragment extends Fragment {
-
     public MenuActivity menuActivity;
     LinearLayout passwordChange;
     LinearLayout controlsButtons;
@@ -259,6 +263,7 @@ public class ProfileFragment extends Fragment {
                 }
                 if(isEditingAddress)
                 {
+
                     if(locationLocated)
                     {
                         EditText building = getView().findViewById(R.id.profileAddressBuilding);
@@ -327,45 +332,11 @@ public class ProfileFragment extends Fragment {
                 locationClient.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
                     @Override
                     public void onSuccess(final Location location) {
-                        Geocoder geocoder = new Geocoder(menuActivity, Locale.getDefault());
-                        try {
-                            List<Address> addressList = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
-                            if(addressList.size() > 0)
-                            {
-                               /* String uri = String.format(Locale.ENGLISH, "http://maps.google.com/maps?daddr=%f,%f", location.getLatitude(), location.getLongitude());
-                                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
-                                startActivity(intent);*/
-                                /*new Thread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        String uri = String.format(Locale.ENGLISH, "https://maps.googleapis.com/maps/api/distancematrix/json?origins=%f,%f&destinations=%f,%f", location.getLatitude(), location.getLongitude(), 30.075807f, 31.281116f);
-                                        OkHttpClient client = new OkHttpClient();
-                                        Request request = new Request.Builder().url(uri).build();
-                                        Response response = null;
-                                        try {
-                                            response = client.newCall(request).execute();
-                                            String fullString = response.body().string();
-                                            JSONObject object = new JSONObject(fullString);
-                                            String time = object.getJSONArray("rows").getJSONObject(0).getJSONArray("elements").getJSONObject(0).getJSONObject("duration").getString("text");
-                                            Log.d("Time to get there is", time);
-                                        } catch (IOException e) {
-                                            e.printStackTrace();
-                                        } catch (JSONException e) {
-                                            e.printStackTrace();
-                                        }
-                                    }
-                                }).start();*/
-                                user.location = location;
-                                Address address = addressList.get(0);
-                                ProfileFragment.this.address.setText(address.getAddressLine(0));
-                                locationLocated = true;
-                                getLocation.setProgress(100);
-                                Toast.makeText(menuActivity, "Make sure that we have your current location correctly, in case it is not try renabling your gps or moving around.", Toast.LENGTH_LONG).show();
-                            }
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                            getLocation.setProgress(-1);
-                        }
+                        Toast.makeText(menuActivity, "Make sure that we have your current location correctly, in case it is not try renabling your gps or moving around.", Toast.LENGTH_LONG).show();
+                        user.location = location;
+                        locationLocated = true;
+                        getLocation.setProgress(100);
+
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
@@ -559,6 +530,7 @@ public class ProfileFragment extends Fragment {
             ToggleControls(false);
             PreferenceManager.getDefaultSharedPreferences(menuActivity).edit().remove("user").apply();
             PreferenceManager.getDefaultSharedPreferences(menuActivity).edit().putString("user", user.toObject().toString()).apply();
+
 
         }
         else

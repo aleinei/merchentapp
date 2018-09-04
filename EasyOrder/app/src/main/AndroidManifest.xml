@@ -8,29 +8,30 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/lettuce"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@drawable/lettuce"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="com.esi.easyorder.activites.MainActivity">
+        <activity android:name=".activites.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.esi.easyorder.activites.RegisterActivity" />
+        <activity android:name=".activites.RegisterActivity" />
 
-        <service android:name="com.esi.easyorder.services.ServerService" />
+        <service android:name=".services.ServerService" />
 
-        <activity android:name="com.esi.easyorder.activites.MenuActivity" />
-        <activity android:name="com.esi.easyorder.activites.SectionActivity" />
-        <activity android:name="com.esi.easyorder.activites.CategoryActivity" />
-        <activity android:name="com.esi.easyorder.activites.ItemActivity" />
-        <activity android:name="com.esi.easyorder.activites.CartActivity" />
-        <activity android:name="com.esi.easyorder.activites.SettingsActivity" />
-        <activity android:name="com.esi.easyorder.activites.ViewOrderActivity" />
+        <activity android:name=".activites.MenuActivity" />
+        <activity android:name=".activites.SectionActivity" />
+        <activity android:name=".activites.CategoryActivity" />
+        <activity android:name=".activites.ItemActivity" />
+        <activity android:name=".activites.CartActivity" />
+        <activity android:name=".activites.SettingsActivity" />
+        <activity android:name=".activites.ViewOrderActivity" />
+        <activity android:name=".activites.MerchantActivity"></activity>
     </application>
 
 </manifest>

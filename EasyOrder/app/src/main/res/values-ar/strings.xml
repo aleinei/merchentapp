@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">فود زينا</string>
+    <string name="app_name">فودزينا</string>
     <string name="unitCurrency">جنيه لكل كجم</string>
     <string name="signup">انشاء حساب</string>
     <string name="signin">نسجيل الدخول</string>
@@ -59,4 +59,17 @@
     <string name="kg"> كجم</string>
     <string name="grams">جم</string>
     <string name="welcome"> اهلا %s</string>
+    <string name="login">تسجيل الدخول</string>
+    <string name="registering">تسجيل الحساب</string>
+    <string name="newaccount">حساب جديد</string>
+    <string name="merregister">سجل هنا</string>
+    <string name="merchant">تاجر؟</string>
+    <string name="faxus">فاكس:</string>
+    <string name="aboutthisapp">تم تطوير هذا التطبيق بواسطة شركة ايزي سوفت</string>
+    <string name="contactus">اتصل بنا</string>
+    <string name="clickhere">اضغط هنا</string>
+    <string name="delievery">توصيل</string>
+    <string name="pickup">استلام</string>
+
+
 </resources>

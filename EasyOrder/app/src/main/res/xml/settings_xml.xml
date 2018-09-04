@@ -4,11 +4,11 @@
     <EditTextPreference
         android:key="IPAddress"
         android:title="Server IP"
-        android:defaultValue="196.218.98.134" />
+        android:defaultValue="41.39.215.97" />
 
         <EditTextPreference android:key="databaseName"
             android:title="Database Name"
-            android:defaultValue="ESI"/>
+            android:defaultValue="vffoodzina"/>
         <EditTextPreference android:title="Database username"
             android:key="prefUsername"
             android:summary="Databae Username"
@@ -22,7 +22,7 @@
     <PreferenceCategory android:title="Activity Settings" >
         <ListPreference android:title="Activity Type"
             android:key="storeType"
-            android:defaultValue="cafeType"
+            android:defaultValue="storeType"
             android:entryValues="@array/activityTypesValues"
             android:entries="@array/storeTypes"
             android:summary="The Store type for this application"/>

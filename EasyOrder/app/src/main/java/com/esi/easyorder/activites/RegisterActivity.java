@@ -83,7 +83,7 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        setTitle("Register");
+        setTitle(getString(R.string.registering));
 
     }
 

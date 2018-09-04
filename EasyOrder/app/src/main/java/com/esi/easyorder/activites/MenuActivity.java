@@ -59,6 +59,7 @@ public class MenuActivity extends AppCompatActivity {
     DrawerLayout drawerLayout;
     NavigationView NavView;
     Fragment currentFragment;
+    boolean loadProfile = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -116,7 +117,7 @@ public class MenuActivity extends AppCompatActivity {
             userName.setText(currentUser.username);
             email.setText(currentUser.Email);
         }
-        boolean loadProfile = getIntent().getBooleanExtra("load_profile", false);
+         loadProfile = getIntent().getBooleanExtra("load_profile", false);
         if(!loadProfile)
             LoadHome(false);
         else {
@@ -456,7 +457,7 @@ public class MenuActivity extends AppCompatActivity {
             drawerLayout.closeDrawers();
             return;
         }
-        if(currentFragment instanceof MenuFragment)
+        if(currentFragment instanceof MenuFragment || loadProfile)
             super.onBackPressed();
         else
             LoadHome(true);

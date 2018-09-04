@@ -45,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
     EditText passwordText;
     CheckBox rememberMe;
     User user;
+    Button merchantRegister;
 
 
     @Override
@@ -58,12 +59,23 @@ public class MainActivity extends AppCompatActivity {
         passwordText = findViewById(R.id.password);
         rememberMe = findViewById(R.id.rememberMe);
         Toolbar toolbar = findViewById(R.id.customActionbar);
+        merchantRegister = findViewById(R.id.registermerch);
         setSupportActionBar(toolbar);
-        setTitle("Login");
+        setTitle(getString(R.string.login));
         PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().remove("isAdmin").apply();
         user = new User();
+        merchantRegister.setOnClickListener(merchant);
 
     }
+
+    View.OnClickListener merchant = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            Intent merchAct = new Intent(MainActivity.this,MerchantActivity.class);
+            startActivity(merchAct);
+        }
+    };
+
 
     @Override
     protected void onStart() {

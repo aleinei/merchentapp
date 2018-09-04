@@ -13,6 +13,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -43,6 +44,7 @@ import java.util.Set;
 
 public class CartActivity extends AppCompatActivity {
 
+    Intent editAddress;
     ServerService serverService;
     boolean mBound = false;
     SharedPreferences pref;
@@ -53,7 +55,9 @@ public class CartActivity extends AppCompatActivity {
     TextView cartCost;
     boolean isEmpty = true;
     boolean orderSent;
-    Boolean isChangeAddress = false;
+    boolean isChangeAddress = false;
+    boolean addressChanged;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -166,10 +170,9 @@ public class CartActivity extends AppCompatActivity {
             case R.id.cartSend:
                 if(!isEmpty && !orderSent) {
                     String user = PreferenceManager.getDefaultSharedPreferences(this).getString("user", "");
-                    User currentUser;
                     if(!user.equals(""))
                     {
-                        currentUser = new User();
+                        final User currentUser = new User();
                         currentUser.Deseralize(user);
                         final int Id = currentUser.ID;
                         if (Id != -1) {
@@ -187,22 +190,14 @@ public class CartActivity extends AppCompatActivity {
                             option2.setTextSize(21);
 
 
-                            option1.setText("Delivery");
-                            option2.setText("Pickup");
+                            option1.setText(R.string.delievery);
+                            option2.setText(R.string.pickup);
                             layout.addView(option1);
                             layout.addView(option2);
                             AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
                             builder.setView(layout);
                             builder.setMessage("Checkout");
-                            Order order = new Order();
-                            order.cartOrder = gridAdapter.cart;
-                            order.viewd = false;
-                            order.ID = 1;
-                            order.OrderAddress = currentUser.Address;
-                            currentUser.Orders.add(order);
-                            PreferenceManager.getDefaultSharedPreferences(this).edit().remove("user").apply();
-                            PreferenceManager.getDefaultSharedPreferences(this).edit().putString("user", currentUser.toObject().toString()).apply();
                             final AlertDialog dialog = builder.create();
                             AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
                             TextView text = new TextView(this);
@@ -217,37 +212,43 @@ public class CartActivity extends AppCompatActivity {
                                 @Override
                                 public void onClick(DialogInterface tdialog, int which) {
                                     tdialog.dismiss();
+                                    isChangeAddress = true;
                                     Intent profileIntent = new Intent(CartActivity.this, MenuActivity.class);
                                     profileIntent.putExtra("load_profile", true);
                                     startActivity(profileIntent);
+                                    editAddress = new Intent(CartActivity.this,MenuActivity.class);
+                                    editAddress.putExtra("isChangedAddress",isChangeAddress);
                                 }
                             });
                             builder1.setNegativeButton(R.string.usecurrentaddress, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface tdialog, int which) {
                                     tdialog.dismiss();
-                                    JSONObject cart = new JSONObject();
-                                    try {
-                                        cart.put("Msg", "new_order_d");
-                                        cart.put("user_id", Id);
-                                        cart.put("takeaway", false);
-                                        JSONArray items = new JSONArray();
-                                        for (Item i : gridAdapter.cart.Items) {
-                                            items.put(i.toObject());
+                                    if(!isChangeAddress){
+                                        JSONObject cart = new JSONObject();
+                                        try {
+                                            cart.put("Msg", "new_order_d");
+                                            cart.put("user_id", Id);
+                                            cart.put("takeaway", false);
+                                            JSONArray items = new JSONArray();
+                                            for (Item i : gridAdapter.cart.Items) {
+                                                items.put(i.toObject());
+                                            }
+                                            cart.put("items", items);
+                                            cart.put("cost", gridAdapter.cart.cost);
+                                            serverService.sendMessage(cart.toString());
+                                            editor.remove("cart");
+                                            editor.apply();
+                                            orderSent = true;
+                                            onBackPressed();
+                                            finish();
+                                        } catch (JSONException e) {
+                                            e.printStackTrace();
+                                        } catch (IOException e) {
+                                            e.printStackTrace();
                                         }
-                                        cart.put("items", items);
-                                        cart.put("cost", gridAdapter.cart.cost);
-                                        serverService.sendMessage(cart.toString());
-                                        editor.remove("cart");
-                                        editor.apply();
-                                        orderSent = true;
-                                        onBackPressed();
-                                        finish();
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
-                                    } catch (IOException e) {
-                                        e.printStackTrace();
                                     }
+
                                 }
                             });
                             final Dialog dialog2 = builder1.create();
@@ -291,6 +292,27 @@ public class CartActivity extends AppCompatActivity {
                                     }
                                 }
                             });
+
+                            if(addressChanged){
+                                Order order = new Order();
+                                order.cartOrder = gridAdapter.cart;
+                                order.viewd = false;
+                                order.ID = 1;
+                                order.OrderAddress = currentUser.Address;
+                                currentUser.Orders.add(order);
+                                PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().remove("user").apply();
+                                PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putString("user", currentUser.toObject().toString()).apply();
+                            }
+                            if(!isChangeAddress) {
+                                Order order = new Order();
+                                order.cartOrder = gridAdapter.cart;
+                                order.viewd = false;
+                                order.ID = 1;
+                                order.OrderAddress = currentUser.Address;
+                                currentUser.Orders.add(order);
+                                PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().remove("user").apply();
+                                PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putString("user", currentUser.toObject().toString()).apply();
+                            }
 
                         } else {
                             Toast.makeText(getApplicationContext(), "Id not read", Toast.LENGTH_SHORT).show();
