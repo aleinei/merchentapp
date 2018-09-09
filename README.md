@@ -30,5 +30,19 @@ to-do
 15- if you press on cart with nothing defined it accepts ???????
 
 16- On the Application menu-About show:
+
     a-  Server IP
+    
     b-  Mobile Application Version No.
+
+
+17- upon receiving the order, the customer should have an evaluation 5 stars to evaluate:
+
+    a-  the qulity of the service he asked, i.e. [Delivery], [Dine in], or [Take out]
+    
+    b-  the conduct of the pilot/captain/cashier
+    
+    c-  the quality of the order in general
+    
+    d-  the quality of the every item in the order
+    
