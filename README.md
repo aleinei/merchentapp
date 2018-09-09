@@ -53,3 +53,5 @@ to-do
   
 19- Make sure the Grams Increments with 25 instead of 50 grams to get 1/8 of the kilogram that is 125 grams
 
+20- Increase the size of the increment and decrement buttons as well as the digits of the QUANTITY
+
