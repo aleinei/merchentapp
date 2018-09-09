@@ -4,7 +4,7 @@
     <EditTextPreference
         android:key="IPAddress"
         android:title="Server IP"
-        android:defaultValue="41.39.215.97" />
+        android:defaultValue="185.181.10.83" />
 
         <EditTextPreference android:key="databaseName"
             android:title="Database Name"
