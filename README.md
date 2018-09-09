@@ -46,3 +46,8 @@ to-do
     
     d-  the quality of the every item in the order
     
+18- Customer Invoice should read as follows:
+  
+  Item Name, Price x Quantity = Total
+  
+  
