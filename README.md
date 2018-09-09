@@ -29,7 +29,7 @@ to-do
 
 15- if you press on cart with nothing defined it accepts ???????
 
-16- On the Application menu-About show:
+16- On the Application menu-About show:  CANCELLED FOR THE MOMENT - AG
 
     a-  Server IP
     
