@@ -55,3 +55,5 @@ to-do
 
 20- Increase the size of the increment and decrement buttons as well as the digits of the QUANTITY
 
+21- Increase the size of the item's image
+
