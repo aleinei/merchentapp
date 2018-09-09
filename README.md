@@ -21,9 +21,9 @@ to-do
 
 11- ask for the location on sumbiting order ( Ask if default location or another one ) - waiting
 
-12- add a button for merchents to register
+12- add a button for merchents to register - a message should be sent to admin
 
-13- account can only be logged in once confirmed from phone
+13- account can only be logged-in once confirmed from phone
 
 14- On the receipt please show customer name, Customer address, phone number, each or separate line with font size 12
 
