@@ -29,11 +29,11 @@ to-do
 
 15- if you press on cart with nothing defined it accepts Done
 
-16- On the Application menu-About show:  CANCELLED FOR THE MOMENT - AG
+16- On the Application menu-About show:  CANCELLED FOR THE MOMENT - AG Done
 
     a-  Server IP
     
-    b-  Mobile Application Version No.
+    b-  Mobile Application Version No. Done
 
 
 17- upon receiving the order, the customer should have an evaluation 5 stars to evaluate: Waiting
@@ -51,11 +51,11 @@ to-do
   Item Name, Price x Quantity = Total
   
   
-19- Make sure the Grams Increments with 25 instead of 50 grams to get 1/8 of the kilogram that is 125 grams Done
+19- Make sure the Grams Increments with 25 instead of 50 grams to get 1/8 of the kilogram that is 125 grams Done Done
 
-20- Increase the size of the increment and decrement buttons as well as the digits of the QUANTITY
+20- Increase the size of the increment and decrement buttons as well as the digits of the QUANTITY Done
 
-21- Increase the size of the item's image
+21- Increase the size of the item's image Waiting
 
-22- On the merchant registeration, Let the merchant enters his information: OwnerName, OwnerPhone, City, StoreType, StoreName, Latitude, Longtiude then add them as a new record on the Merchants Database
+22- On the merchant registeration, Let the merchant enters his information: OwnerName, OwnerPhone, City, StoreType, StoreName, Latitude, Longtiude then add them as a new record on the Merchants Database Done
 
