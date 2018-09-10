@@ -7,7 +7,7 @@
 
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="300dp"
+        android:layout_height="340dp"
         app:cardBackgroundColor="@android:color/transparent"
         app:cardCornerRadius="1dp">
 
@@ -30,7 +30,7 @@
 
             <pl.polidea.webimageview.WebImageView
                 android:layout_width="match_parent"
-                android:layout_height="130dp"
+                android:layout_height="162dp"
                 app:layout_anchorGravity="bottom"
                 app:layout_anchor="@id/itemName"
                 android:layout_gravity="bottom"
@@ -109,7 +109,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="@string/unitCurrency"
-                        android:textSize="16sp"
+                        android:textSize="18sp"
                         android:textAlignment="center"
                         android:id="@+id/itemPrice"
                         android:textColor="#a9d47c"/>
@@ -123,21 +123,21 @@
                     android:layout_marginTop="10dp"
                     android:paddingTop="10dp">
                     <ImageButton
-                        android:layout_width="32dp"
-                        android:layout_height="32dp"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
                         android:background="#8dc648"
                         android:src="@drawable/baseline_add_white_18dp"
                         android:id="@+id/increase"/>
                     <TextView
-                        android:layout_width="64dp"
+                        android:layout_width="80dp"
                         android:layout_height="wrap_content"
                         android:text="0 kg"
                         android:textAlignment="center"
                         android:background="@android:color/transparent"
                         android:id="@+id/itemCount"/>
                     <ImageButton
-                        android:layout_width="32dp"
-                        android:layout_height="32dp"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
                         android:background="#ef1c26"
                         android:src="@drawable/baseline_remove_white_18dp"
                         android:id="@+id/decrease"/>
@@ -151,21 +151,21 @@
                     android:layout_marginTop="10dp"
                     android:id="@+id/gramLayout">
                     <ImageButton
-                        android:layout_width="32dp"
-                        android:layout_height="32dp"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
                         android:background="#8dc648"
                         android:src="@drawable/baseline_add_white_18dp"
                         android:id="@+id/gIncrease"/>
                     <TextView
-                        android:layout_width="64dp"
+                        android:layout_width="80dp"
                         android:layout_height="wrap_content"
                         android:text="0 gm"
                         android:textAlignment="center"
                         android:background="@android:color/transparent"
                         android:id="@+id/gItemCount"/>
                     <ImageButton
-                        android:layout_width="32dp"
-                        android:layout_height="32dp"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
                         android:background="#ef1c26"
                         android:src="@drawable/baseline_remove_white_18dp"
                         android:id="@+id/gDecrease"/>

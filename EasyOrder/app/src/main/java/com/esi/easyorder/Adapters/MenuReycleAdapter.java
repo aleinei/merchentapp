@@ -4,14 +4,17 @@ import android.content.Context;
 import android.content.Intent;
 import android.preference.PreferenceManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.esi.easyorder.MenuData;
 import com.esi.easyorder.R;
 import com.esi.easyorder.ViewHolders.MenuViewHolder;
 import com.esi.easyorder.activites.SectionActivity;
+import com.squareup.picasso.Picasso;
 
 /**
  * Created by Server on 25/03/2018.
