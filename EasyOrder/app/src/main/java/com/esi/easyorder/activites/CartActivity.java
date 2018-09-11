@@ -9,6 +9,8 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -26,6 +28,7 @@ import android.widget.Toast;
 
 import com.esi.easyorder.ActiveCart;
 import com.esi.easyorder.Adapters.CartAdapter;
+import com.esi.easyorder.Fragments.ProfileFragment;
 import com.esi.easyorder.Item;
 import com.esi.easyorder.Order;
 import com.esi.easyorder.R;
@@ -44,7 +47,7 @@ import java.util.Set;
 
 public class CartActivity extends AppCompatActivity {
 
-    Intent editAddress;
+    Bundle editAddress;
     ServerService serverService;
     boolean mBound = false;
     SharedPreferences pref;
@@ -55,8 +58,8 @@ public class CartActivity extends AppCompatActivity {
     TextView cartCost;
     boolean isEmpty = true;
     boolean orderSent;
-    boolean isChangeAddress = false;
-    boolean addressChanged;
+    public boolean isChangeAddress = false;
+    String iiCart ="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -215,10 +218,26 @@ public class CartActivity extends AppCompatActivity {
                                     isChangeAddress = true;
                                     Intent profileIntent = new Intent(CartActivity.this, MenuActivity.class);
                                     profileIntent.putExtra("load_profile", true);
+                                    JSONObject cart = new JSONObject();
+                                    try {
+                                        cart.put("Msg", "new_order_d");
+                                        cart.put("user_id", Id);
+                                        cart.put("takeaway", false);
+                                        JSONArray items = new JSONArray();
+                                        for (Item i : gridAdapter.cart.Items) {
+                                            items.put(i.toObject());
+                                        }
+                                        cart.put("items", items);
+                                        cart.put("cost", gridAdapter.cart.cost);
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                    iiCart = cart.toString();
+                                    profileIntent.putExtra("cart", iiCart);
+                                    profileIntent.putExtra("isChangeAddress",isChangeAddress);
                                     startActivity(profileIntent);
-                                    editAddress = new Intent(CartActivity.this,MenuActivity.class);
-                                    editAddress.putExtra("isChangedAddress",isChangeAddress);
                                 }
+
                             });
                             builder1.setNegativeButton(R.string.usecurrentaddress, new DialogInterface.OnClickListener() {
                                 @Override
@@ -247,6 +266,16 @@ public class CartActivity extends AppCompatActivity {
                                         } catch (IOException e) {
                                             e.printStackTrace();
                                         }
+                                    }
+                                    if(!isChangeAddress) {
+                                        Order order = new Order();
+                                        order.cartOrder = gridAdapter.cart;
+                                        order.viewd = false;
+                                        order.ID = 1;
+                                        order.OrderAddress = currentUser.Address;
+                                        currentUser.Orders.add(order);
+                                        PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().remove("user").apply();
+                                        PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putString("user", currentUser.toObject().toString()).apply();
                                     }
 
                                 }
@@ -293,16 +322,6 @@ public class CartActivity extends AppCompatActivity {
                                 }
                             });
 
-                            if(!isChangeAddress) {
-                                Order order = new Order();
-                                order.cartOrder = gridAdapter.cart;
-                                order.viewd = false;
-                                order.ID = 1;
-                                order.OrderAddress = currentUser.Address;
-                                currentUser.Orders.add(order);
-                                PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().remove("user").apply();
-                                PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putString("user", currentUser.toObject().toString()).apply();
-                            }
 
                         } else {
                             Toast.makeText(getApplicationContext(), "Id not read", Toast.LENGTH_SHORT).show();
@@ -333,6 +352,8 @@ public class CartActivity extends AppCompatActivity {
 
         }
     }
+
+
 
     @Override
     protected void onDestroy() {

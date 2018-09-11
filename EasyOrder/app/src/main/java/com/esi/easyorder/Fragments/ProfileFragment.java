@@ -2,9 +2,10 @@ package com.esi.easyorder.Fragments;
 
 import android.Manifest;
 import android.animation.Animator;
-import android.app.Fragment;
+
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
@@ -15,7 +16,10 @@ import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v7.widget.CardView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
@@ -28,6 +32,10 @@ import android.widget.Toast;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.dd.processbutton.iml.ActionProcessButton;
+import com.esi.easyorder.ActiveCart;
+import com.esi.easyorder.Adapters.CartAdapter;
+import com.esi.easyorder.Item;
+import com.esi.easyorder.Order;
 import com.esi.easyorder.R;
 import com.esi.easyorder.User;
 import com.esi.easyorder.activites.CartActivity;
@@ -40,6 +48,7 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -55,6 +64,8 @@ import mehdi.sakout.fancybuttons.FancyButton;
 
 public class ProfileFragment extends Fragment {
     public MenuActivity menuActivity;
+    SharedPreferences pref;
+    SharedPreferences.Editor editor;
     LinearLayout passwordChange;
     LinearLayout controlsButtons;
     LinearLayout updateLayout;
@@ -76,6 +87,7 @@ public class ProfileFragment extends Fragment {
     boolean isEditingAddress = false;
     boolean isChangingPhone = false;
     boolean locationLocated = false;
+    boolean isChangeAddress = false;
     ActionProcessButton getLocation;
     User user = null;
     @Nullable
@@ -99,6 +111,8 @@ public class ProfileFragment extends Fragment {
         addressLayout = view.findViewById(R.id.addressLayout);
         actionMenu = view.findViewById(R.id.fab_menu);
         getLocation = view.findViewById(R.id.getLocation);
+        pref = getActivity().getSharedPreferences("global",0);
+        editor = pref.edit();
         final String userString = PreferenceManager.getDefaultSharedPreferences(menuActivity).getString("user", "");
         if(!userString.equals(""))
         {
@@ -521,6 +535,19 @@ public class ProfileFragment extends Fragment {
             {
                 ToggleAddress(false);
                 isEditingAddress = false;
+                    String icart = getActivity().getIntent().getStringExtra("cart");
+                    isChangeAddress = getActivity().getIntent().getBooleanExtra("isChangeAddress",false);
+                    Log.d("Cart ", " "+icart);
+                    Log.d("isChangeAddress ", " "+String.valueOf(isChangeAddress));
+                    if(isChangeAddress){
+                        try {
+                            menuActivity.serverService.sendMessage(icart);
+                            editor.remove("cart");
+                            editor.apply();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        isChangeAddress = false; }
             }
             if(isChangingPhone)
             {
@@ -528,8 +555,7 @@ public class ProfileFragment extends Fragment {
                 isChangingPhone = false;
             }
             ToggleControls(false);
-            PreferenceManager.getDefaultSharedPreferences(menuActivity).edit().remove("user").apply();
-            PreferenceManager.getDefaultSharedPreferences(menuActivity).edit().putString("user", user.toObject().toString()).apply();
+
 
 
         }

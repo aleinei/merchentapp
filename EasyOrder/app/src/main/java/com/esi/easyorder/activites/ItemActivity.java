@@ -64,7 +64,7 @@ public class ItemActivity extends AppCompatActivity {
     double kgCount = 0;
     int kgIncreaseAmount = 1;
     double gCount = 0;
-    int gIncreaseAmount = 50;
+    int gIncreaseAmount = 25;
     android.os.Handler increaseHandler = new Handler();
     Runnable kgIncreaseRunnable;
     Runnable gIncreaseRunnable;
@@ -320,22 +320,27 @@ public class ItemActivity extends AppCompatActivity {
                     public void onClick(View view) {
                         String cart = pref.getString("cart", null);
                         purchaseItem.qty = quantity;
-                        Log.d("Double is " , quantity+ "");
-                        Log.d("Stored is ", purchaseItem.qty + "");
-                        if(cart != null) {
-                            ActiveCart activeCart = new ActiveCart();
-                            activeCart.deserialize(cart);
-                            activeCart.addItem(purchaseItem);
-                            editor.remove("cart");
-                            editor.putString("cart", activeCart.toObject().toString());
-                        } else {
-                            ActiveCart activeCart = new ActiveCart();
-                            activeCart.addItem(purchaseItem);
-                            editor.putString("cart", activeCart.toObject().toString());
+                        if(quantity > 0){
+                            Log.d("Double is " , quantity+ "");
+                            Log.d("Stored is ", purchaseItem.qty + "");
+                            if(cart != null) {
+                                ActiveCart activeCart = new ActiveCart();
+                                activeCart.deserialize(cart);
+                                activeCart.addItem(purchaseItem);
+                                editor.remove("cart");
+                                editor.putString("cart", activeCart.toObject().toString());
+                            } else {
+                                ActiveCart activeCart = new ActiveCart();
+                                activeCart.addItem(purchaseItem);
+                                editor.putString("cart", activeCart.toObject().toString());
+
+                            }
                         }
                         editor.apply();
-                        // Toast.makeText(ItemActivity.this, "تم أضافه "+ purchaseItem.itemName, Toast.LENGTH_SHORT).show();
                         onBackPressed();
+
+                        // Toast.makeText(ItemActivity.this, "تم أضافه "+ purchaseItem.itemName, Toast.LENGTH_SHORT).show();
+
                     }
                 });
 
