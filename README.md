@@ -59,4 +59,6 @@ to-do
 
 22- On the merchant registeration, Let the merchant enters his information: OwnerName, OwnerPhone, City, StoreType, StoreName, Latitude, Longtiude then add them as a new record on the Merchants Database Done
 
+20180911:
+
 23- The item's screen should show the quantity in-stock According to [MerchantClient - 11]
