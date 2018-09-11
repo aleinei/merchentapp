@@ -25,7 +25,7 @@ public class ServerService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-        serverIP = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString("IPAddress", "41.39.215.97");
+        serverIP = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString("IPAddress", "196.218.98.134");
         DatabaseName = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString("databaseName", "vffoodzina"); // change later
     }
 
