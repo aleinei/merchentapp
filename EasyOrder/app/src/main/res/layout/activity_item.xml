@@ -5,180 +5,186 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_margin="5dp">
 
-    <android.support.v7.widget.CardView
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="300dp"
-        app:cardBackgroundColor="@android:color/transparent"
-        app:cardCornerRadius="1dp">
-
-        <android.support.design.widget.CoordinatorLayout
+        android:layout_height="match_parent">
+        <android.support.v7.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="2dp">
+            android:layout_height="500dp"
+            app:cardBackgroundColor="@android:color/transparent"
+            app:cardCornerRadius="1dp">
 
-
-            <TextView
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="top|center"
-                android:text="Item name"
-                android:textSize="16sp"
-                android:padding="6dp"
-                android:id="@+id/itemName"
-                android:textColor="#243a4d"
-                android:textAlignment="center"/>
-
-            <pl.polidea.webimageview.WebImageView
-                android:layout_width="match_parent"
-                android:layout_height="130dp"
-                app:layout_anchorGravity="bottom"
-                app:layout_anchor="@id/itemName"
-                android:layout_gravity="bottom"
-                android:src="@drawable/no_image_available"
-                android:scaleType="centerCrop"
-                android:id="@+id/itemImage"
-                android:padding="3dp"/>
-
-            <LinearLayout
-                android:id="@+id/itemButtonLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginBottom="30dp"
-                android:padding="5sp"
-                android:gravity="end"
-                android:orientation="horizontal">
-                <Button
-                    android:id="@+id/btnExtraItems"
-                    android:layout_width="0dip"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="2dp">
+                <TextView
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_weight="1"
-                    android:text="أضافات"
-                    android:drawableLeft="@drawable/ic_plus_one_white_24dp"
-                    android:background="#fab1a0"
-                    android:textColor="@android:color/white"
-                    android:visibility="gone"
-                    android:layout_margin="5sp" />
+                    android:layout_gravity="top|center"
+                    android:text="Item name"
+                    android:textSize="16sp"
+                    android:padding="6dp"
+                    android:id="@+id/itemName"
+                    android:textColor="#243a4d"
+                    android:textAlignment="center"/>
 
-                <Button
-                    android:id="@+id/btnAddItem"
-                    android:layout_width="0dip"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_weight="1"
-                    android:text="خيارات"
-                    android:drawableLeft="@drawable/ic_add_white_24dp"
-                    android:background="#74b9ff"
-                    android:textColor="@android:color/white"
-                    android:visibility="gone"
-                    android:layout_margin="5sp"/>
-
-                <Button
-                    android:id="@+id/btnWithouItem"
-                    android:layout_width="0dip"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_weight="1"
-                    android:text="بدون"
-                    android:drawableLeft="@drawable/ic_remove_white_24dp"
-                    android:background="#e17055"
-                    android:textColor="@android:color/white"
-                    android:visibility="gone"
-                    android:layout_margin="5sp"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_anchor="@id/itemImage"
-                app:layout_anchorGravity="bottom"
-                android:layout_gravity="bottom"
-                android:orientation="vertical">
-
+                <pl.polidea.webimageview.WebImageView
+                    android:layout_width="300dp"
+                    android:layout_height="200dp"
+                    app:layout_anchorGravity="bottom"
+                    android:layout_gravity="bottom"
+                    android:src="@drawable/no_image_available"
+                    android:scaleType="fitCenter"
+                    android:id="@+id/itemImage"
+                    android:padding="3dp"
+                    android:layout_below="@+id/itemName"
+                    android:layout_centerHorizontal="true"/>
                 <LinearLayout
+                    android:id="@+id/itemButtonLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:orientation="horizontal"
-                    android:gravity="center"
-                    android:id="@+id/description_layout"
-                    android:padding="10dp">
-                    <TextView
-                        android:layout_width="0dp"
+                    android:layout_marginBottom="30dp"
+                    android:padding="5sp"
+                    android:gravity="end"
+                    android:orientation="horizontal">
+                    <Button
+                        android:id="@+id/btnExtraItems"
+                        android:layout_width="0dip"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center"
                         android:layout_weight="1"
-                        android:text="@string/unitCurrency"
-                        android:textSize="16sp"
-                        android:textAlignment="center"
-                        android:id="@+id/itemPrice"
-                        android:textColor="#a9d47c"/>
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center"
-                    android:layout_gravity="bottom"
-                    android:layout_marginTop="10dp"
-                    android:paddingTop="10dp">
-                    <ImageButton
-                        android:layout_width="32dp"
-                        android:layout_height="32dp"
-                        android:background="#8dc648"
-                        android:src="@drawable/baseline_add_white_18dp"
-                        android:id="@+id/increase"/>
-                    <TextView
-                        android:layout_width="64dp"
+                        android:text="أضافات"
+                        android:drawableLeft="@drawable/ic_plus_one_white_24dp"
+                        android:background="#fab1a0"
+                        android:textColor="@android:color/white"
+                        android:visibility="gone"
+                        android:layout_margin="5sp" />
+
+                    <Button
+                        android:id="@+id/btnAddItem"
+                        android:layout_width="0dip"
                         android:layout_height="wrap_content"
-                        android:text="0 kg"
-                        android:textAlignment="center"
-                        android:background="@android:color/transparent"
-                        android:id="@+id/itemCount"/>
-                    <ImageButton
-                        android:layout_width="32dp"
-                        android:layout_height="32dp"
-                        android:background="#ef1c26"
-                        android:src="@drawable/baseline_remove_white_18dp"
-                        android:id="@+id/decrease"/>
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center"
-                    android:layout_gravity="bottom"
-                    android:layout_marginTop="10dp"
-                    android:id="@+id/gramLayout">
-                    <ImageButton
-                        android:layout_width="32dp"
-                        android:layout_height="32dp"
-                        android:background="#8dc648"
-                        android:src="@drawable/baseline_add_white_18dp"
-                        android:id="@+id/gIncrease"/>
-                    <TextView
-                        android:layout_width="64dp"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:text="خيارات"
+                        android:drawableLeft="@drawable/ic_add_white_24dp"
+                        android:background="#74b9ff"
+                        android:textColor="@android:color/white"
+                        android:visibility="gone"
+                        android:layout_margin="5sp"/>
+
+                    <Button
+                        android:id="@+id/btnWithouItem"
+                        android:layout_width="0dip"
                         android:layout_height="wrap_content"
-                        android:text="0 gm"
-                        android:textAlignment="center"
-                        android:background="@android:color/transparent"
-                        android:id="@+id/gItemCount"/>
-                    <ImageButton
-                        android:layout_width="32dp"
-                        android:layout_height="32dp"
-                        android:background="#ef1c26"
-                        android:src="@drawable/baseline_remove_white_18dp"
-                        android:id="@+id/gDecrease"/>
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:text="بدون"
+                        android:drawableLeft="@drawable/ic_remove_white_24dp"
+                        android:background="#e17055"
+                        android:textColor="@android:color/white"
+                        android:visibility="gone"
+                        android:layout_margin="5sp"/>
                 </LinearLayout>
 
-            </LinearLayout>
-        </android.support.design.widget.CoordinatorLayout>
-    </android.support.v7.widget.CardView>
-<com.github.clans.fab.FloatingActionButton
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:id="@+id/addToOrder"
-    android:layout_gravity="bottom|right"
-    android:src="@drawable/baseline_shopping_cart_white_18dpx2"
-    app:fab_colorNormal="@color/colorPrimary"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_anchor="@id/itemImage"
+                    app:layout_anchorGravity="bottom"
+                    android:layout_gravity="bottom"
+                    android:orientation="vertical"
+                    android:layout_below="@+id/itemImage">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:orientation="horizontal"
+                        android:gravity="center"
+                        android:id="@+id/description_layout"
+                        android:padding="10dp">
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@string/unitCurrency"
+                            android:textSize="22sp"
+                            android:textAlignment="center"
+                            android:id="@+id/itemPrice"
+                            android:textColor="#a9d47c"/>
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center"
+                        android:layout_gravity="bottom"
+                        android:layout_marginTop="10dp"
+                        android:paddingTop="10dp">
+                        <ImageButton
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:background="#8dc648"
+                            android:src="@drawable/baseline_add_white_18dp"
+                            android:id="@+id/increase"/>
+                        <TextView
+                            android:layout_width="100dp"
+                            android:layout_height="wrap_content"
+                            android:text="0 kg"
+                            android:textAlignment="center"
+                            android:background="@android:color/transparent"
+                            android:id="@+id/itemCount"
+                            android:textSize="20sp"/>
+                        <ImageButton
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:background="#ef1c26"
+                            android:src="@drawable/baseline_remove_white_18dp"
+                            android:id="@+id/decrease"/>
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center"
+                        android:layout_gravity="bottom"
+                        android:layout_marginTop="10dp"
+                        android:id="@+id/gramLayout">
+                        <ImageButton
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:background="#8dc648"
+                            android:src="@drawable/baseline_add_white_18dp"
+                            android:id="@+id/gIncrease"/>
+                        <TextView
+                            android:layout_width="100dp"
+                            android:layout_height="wrap_content"
+                            android:text="0 gm"
+                            android:textAlignment="center"
+                            android:background="@android:color/transparent"
+                            android:id="@+id/gItemCount"
+                            android:textSize="20sp"/>
+                        <ImageButton
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:background="#ef1c26"
+                            android:src="@drawable/baseline_remove_white_18dp"
+                            android:id="@+id/gDecrease"/>
+                    </LinearLayout>
+
+                </LinearLayout>
+            </RelativeLayout>
+        </android.support.v7.widget.CardView>
+    </android.support.v4.widget.NestedScrollView>
+
+    <com.github.clans.fab.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/addToOrder"
+        android:layout_gravity="bottom|right"
+        android:src="@drawable/baseline_shopping_cart_white_18dpx2"
+        app:fab_colorNormal="@color/colorPrimary"/>
 </android.support.design.widget.CoordinatorLayout>

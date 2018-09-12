@@ -41,7 +41,7 @@
     <string name="addressconfirm">Confirm Address</string>
     <string name="addressconfirmbody">This order will be delivered to your current address, would you like to update your address?</string>
     <string name="changeaddress">Change My Address</string>
-    <string name="usecurrentaddress">User Current Address</string>
+    <string name="usecurrentaddress">Use Current Address</string>
     <string name="changeusernameemail">Change Username/Email</string>
     <string name="changephone">Chane phone Number</string>
     <string name="changepassword">Change Password</string>
@@ -69,4 +69,14 @@
     <string name="clickhere">Click Here</string>
     <string name="delievery">Delivery</string>
     <string name="pickup">Pickup</string>
+
+    <string name="about">About</string>
+    <!--Merchant Strings-->
+    <string name="forMerchants">For Merchants</string>
+    <string name="mName">Full Name</string>
+    <string name="mCity">City</string>
+    <string name="mPhoneNumber">Phone Number</string>
+    <string name="mStoreType">Store Type</string>
+    <string name="mStoreName">Store Name</string>
+
 </resources>

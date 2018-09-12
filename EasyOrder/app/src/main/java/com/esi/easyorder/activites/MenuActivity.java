@@ -1,6 +1,6 @@
 package com.esi.easyorder.activites;
 
-import android.app.Fragment;
+
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.ServiceConnection;
@@ -10,6 +10,7 @@ import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -28,9 +29,11 @@ import android.widget.TextView;
 import com.esi.easyorder.Adapters.MenuReycleAdapter;
 import com.esi.easyorder.Category;
 import com.esi.easyorder.ExtraItem;
+import com.esi.easyorder.Fragments.AboutFragment;
 import com.esi.easyorder.Fragments.MenuFragment;
 import com.esi.easyorder.Fragments.OrdersFragment;
 import com.esi.easyorder.Fragments.ProfileFragment;
+import com.esi.easyorder.Fragments.AboutFragment;
 import com.esi.easyorder.Item;
 import com.esi.easyorder.MenuData;
 import com.esi.easyorder.R;
@@ -60,12 +63,13 @@ public class MenuActivity extends AppCompatActivity {
     NavigationView NavView;
     Fragment currentFragment;
     boolean loadProfile = false;
+    int REQUEST_CODE;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
         menuData = new MenuData();
-        serverIP = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString("IPAddress", "196.218.98.134");
+        serverIP = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString("IPAddress", "185.181.10.83");
         toolbar = findViewById(R.id.customActionbar);
         setSupportActionBar(toolbar);
         drawerLayout = findViewById(R.id.drawerLayout);
@@ -90,7 +94,11 @@ public class MenuActivity extends AppCompatActivity {
                     case R.id.userSettings:
                         currentFragment = new ProfileFragment();
                         ((ProfileFragment)currentFragment).menuActivity = MenuActivity.this;
-                        getFragmentManager().beginTransaction().replace(R.id.frameContent, currentFragment).commit();
+                        getSupportFragmentManager().beginTransaction().replace(R.id.frameContent, currentFragment).commit();
+                        break;
+                    case R.id.about:
+                        currentFragment = new AboutFragment();
+                        getSupportFragmentManager().beginTransaction().replace(R.id.frameContent, currentFragment).commit();
                         break;
                     case R.id.userLogout:
                         SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit();
@@ -123,7 +131,7 @@ public class MenuActivity extends AppCompatActivity {
         else {
             currentFragment = new ProfileFragment();
             ((ProfileFragment)currentFragment).menuActivity = MenuActivity.this;
-            getFragmentManager().beginTransaction().replace(R.id.frameContent, currentFragment).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.frameContent, currentFragment).commit();
         }
 
     }
@@ -438,7 +446,7 @@ public class MenuActivity extends AppCompatActivity {
     {
         currentFragment = new MenuFragment();
         ((MenuFragment)currentFragment).menuActivity = this;
-        getFragmentManager().beginTransaction().replace(R.id.frameContent, currentFragment).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.frameContent, currentFragment).commit();
         NavView.getMenu().getItem(0).setChecked(true);
         setTitle(getString(R.string.menu));
     }
@@ -446,7 +454,7 @@ public class MenuActivity extends AppCompatActivity {
     public void LoadOrders()
     {
         currentFragment = new OrdersFragment();
-        getFragmentManager().beginTransaction().replace(R.id.frameContent, currentFragment).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.frameContent, currentFragment).commit();
         setTitle(getString(R.string.yourorders));
     }
 

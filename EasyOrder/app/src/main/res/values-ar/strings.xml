@@ -70,6 +70,15 @@
     <string name="clickhere">اضغط هنا</string>
     <string name="delievery">توصيل</string>
     <string name="pickup">استلام</string>
+    <string name="about">حول</string>
+
+    <!--Merchant Strings-->
+    <string name="forMerchants">للتجار</string>
+    <string name="mName">الاسم بالكامل</string>
+    <string name="mCity">المدينة</string>
+    <string name="mPhoneNumber">رقم الهاتف</string>
+    <string name="mStoreType">نوع المتجر</string>
+    <string name="mStoreName">اسم المتجر</string>
 
 
 </resources>
