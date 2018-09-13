@@ -7,13 +7,23 @@
     <TextView
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="2"
+        android:layout_weight="3"
         android:text="test"
         android:textSize="18sp"
         android:padding="10dp"
         android:textColor="@android:color/black"
         android:id="@+id/cartItemName"
         android:theme="@style/gravity" />
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="4"
+        android:text="17.0"
+        android:textSize="18sp"
+        android:padding="10dp"
+        android:textColor="@android:color/black"
+        android:id="@+id/quantityxprice"
+        android:gravity="center" />
     <TextView
         android:layout_width="0dp"
         android:layout_height="match_parent"

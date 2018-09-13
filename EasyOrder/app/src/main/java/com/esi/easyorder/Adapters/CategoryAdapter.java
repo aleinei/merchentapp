@@ -103,11 +103,14 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ItemVi
         void bind(final Item item) {
             if(item.unit >= 1000) {
                 sectionPrice.setText(item.itemPrice+"");
+                sectionPrice.setText(item.itemPrice+ " "+context.getString(R.string.unitCurrency) );
+            }else{
+                sectionPrice.setText(item.itemPrice+ " "+context.getString(R.string.unitString) );
             }
 
             sectionName.setText(item.itemName);
 
-            sectionPrice.setText(item.itemPrice+ " "+context.getString(R.string.unitCurrency) );
+
             if (UIType.equals("textandpictures") || UIType.equals("pictures"))
                 image.setImageURL(item.imageURL);
             else if (UIType.equals("text"))

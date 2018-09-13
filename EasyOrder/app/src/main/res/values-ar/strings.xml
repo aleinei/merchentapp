@@ -72,6 +72,12 @@
     <string name="pickup">استلام</string>
     <string name="about">حول</string>
 
+
+    <string name="unitString">جنيه لكل قطعة</string>
+    <string name="unit">قطعة</string>
+    <string name="units">قطع</string>
+
+
     <!--Merchant Strings-->
     <string name="forMerchants">للتجار</string>
     <string name="mName">الاسم بالكامل</string>

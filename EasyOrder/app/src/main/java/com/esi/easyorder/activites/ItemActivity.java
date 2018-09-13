@@ -1,16 +1,13 @@
 package com.esi.easyorder.activites;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Handler;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
-import android.text.InputType;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -19,28 +16,20 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.esi.easyorder.ActiveCart;
-import com.esi.easyorder.Adapters.CategoryAdapter;
 import com.esi.easyorder.Adapters.CheckBoxesAdapter;
 import com.esi.easyorder.ExtraItem;
 import com.esi.easyorder.Item;
 import com.esi.easyorder.R;
 import com.github.clans.fab.FloatingActionButton;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
-
-import java.text.DecimalFormat;
-import java.util.ArrayList;
 
 import pl.polidea.webimageview.WebImageView;
 
@@ -48,7 +37,7 @@ public class ItemActivity extends AppCompatActivity {
 
     SharedPreferences pref;
     SharedPreferences.Editor editor;
-
+    CoordinatorLayout itemLayout;
     FloatingActionButton cartConfirm;
     TextView itemName;
     LinearLayout gramLayout;
@@ -72,24 +61,25 @@ public class ItemActivity extends AppCompatActivity {
     Runnable kgDecreaseRunnable;
     Runnable gDecreaseRunnable;
     boolean stopCount = false;
-    boolean isUsingKG = false;
+    boolean isUsingKG;
     Item mItem;
     Item purchaseItem;
     CheckBox[] addingItemsNames;
     CheckBox[] extraItemsNames;
     CheckBox[] withoutItemsNames;
-
     Button extraButton;
     Button addButton;
     Button withoutButton;
     int addedChild = 0;
     double quantity;
+    boolean isSwiping = false;
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item);
-
+        itemLayout = findViewById(R.id.itemLayout);
         gramLayout = findViewById(R.id.gramLayout);
         increaseBtn = findViewById(R.id.increase);
         decreaseBtn = findViewById(R.id.decrease);
@@ -109,8 +99,6 @@ public class ItemActivity extends AppCompatActivity {
         addButton = findViewById(R.id.btnAddItem);
         withoutButton = findViewById(R.id.btnWithouItem);
 
-        updateCount();
-
 
         String item = getIntent().getExtras().getString("item");
         if(item != null) {
@@ -121,11 +109,13 @@ public class ItemActivity extends AppCompatActivity {
                 String name = it.getString("itemName");
                 double price = it.getDouble("itemPrice");
                 String itemImage = it.getString("imageURL");
+
                 int Id = it.getInt("itemId");
                 int maxChild = it.getInt("maxChild");
                 String source = it.getString("Source");
                 mItem =  new Item(itemName, itemPrice, Id, null);
                 mItem.maxAddableItems = maxChild;
+                mItem.unit = it.getInt("unit");
                 purchaseItem = new Item(itemName, itemPrice, Id, null);
                 purchaseItem.ExtraItems.clear();
                 purchaseItem.Source = source;
@@ -172,11 +162,18 @@ public class ItemActivity extends AppCompatActivity {
                         }
                     }
                 }
-
-               this.itemName.setText(name);
+                this.itemName.setText(name);
                 image.setImageURL(itemImage);
-                this.sectionPrice.setText(String.valueOf(itemPrice)+ " "+getApplicationContext().getString(R.string.unitCurrency));
-
+                if(mItem.unit <1000){
+                    isUsingKG = false;
+                    gramLayout.setVisibility(View.GONE);
+                    this.sectionPrice.setText(String.valueOf(itemPrice)+ " "+getApplicationContext().getString(R.string.unitString));
+                }else{
+                    isUsingKG = true;
+                    gramLayout.setVisibility(View.VISIBLE);
+                    this.sectionPrice.setText(String.valueOf(itemPrice)+ " "+getApplicationContext().getString(R.string.unitCurrency));
+                }
+                updateCount();
                 extraButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -421,8 +418,7 @@ public class ItemActivity extends AppCompatActivity {
 
 ///////Runnables start here
     @SuppressLint("ClickableViewAccessibility")
-    void increaseDecrease ()
-    {
+    void increaseDecrease () {
         kgIncreaseRunnable = new Runnable() {
             @Override
             public void run() {
@@ -481,19 +477,22 @@ public class ItemActivity extends AppCompatActivity {
         increaseBtn.setOnTouchListener(new OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                switch(event.getAction()){
-                    case MotionEvent.ACTION_DOWN:
-                        increaseHandler.post(kgIncreaseRunnable);
-                        stopCount = false;
-                        return true;
-                    case MotionEvent.ACTION_UP:
-                        increaseHandler.removeCallbacks(kgIncreaseRunnable);
-                        stopCount = true;
-                        return true;
+                if(!isSwiping) {
+                    switch (event.getAction()) {
+                        case MotionEvent.ACTION_DOWN:
+                            increaseHandler.post(kgIncreaseRunnable);
+                            stopCount = false;
+                            return true;
+                        case MotionEvent.ACTION_UP:
+                            increaseHandler.removeCallbacks(kgIncreaseRunnable);
+                            stopCount = true;
+                            return true;
+                    }
                 }
                 return false;
-                }
+            }
         });
+
 
         decreaseBtn.setOnTouchListener(new OnTouchListener() {
             @Override
@@ -550,13 +549,19 @@ public class ItemActivity extends AppCompatActivity {
 
 
     void updateCount(){
-        if(!isUsingKG) {
+
+        if(isUsingKG) {
             itemCount.setText(kgCount + " " + getString(R.string.kg));
             gItemCount.setText(gCount + " " + getString(R.string.grams));
-        } else {
-            itemCount.setText(String.valueOf(kgCount));
+        } else{
+            if(kgCount >1){
+                itemCount.setText((int)kgCount + " " + getString(R.string.units));
+            }else{
+                itemCount.setText((int)kgCount + " " + getString(R.string.unit));
+            }
         }
         double num = kgCount + (gCount / 1000);
         quantity = Math.round(num *1000)/1000.000;
     }
+
 }
