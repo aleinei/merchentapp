@@ -89,20 +89,23 @@ public class MainActivity extends AppCompatActivity {
                     return;
                 String username = usernameText.getText().toString();
                 String password = passwordText.getText().toString();
-                if (username.equals("") || password.equals("")) {
+                if (username.equals("")) {
                     Toast.makeText(getApplicationContext(), "You need to enter your username and password", Toast.LENGTH_SHORT).show();
-                } else if (username.equals("admin") && password.equals("admin")) {
+                } else if (username.equals("admin")) {
                     PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putBoolean("isAdmin", true).apply();
                     Intent intent = new Intent(MainActivity.this, MenuActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(intent);
                     finish();
                 } else {
+                    if(username.length() != 11) {
+                        Toast.makeText(getApplicationContext(), "Please enter a valid phone number", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
                     JSONObject message = new JSONObject();
                     try {
                         message.put("Msg", "user_verify");
-                        message.put("username", username);
-                        message.put("password", password);
+                        message.put("phone", username);
                         serverService.sendMessage(message.toString());
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -175,8 +178,9 @@ public class MainActivity extends AppCompatActivity {
             try {
                 JSONObject msg = new JSONObject(message);
                 if(msg.getString("Msg").equals("user_not_exist")) {
-                    Toast.makeText(MainActivity.this, "User was not found, please make sure you have one , or create a new one", Toast.LENGTH_SHORT).show();
-                    passwordText.setText("");
+                    Intent intent = new Intent(MainActivity.this, RegisterActivity.class);
+                    intent.putExtra("phone", usernameText.getText().toString());
+                    startActivity(intent);
                     loggedInPressed = false;
                 } else if(msg.getString("Msg").equals("user_verified")) {
                     Toast.makeText(MainActivity.this, getString(R.string.welcome,  usernameText.getText().toString()), Toast.LENGTH_SHORT).show();
