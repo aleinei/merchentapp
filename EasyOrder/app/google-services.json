@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "78472596477",
+    "firebase_url": "https://easy-order-8788d.firebaseio.com",
+    "project_id": "easy-order-8788d",
+    "storage_bucket": "easy-order-8788d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:78472596477:android:1401e4cfb9c0ea6b",
+        "android_client_info": {
+          "package_name": "com.esi.easyorder"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "78472596477-bfumsq07msut1f8q4ild0vshgb8cui06.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDh1b7KXjwsBp_AW5YbGXyCHInOxXZnuH4"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

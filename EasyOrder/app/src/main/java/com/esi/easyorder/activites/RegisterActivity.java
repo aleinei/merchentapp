@@ -10,25 +10,43 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
+import android.os.Build;
 import android.os.IBinder;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.telephony.PhoneNumberUtils;
+import android.text.InputType;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.Gallery;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.dd.processbutton.iml.ActionProcessButton;
 import com.esi.easyorder.R;
 import com.esi.easyorder.ServerMessage;
 import com.esi.easyorder.services.ServerService;
+import com.github.javiersantos.materialstyleddialogs.MaterialStyledDialog;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.FirebaseException;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.PhoneAuthCredential;
+import com.google.firebase.auth.PhoneAuthProvider;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -37,6 +55,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
 import mehdi.sakout.fancybuttons.FancyButton;
 import okhttp3.OkHttpClient;
@@ -44,21 +63,30 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 public class RegisterActivity extends AppCompatActivity {
+
+
+
+
     ServerService serverService;
     boolean mBound = false;
-
     EditText username;
     EditText password;
     EditText phone;
     EditText email;
     EditText address1;
-    EditText building;
+    EditText buildingText;
     EditText floorApt;
     EditText apt;
     FancyButton registerBtn;
     ActionProcessButton l; // locate location
     boolean locationLocated;
     Location location;
+    boolean authinticated;
+    String mVerificationId;
+    FirebaseAuth mAuth;
+    String name, pass, phoneNumber, emailAddress, address_1, building, floor, aprt;
+    MaterialStyledDialog mDialog;
+    boolean verifyCancelled;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,7 +96,7 @@ public class RegisterActivity extends AppCompatActivity {
         phone = findViewById(R.id.phoneField);
         email = findViewById(R.id.emailField);
         address1 = findViewById(R.id.address1Field);
-        building = findViewById(R.id.buildingField);
+        buildingText = findViewById(R.id.buildingField);
         floorApt = findViewById(R.id.floorField);
         apt = findViewById(R.id.aptField);
        // address2 = findViewById(R.id.address2Field);
@@ -85,6 +113,8 @@ public class RegisterActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setTitle(getString(R.string.registering));
 
+        mAuth = FirebaseAuth.getInstance();
+
     }
 
     @Override
@@ -95,7 +125,6 @@ public class RegisterActivity extends AppCompatActivity {
         registerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String name, pass, phoneNumber, emailAddress, address_1, building, floor, aprt;
 
                 name = username.getText().toString();
                 pass = password.getText().toString();
@@ -103,7 +132,7 @@ public class RegisterActivity extends AppCompatActivity {
                 phoneNumber = phone.getText().toString();
                 emailAddress = email.getText().toString();
                 address_1 = address1.getText().toString();
-                building = RegisterActivity.this.building.getText().toString();
+                building = RegisterActivity.this.buildingText.getText().toString();
                 floor = floorApt.getText().toString();
                 aprt = apt.getText().toString();
                 if(name.equals("") || pass.equals("") || phoneNumber.equals("") || emailAddress.equals("") || address_1.equals("") || floor.equals("") || building.equals("") || aprt.equals("")) {
@@ -140,25 +169,49 @@ public class RegisterActivity extends AppCompatActivity {
                         return;
                     }
 
-                    JSONObject msg = new JSONObject();
-                    try {
-                        msg.put("Msg", "new_user");
-                        msg.put("username", name);
-                        msg.put("password", pass);
-                        msg.put("phone", phoneNumber);
-                        msg.put("email", emailAddress);
-                        msg.put("address1", address_1);
-                        msg.put("building", building);
-                        msg.put("floor", floor);
-                        msg.put("apt", aprt);
-                        msg.put("lat", location.getLatitude());
-                        msg.put("long", location.getLongitude());
-                        serverService.sendMessage(msg.toString());
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    } catch (IOException e) {
-                        e.printStackTrace();
+                    if(phone.length() != 11) {
+                        Toast.makeText(serverService, "Please enter a correct phone number", Toast.LENGTH_SHORT).show();
+                        return;
                     }
+
+
+
+                    PhoneAuthProvider.getInstance().verifyPhoneNumber("+2" + phoneNumber,120, TimeUnit.SECONDS,RegisterActivity.this, mCallbacks);
+                    LinearLayout layout = new LinearLayout(RegisterActivity.this);
+                    layout.setOrientation(LinearLayout.VERTICAL);
+                    LinearLayout.LayoutParams lP = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+                    lP.setMargins(5,5,5,5);
+                    layout.setLayoutParams(lP);
+                    final EditText editText = new EditText(RegisterActivity.this);
+                    editText.setRawInputType(InputType.TYPE_CLASS_NUMBER);
+                    editText.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+                    editText.setEnabled(true);
+                    editText.setHint("Phone code");
+                    editText.setTag("codeText");
+                    layout.addView(editText);
+                    layout.setPadding(10,10,10,10);
+
+                    mDialog = new MaterialStyledDialog.Builder(RegisterActivity.this).setTitle("Verifying your phone").setCustomView(layout).
+                            setPositiveText("Verify").
+                            setNegativeText("cancel").
+                            onPositive(new MaterialDialog.SingleButtonCallback() {
+                                @Override
+                                public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                    String code = editText.getText().toString();
+                                    verify(code);
+                                }
+                            }).
+                            onNegative(new MaterialDialog.SingleButtonCallback() {
+                                @Override
+                                public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                    verifyCancelled = true;
+                                    dialog.dismiss();
+                                }
+                            }).
+                            autoDismiss(false).
+                            setCancelable(false).
+                            build();
+                    mDialog.show();
                 }
 
             }
@@ -234,6 +287,7 @@ public class RegisterActivity extends AppCompatActivity {
         });
     }
 
+
     public ServiceConnection mConnection = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
@@ -253,6 +307,9 @@ public class RegisterActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         unbindService(mConnection);
+        if(mDialog != null) {
+            mDialog.cancel();
+        }
     }
 
     @Override
@@ -286,6 +343,67 @@ public class RegisterActivity extends AppCompatActivity {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+        }
+    }
+    PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
+        @Override
+        public void onVerificationCompleted(PhoneAuthCredential phoneAuthCredential) {
+            phoneAuthCredential.getSmsCode();
+            Log.d("Phone Auth", "Authinticated");
+            signIn(phoneAuthCredential);
+            mDialog.dismiss();
+        }
+
+        @Override
+        public void onVerificationFailed(FirebaseException e) {
+            Toast.makeText(RegisterActivity.this, "Please Provide us with a correct phone number", Toast.LENGTH_SHORT).show();
+        }
+
+        @Override
+        public void onCodeSent(String s, PhoneAuthProvider.ForceResendingToken forceResendingToken) {
+            Log.d("Phone Auth", "code sent");
+            authinticated = true;
+            mVerificationId = s;
+        }
+    };
+
+    public void signIn(PhoneAuthCredential credential) {
+        if(verifyCancelled) return;
+        mAuth.signInWithCredential(credential).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if(task.isComplete()) {
+
+                    JSONObject msg = new JSONObject();
+                    try {
+                        msg.put("Msg", "new_user");
+                        msg.put("username", name);
+                        msg.put("password", pass);
+                        msg.put("phone", phoneNumber);
+                        msg.put("email", emailAddress);
+                        msg.put("address1", address_1);
+                        msg.put("building", building);
+                        msg.put("floor", floor);
+                        msg.put("apt", aprt);
+                        msg.put("lat", location.getLatitude());
+                        msg.put("long", location.getLongitude());
+                        serverService.sendMessage(msg.toString());
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    Toast.makeText(serverService, "Sms code is incorrect.", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+    public void verify(String code) {
+        if(mVerificationId != null) {
+            PhoneAuthCredential credential  = PhoneAuthProvider.getCredential(mVerificationId, code);
+            signIn(credential);
         }
     }
 }
