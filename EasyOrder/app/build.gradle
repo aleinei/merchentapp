@@ -51,10 +51,12 @@ dependencies {
     implementation 'com.squareup.picasso:picasso:2.71828'
     implementation 'com.github.javiersantos:MaterialStyledDialogs:2.1'
 
+    //Circuilar image
+    implementation 'de.hdodenhof:circleimageview:2.2.0'
 
     //firebase
     implementation 'com.google.firebase:firebase-core:16.0.1'
     implementation 'com.google.firebase:firebase-auth:16.0.3'
 }
-    //firebase
-    apply plugin: 'com.google.gms.google-services'
+//firebase
+apply plugin: 'com.google.gms.google-services'

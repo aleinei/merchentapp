@@ -31,7 +31,9 @@
         <activity android:name=".activites.CartActivity" />
         <activity android:name=".activites.SettingsActivity" />
         <activity android:name=".activites.ViewOrderActivity" />
-        <activity android:name=".activites.MerchantActivity"></activity>
+        <activity android:name=".activites.MerchantActivity" />
+        <activity android:name=".activites.ShopType" />
+        <activity android:name=".activites.Shops"></activity>
     </application>
 
 </manifest>
