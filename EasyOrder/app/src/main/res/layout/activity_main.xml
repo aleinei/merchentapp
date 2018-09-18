@@ -35,7 +35,7 @@
                    android:textDirection="ltr"
                    android:id="@+id/userName"
                    android:layout_marginBottom="10dp"
-                   android:inputType="textPersonName"
+                   android:inputType="phone"
                    />
            </com.wrapp.floatlabelededittext.FloatLabeledEditText>
            <com.wrapp.floatlabelededittext.FloatLabeledEditText
@@ -55,7 +55,8 @@
                android:layout_width="match_parent"
                android:layout_height="wrap_content"
                android:text="@string/rememberme"
-               android:id="@+id/rememberMe"/>
+               android:id="@+id/rememberMe"
+               android:visibility="gone"/>
            <LinearLayout
                android:layout_width="match_parent"
                android:layout_height="wrap_content"

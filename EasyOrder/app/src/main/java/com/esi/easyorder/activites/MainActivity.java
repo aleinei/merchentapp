@@ -5,20 +5,24 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
-import android.content.pm.ShortcutManager;
 import android.os.IBinder;
-import android.os.Parcelable;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.InputType;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.esi.easyorder.ActiveCart;
 import com.esi.easyorder.Item;
 import com.esi.easyorder.Order;
@@ -26,6 +30,14 @@ import com.esi.easyorder.R;
 import com.esi.easyorder.ServerMessage;
 import com.esi.easyorder.User;
 import com.esi.easyorder.services.ServerService;
+import com.github.javiersantos.materialstyleddialogs.MaterialStyledDialog;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.FirebaseException;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.PhoneAuthCredential;
+import com.google.firebase.auth.PhoneAuthProvider;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -33,6 +45,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -41,13 +54,16 @@ public class MainActivity extends AppCompatActivity {
     boolean loggedInPressed = false;
     Button b; // login
     Button r; // register
-    EditText usernameText;
+    EditText phoneEditText;
     EditText passwordText;
     CheckBox rememberMe;
     User user;
     Button merchantRegister;
-
-
+    MaterialStyledDialog mDialog;
+    boolean verifyCancelled = false;
+    boolean authinticated = false;
+    String mVerificationId = "";
+    FirebaseAuth mAuth;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
 
         b = findViewById(R.id.signin);
         r = findViewById(R.id.register);
-        usernameText = findViewById(R.id.userName);
+        phoneEditText = findViewById(R.id.userName);
         passwordText = findViewById(R.id.password);
         rememberMe = findViewById(R.id.rememberMe);
         Toolbar toolbar = findViewById(R.id.customActionbar);
@@ -65,6 +81,7 @@ public class MainActivity extends AppCompatActivity {
         PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().remove("isAdmin").apply();
         user = new User();
         merchantRegister.setOnClickListener(merchant);
+        mAuth = FirebaseAuth.getInstance();
 
     }
 
@@ -85,13 +102,11 @@ public class MainActivity extends AppCompatActivity {
         b.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (loggedInPressed)
-                    return;
-                String username = usernameText.getText().toString();
+                String username = phoneEditText.getText().toString();
                 String password = passwordText.getText().toString();
                 if (username.equals("")) {
                     Toast.makeText(getApplicationContext(), "You need to enter your username and password", Toast.LENGTH_SHORT).show();
-                } else if (username.equals("admin")) {
+                } else if (username.equals("010222")) {
                     PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putBoolean("isAdmin", true).apply();
                     Intent intent = new Intent(MainActivity.this, MenuActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -102,16 +117,46 @@ public class MainActivity extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(), "Please enter a valid phone number", Toast.LENGTH_SHORT).show();
                         return;
                     }
-                    JSONObject message = new JSONObject();
-                    try {
-                        message.put("Msg", "user_verify");
-                        message.put("phone", username);
-                        serverService.sendMessage(message.toString());
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                    PhoneAuthProvider.getInstance().verifyPhoneNumber("+2" + username,120, TimeUnit.SECONDS,MainActivity.this, mCallbacks);
+                    LinearLayout layout = new LinearLayout(MainActivity.this);
+                    layout.setOrientation(LinearLayout.VERTICAL);
+                    LinearLayout.LayoutParams lP = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+                    lP.setMargins(5,5,5,5);
+                    layout.setLayoutParams(lP);
+                    final EditText editText = new EditText(MainActivity.this);
+                    editText.setRawInputType(InputType.TYPE_CLASS_NUMBER);
+                    editText.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+                    editText.setEnabled(true);
+                    editText.setHint("Phone code");
+                    editText.setTag("codeText");
+                    layout.addView(editText);
+                    layout.setPadding(10,10,10,10);
+
+                    mDialog = new MaterialStyledDialog.Builder(MainActivity.this).setTitle("Verifying your phone").setCustomView(layout).
+                            setPositiveText("Verify").
+                            setNegativeText("cancel").
+                            onPositive(new MaterialDialog.SingleButtonCallback() {
+                                @Override
+                                public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                    String code = editText.getText().toString();
+                                    if(code.isEmpty()) {
+                                        return;
+                                    }
+                                    verify(code);
+                                }
+                            }).
+                            onNegative(new MaterialDialog.SingleButtonCallback() {
+                                @Override
+                                public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                    verifyCancelled = true;
+                                    dialog.dismiss();
+                                }
+                            }).
+                            autoDismiss(false).
+                            setCancelable(false).
+                            build();
+                    mDialog.show();
+
                 }
                 loggedInPressed = true;
             }
@@ -179,14 +224,15 @@ public class MainActivity extends AppCompatActivity {
                 JSONObject msg = new JSONObject(message);
                 if(msg.getString("Msg").equals("user_not_exist")) {
                     Intent intent = new Intent(MainActivity.this, RegisterActivity.class);
-                    intent.putExtra("phone", usernameText.getText().toString());
+                    intent.putExtra("phone", phoneEditText.getText().toString());
                     startActivity(intent);
                     loggedInPressed = false;
                 } else if(msg.getString("Msg").equals("user_verified")) {
-                    Toast.makeText(MainActivity.this, getString(R.string.welcome,  usernameText.getText().toString()), Toast.LENGTH_SHORT).show();
+
                     SharedPreferences.Editor ed = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit();
                     user.ID = msg.getInt("Id");
-                    user.username = usernameText.getText().toString();
+                    user.username = msg.getString("name");
+                    Toast.makeText(MainActivity.this, getString(R.string.welcome,  user.username), Toast.LENGTH_SHORT).show();
                     user.Address = msg.getString("address");
                     user.Telephone = msg.getString("tele");
                     user.Email = msg.getString("email");
@@ -221,14 +267,10 @@ public class MainActivity extends AppCompatActivity {
                     }
                     user.Orders = ordersList;
                     ed.putString("user", user.toObject().toString());
+                    ed.putBoolean("logged", true);
                     ed.apply();
                     Intent login = new Intent(MainActivity.this, MenuActivity.class);
                     login.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    if(rememberMe.isChecked()) {
-                        SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit();
-                        editor.putBoolean("logged", true);
-                        editor.apply();
-                    }
                     startActivity(login);
                     finish();
                 }
@@ -236,5 +278,62 @@ public class MainActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
         }
+    }
+
+    public void sendVerify() {
+        JSONObject message = new JSONObject();
+        try {
+            message.put("Msg", "user_verify");
+            message.put("phone", phoneEditText.getText().toString());
+            serverService.sendMessage(message.toString());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
+        @Override
+        public void onVerificationCompleted(PhoneAuthCredential phoneAuthCredential) {
+            phoneAuthCredential.getSmsCode();
+            Log.d("Phone Auth", "Authinticated");
+            signIn(phoneAuthCredential);
+            mDialog.dismiss();
+        }
+
+        @Override
+        public void onVerificationFailed(FirebaseException e) {
+            Toast.makeText(MainActivity.this, "Please Provide us with a correct phone number", Toast.LENGTH_SHORT).show();
+        }
+
+        @Override
+        public void onCodeSent(String s, PhoneAuthProvider.ForceResendingToken forceResendingToken) {
+            Log.d("Phone Auth", "code sent");
+            authinticated = true;
+            mVerificationId = s;
+        }
+    };
+
+    public void verify(String code) {
+        if(mVerificationId != null && !mVerificationId.isEmpty()) {
+            PhoneAuthCredential credential  = PhoneAuthProvider.getCredential(mVerificationId, code);
+            signIn(credential);
+        }
+    }
+
+    public void signIn(PhoneAuthCredential credential) {
+        if(verifyCancelled) return;
+        mAuth.signInWithCredential(credential).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if(task.isComplete()) {
+                    sendVerify();
+                    mDialog.dismiss();
+                } else {
+                    Toast.makeText(serverService, "Sms code is incorrect.", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 }

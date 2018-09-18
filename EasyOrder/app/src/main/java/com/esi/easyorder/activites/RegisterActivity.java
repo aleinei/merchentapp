@@ -5,6 +5,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
@@ -12,6 +13,7 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.IBinder;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
@@ -32,8 +34,12 @@ import android.widget.Toast;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.dd.processbutton.iml.ActionProcessButton;
+import com.esi.easyorder.ActiveCart;
+import com.esi.easyorder.Item;
+import com.esi.easyorder.Order;
 import com.esi.easyorder.R;
 import com.esi.easyorder.ServerMessage;
+import com.esi.easyorder.User;
 import com.esi.easyorder.services.ServerService;
 import com.github.javiersantos.materialstyleddialogs.MaterialStyledDialog;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -53,6 +59,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
@@ -85,7 +92,7 @@ public class RegisterActivity extends AppCompatActivity {
     String mVerificationId;
     FirebaseAuth mAuth;
     String name, pass, phoneNumber, emailAddress, address_1, building, floor, aprt;
-    MaterialStyledDialog mDialog;
+
     boolean verifyCancelled;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,7 +106,11 @@ public class RegisterActivity extends AppCompatActivity {
         buildingText = findViewById(R.id.buildingField);
         floorApt = findViewById(R.id.floorField);
         apt = findViewById(R.id.aptField);
-       // address2 = findViewById(R.id.address2Field);
+        String phoneText = getIntent().getStringExtra("phone");
+        if(phoneText != null) {
+            phone.setText(phoneText);
+        }
+       // address2 = find ViewById(R.id.address2Field);
         l = findViewById(R.id.getLocation);
         registerBtn = findViewById(R.id.register);
         Toolbar toolbar = findViewById(R.id.customActionbar);
@@ -174,44 +185,27 @@ public class RegisterActivity extends AppCompatActivity {
                         return;
                     }
 
+                    JSONObject msg = new JSONObject();
+                    try {
+                        msg.put("Msg", "new_user");
+                        msg.put("username", name);
+                        msg.put("password", pass);
+                        msg.put("phone", phoneNumber);
+                        msg.put("email", emailAddress);
+                        msg.put("address1", address_1);
+                        msg.put("building", building);
+                        msg.put("floor", floor);
+                        msg.put("apt", aprt);
+                        msg.put("lat", location.getLatitude());
+                        msg.put("long", location.getLongitude());
+                        serverService.sendMessage(msg.toString());
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
 
 
-                    PhoneAuthProvider.getInstance().verifyPhoneNumber("+2" + phoneNumber,120, TimeUnit.SECONDS,RegisterActivity.this, mCallbacks);
-                    LinearLayout layout = new LinearLayout(RegisterActivity.this);
-                    layout.setOrientation(LinearLayout.VERTICAL);
-                    LinearLayout.LayoutParams lP = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
-                    lP.setMargins(5,5,5,5);
-                    layout.setLayoutParams(lP);
-                    final EditText editText = new EditText(RegisterActivity.this);
-                    editText.setRawInputType(InputType.TYPE_CLASS_NUMBER);
-                    editText.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-                    editText.setEnabled(true);
-                    editText.setHint("Phone code");
-                    editText.setTag("codeText");
-                    layout.addView(editText);
-                    layout.setPadding(10,10,10,10);
-
-                    mDialog = new MaterialStyledDialog.Builder(RegisterActivity.this).setTitle("Verifying your phone").setCustomView(layout).
-                            setPositiveText("Verify").
-                            setNegativeText("cancel").
-                            onPositive(new MaterialDialog.SingleButtonCallback() {
-                                @Override
-                                public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                                    String code = editText.getText().toString();
-                                    verify(code);
-                                }
-                            }).
-                            onNegative(new MaterialDialog.SingleButtonCallback() {
-                                @Override
-                                public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                                    verifyCancelled = true;
-                                    dialog.dismiss();
-                                }
-                            }).
-                            autoDismiss(false).
-                            setCancelable(false).
-                            build();
-                    mDialog.show();
                 }
 
             }
@@ -307,9 +301,6 @@ public class RegisterActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         unbindService(mConnection);
-        if(mDialog != null) {
-            mDialog.cancel();
-        }
     }
 
     @Override
@@ -335,7 +326,25 @@ public class RegisterActivity extends AppCompatActivity {
                 JSONObject msg = new JSONObject(message);
                 if(msg.getString("Msg").equals("user_created")) {
                     Toast.makeText(getApplicationContext(), "Your account has been created", Toast.LENGTH_SHORT).show();
-                    onBackPressed();
+                    SharedPreferences.Editor ed = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit();
+                    User user = new User();
+                    user.ID = msg.getInt("id");
+                    Log.d("REGISTER", user.ID + " ");
+                    user.username = name;
+                    Toast.makeText(RegisterActivity.this, getString(R.string.welcome,  user.username), Toast.LENGTH_SHORT).show();
+                    user.Address = address_1;
+                    user.Telephone = phoneNumber;
+                    user.Email = emailAddress;
+                    user.location.setLatitude(location.getLatitude());
+                    user.location.setLongitude(location.getLongitude());
+                    user.Password = pass;
+                    ed.putString("user", user.toObject().toString());
+                    ed.putBoolean("logged", true);
+                    ed.apply();
+                    Intent login = new Intent(RegisterActivity.this, MenuActivity.class);
+                    login.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(login);
+                    finish();
                 } else if(msg.getString("Msg").equals("user_exists")){
                     Toast.makeText(getApplicationContext(), "Username already chosen, please choose another one", Toast.LENGTH_SHORT).show();
                 }
@@ -345,65 +354,9 @@ public class RegisterActivity extends AppCompatActivity {
             }
         }
     }
-    PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
-        @Override
-        public void onVerificationCompleted(PhoneAuthCredential phoneAuthCredential) {
-            phoneAuthCredential.getSmsCode();
-            Log.d("Phone Auth", "Authinticated");
-            signIn(phoneAuthCredential);
-            mDialog.dismiss();
-        }
 
-        @Override
-        public void onVerificationFailed(FirebaseException e) {
-            Toast.makeText(RegisterActivity.this, "Please Provide us with a correct phone number", Toast.LENGTH_SHORT).show();
-        }
 
-        @Override
-        public void onCodeSent(String s, PhoneAuthProvider.ForceResendingToken forceResendingToken) {
-            Log.d("Phone Auth", "code sent");
-            authinticated = true;
-            mVerificationId = s;
-        }
-    };
 
-    public void signIn(PhoneAuthCredential credential) {
-        if(verifyCancelled) return;
-        mAuth.signInWithCredential(credential).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                if(task.isComplete()) {
 
-                    JSONObject msg = new JSONObject();
-                    try {
-                        msg.put("Msg", "new_user");
-                        msg.put("username", name);
-                        msg.put("password", pass);
-                        msg.put("phone", phoneNumber);
-                        msg.put("email", emailAddress);
-                        msg.put("address1", address_1);
-                        msg.put("building", building);
-                        msg.put("floor", floor);
-                        msg.put("apt", aprt);
-                        msg.put("lat", location.getLatitude());
-                        msg.put("long", location.getLongitude());
-                        serverService.sendMessage(msg.toString());
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                } else {
-                    Toast.makeText(serverService, "Sms code is incorrect.", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-    }
 
-    public void verify(String code) {
-        if(mVerificationId != null) {
-            PhoneAuthCredential credential  = PhoneAuthProvider.getCredential(mVerificationId, code);
-            signIn(credential);
-        }
-    }
 }
