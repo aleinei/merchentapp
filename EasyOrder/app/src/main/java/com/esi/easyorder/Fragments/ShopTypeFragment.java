@@ -102,7 +102,10 @@ public class ShopTypeFragment extends android.support.v4.app.Fragment {
 
         return view;
     }
+    boolean imageIsExist(JSONObject shop){
 
+        return false;
+    }
     public void loadShops(JSONObject msg ) {
        try {
            JSONArray shops = msg.getJSONArray("shops");
@@ -120,6 +123,8 @@ public class ShopTypeFragment extends android.support.v4.app.Fragment {
                        continue;
                    }
                }
+               //String img="http://185.181.10.83/Pictures/Merchants"+shop.getName();
+
                if(type == Constants.TYPE_VEG) {
                    shop.setImage(R.drawable.vegetables);
                    veg.shops.add(shop);
@@ -133,6 +138,7 @@ public class ShopTypeFragment extends android.support.v4.app.Fragment {
                    shop.setImage(R.drawable.clothes_shop);
                    clothes.shops.add(shop);
                }
+
            }
            loadSections();
        } catch (JSONException e) {

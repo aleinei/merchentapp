@@ -18,7 +18,17 @@ public class ShopsSection {
 
     }
 
+    boolean imageExists=false;
+    boolean isImageExists(){
+        //check for image in db
+        if(imageExists)
+        {
+            image = 0;
+            return true;
+        }
 
+        return false;
+    }
     public String getName() {
         return name;
     }

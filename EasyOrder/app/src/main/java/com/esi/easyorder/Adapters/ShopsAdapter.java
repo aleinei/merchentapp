@@ -8,6 +8,7 @@ import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.Adapter;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,11 +22,12 @@ import com.esi.easyorder.activites.MenuActivity;
 
 import java.util.ArrayList;
 
+import pl.polidea.webimageview.WebImageView;
+
 public class ShopsAdapter extends Adapter {
 
     private ArrayList<Shop> shops;
     private Context mContext;
-
     public ShopsAdapter(Context mContext, ArrayList<Shop> shops) {
         this.mContext = mContext;
         this.shops = shops;
@@ -60,19 +62,26 @@ public class ShopsAdapter extends Adapter {
     private class ShopsHolder extends RecyclerView.ViewHolder {
 
         TextView shopName;
-        ImageView shopImage;
+        WebImageView shopImage;
         ImageButton infoButton;
+        ImageView underConstruction;
+
         public ShopsHolder(View itemView) {
             super(itemView);
             shopName = itemView.findViewById(R.id.shoptypename);
             shopImage = itemView.findViewById(R.id.shoptypeimage);
             infoButton = itemView.findViewById(R.id.shop_info);
+            underConstruction = itemView.findViewById(R.id.underConstruction);
         }
 
         private void bind(final Shop shop) {
             final String lang = PreferenceManager.getDefaultSharedPreferences(mContext).getString("Language", "en");
             shopName.setText(lang.equals("en") ? shop.getName() : shop.getName_ar());
             shopImage.setImageResource(shop.getImage());
+            shopImage.setImageURL("http://185.181.10.83/Pictures/Merchants/"+shop.getName().replace(" ","%20")+".jpg");
+            if(!shop.getIsActive()){
+            underConstruction.setVisibility(View.VISIBLE);
+            }
             infoButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

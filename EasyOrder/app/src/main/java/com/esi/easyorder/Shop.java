@@ -3,6 +3,8 @@ package com.esi.easyorder;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import pl.polidea.webimageview.WebImageView;
+
 public class Shop {
     String shopName;
     String shopName_ar;
@@ -38,7 +40,6 @@ public class Shop {
     public String getName_ar() {return shopName_ar; }
 
     public boolean getIsActive() { return isActive; }
-
 
     public void setImage(int image) {
         this.shopImage = image;

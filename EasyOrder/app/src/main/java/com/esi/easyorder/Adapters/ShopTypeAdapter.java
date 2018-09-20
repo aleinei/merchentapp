@@ -17,6 +17,8 @@ import com.esi.easyorder.activites.ShopsActivity;
 
 import java.util.ArrayList;
 
+import pl.polidea.webimageview.WebImageView;
+
 public class ShopTypeAdapter extends RecyclerView.Adapter<ShopTypeAdapter.ViewHolder>{
 
     Context mContext;
@@ -54,7 +56,7 @@ public class ShopTypeAdapter extends RecyclerView.Adapter<ShopTypeAdapter.ViewHo
     public class ViewHolder extends RecyclerView.ViewHolder{
 
         TextView shoptypeName;
-        ImageView shoptypeImage;
+        WebImageView shoptypeImage;
         ImageButton info;
         public ViewHolder(View itemView) {
             super(itemView);
