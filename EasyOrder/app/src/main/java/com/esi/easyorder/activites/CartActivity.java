@@ -2,6 +2,7 @@ package com.esi.easyorder.activites;
 
 import android.app.Dialog;
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.ServiceConnection;
@@ -30,6 +31,7 @@ import com.esi.easyorder.ActiveCart;
 import com.esi.easyorder.Adapters.CartAdapter;
 import com.esi.easyorder.Fragments.ProfileFragment;
 import com.esi.easyorder.Item;
+import com.esi.easyorder.MyContextWrapper;
 import com.esi.easyorder.Order;
 import com.esi.easyorder.R;
 import com.esi.easyorder.ServerMessage;
@@ -60,6 +62,7 @@ public class CartActivity extends AppCompatActivity {
     boolean orderSent;
     public boolean isChangeAddress = false;
     String iiCart ="";
+    String language;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +71,7 @@ public class CartActivity extends AppCompatActivity {
         pref = getSharedPreferences("global", 0);
         editor = pref.edit();
         String cart = pref.getString("cart", null);
+        language = pref.getString("Language","en");
         mCart = new ActiveCart();
         gridView = findViewById(R.id.cartGridView);
         cartCost = findViewById(R.id.cartCost);
@@ -221,6 +225,7 @@ public class CartActivity extends AppCompatActivity {
                                     JSONObject cart = new JSONObject();
                                     try {
                                         cart.put("Msg", "new_order_d");
+                                        cart.put("dbName", PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString("dbName", ""));
                                         cart.put("user_id", Id);
                                         cart.put("takeaway", false);
                                         JSONArray items = new JSONArray();
@@ -235,6 +240,7 @@ public class CartActivity extends AppCompatActivity {
                                     iiCart = cart.toString();
                                     profileIntent.putExtra("cart", iiCart);
                                     profileIntent.putExtra("isChangeAddress",isChangeAddress);
+                                    profileIntent.putExtra("active_cart", gridAdapter.cart.toObject().toString());
                                     startActivity(profileIntent);
                                 }
 
@@ -247,6 +253,7 @@ public class CartActivity extends AppCompatActivity {
                                         JSONObject cart = new JSONObject();
                                         try {
                                             cart.put("Msg", "new_order_d");
+                                            cart.put("dbName", PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString("dbName", ""));
                                             cart.put("user_id", Id);
                                             cart.put("takeaway", false);
                                             JSONArray items = new JSONArray();
@@ -353,11 +360,23 @@ public class CartActivity extends AppCompatActivity {
         }
     }
 
-
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(isChangeAddress) finish();
+    }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         unbindService(mConnection);
     }
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(newBase);
+        language = preferences.getString("Language", "en");
+
+        super.attachBaseContext(MyContextWrapper.wrap(newBase, language));
+    }
+
 }

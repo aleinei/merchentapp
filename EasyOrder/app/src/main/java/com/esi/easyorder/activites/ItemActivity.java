@@ -1,9 +1,11 @@
 package com.esi.easyorder.activites;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -25,6 +27,7 @@ import com.esi.easyorder.ActiveCart;
 import com.esi.easyorder.Adapters.CheckBoxesAdapter;
 import com.esi.easyorder.ExtraItem;
 import com.esi.easyorder.Item;
+import com.esi.easyorder.MyContextWrapper;
 import com.esi.easyorder.R;
 import com.github.clans.fab.FloatingActionButton;
 import org.json.JSONArray;
@@ -73,6 +76,7 @@ public class ItemActivity extends AppCompatActivity {
     int addedChild = 0;
     double quantity;
     boolean isSwiping = false;
+    String language;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -98,6 +102,7 @@ public class ItemActivity extends AppCompatActivity {
         extraButton = findViewById(R.id.btnExtraItems);
         addButton = findViewById(R.id.btnAddItem);
         withoutButton = findViewById(R.id.btnWithouItem);
+        language = pref.getString("Language","en");
 
 
         String item = getIntent().getExtras().getString("item");
@@ -167,11 +172,11 @@ public class ItemActivity extends AppCompatActivity {
                 if(mItem.unit <1000){
                     isUsingKG = false;
                     gramLayout.setVisibility(View.GONE);
-                    this.sectionPrice.setText(String.valueOf(itemPrice)+ " "+getApplicationContext().getString(R.string.unitString));
+                    this.sectionPrice.setText(String.valueOf(itemPrice)+ " "+ getString(R.string.unitString));
                 }else{
                     isUsingKG = true;
                     gramLayout.setVisibility(View.VISIBLE);
-                    this.sectionPrice.setText(String.valueOf(itemPrice)+ " "+getApplicationContext().getString(R.string.unitCurrency));
+                    this.sectionPrice.setText(String.valueOf(itemPrice)+ " "+getString(R.string.unitCurrency));
                 }
                 updateCount();
                 extraButton.setOnClickListener(new View.OnClickListener() {
@@ -350,6 +355,7 @@ public class ItemActivity extends AppCompatActivity {
         increaseDecrease();
 
     }
+
 
     ///previous click listeners start here
     View.OnClickListener extraListener = new View.OnClickListener() {
@@ -544,6 +550,7 @@ public class ItemActivity extends AppCompatActivity {
             }
         });
 
+
     }
 
 
@@ -562,6 +569,14 @@ public class ItemActivity extends AppCompatActivity {
         }
         double num = kgCount + (gCount / 1000);
         quantity = Math.round(num *1000)/1000.000;
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(newBase);
+        language = preferences.getString("Language", "en");
+
+        super.attachBaseContext(MyContextWrapper.wrap(newBase, language));
     }
 
 }

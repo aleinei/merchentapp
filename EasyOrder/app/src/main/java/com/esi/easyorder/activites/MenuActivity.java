@@ -2,6 +2,8 @@ package com.esi.easyorder.activites;
 
 
 import android.content.ComponentName;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
@@ -13,6 +15,7 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -33,9 +36,10 @@ import com.esi.easyorder.Fragments.AboutFragment;
 import com.esi.easyorder.Fragments.MenuFragment;
 import com.esi.easyorder.Fragments.OrdersFragment;
 import com.esi.easyorder.Fragments.ProfileFragment;
-import com.esi.easyorder.Fragments.AboutFragment;
+import com.esi.easyorder.Fragments.ShopTypeFragment;
 import com.esi.easyorder.Item;
 import com.esi.easyorder.MenuData;
+import com.esi.easyorder.MyContextWrapper;
 import com.esi.easyorder.R;
 import com.esi.easyorder.Section;
 import com.esi.easyorder.ServerMessage;
@@ -49,7 +53,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 
 public class MenuActivity extends AppCompatActivity {
-
+    String LANG_CURRENT = "en";
     public ServerService serverService;
     boolean mBound = false;
     public boolean menuLoaded = false;
@@ -63,18 +67,27 @@ public class MenuActivity extends AppCompatActivity {
     NavigationView NavView;
     Fragment currentFragment;
     boolean loadProfile = false;
+    String dbName;
     int REQUEST_CODE;
+    SharedPreferences pref;
+    String language;
+    boolean loadHome;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
+        pref = PreferenceManager.getDefaultSharedPreferences(this);
+        language = pref.getString("Language","en");
         menuData = new MenuData();
         serverIP = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString("IPAddress", "185.181.10.83");
         toolbar = findViewById(R.id.customActionbar);
         setSupportActionBar(toolbar);
         drawerLayout = findViewById(R.id.drawerLayout);
-        ActionBarDrawerToggle toggler = new ActionBarDrawerToggle(this, drawerLayout, toolbar, android.R.string.ok, android.R.string.no);;
+        ActionBarDrawerToggle toggler = new ActionBarDrawerToggle(this, drawerLayout, toolbar, android.R.string.ok, android.R.string.no);
         drawerLayout.addDrawerListener(toggler);
+        loadHome = getIntent().getBooleanExtra("loadHome", false);
+        dbName = getIntent().getStringExtra("dbName");
+        PreferenceManager.getDefaultSharedPreferences(this).edit().putString("dbName", dbName).apply();
         toggler.syncState();
         NavView = findViewById(R.id.navView);
         NavView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
@@ -84,8 +97,15 @@ public class MenuActivity extends AppCompatActivity {
                 switch (item.getItemId())
                 {
                     case R.id.Home:
-                        LoadHome(true);
-                        setTitle(getString(R.string.menu));
+                        loadShopTypes();
+                        try {
+                            JSONObject msg = new JSONObject();
+                            msg.put("Msg", "get_shops");
+                            serverService.sendMessage(msg.toString());
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        setTitle(getString(R.string.home));
                         break;
                     case R.id.userOrders:
                         LoadOrders();
@@ -96,20 +116,29 @@ public class MenuActivity extends AppCompatActivity {
                         ((ProfileFragment)currentFragment).menuActivity = MenuActivity.this;
                         getSupportFragmentManager().beginTransaction().replace(R.id.frameContent, currentFragment).commit();
                         break;
+                    case R.id.lang:
+                        final String[] strings = new String[2];
+                        strings[0] = getString(R.string.english);
+                        strings[1] = getString(R.string.arabic);
+                        AlertDialog mDialog = new AlertDialog.Builder(MenuActivity.this).setTitle("Language").setItems(strings, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                if(strings[which].equals(getString(R.string.english))){
+                                    changeLang(MenuActivity.this,"en");
+                                    recreate();
+                                }
+                                else if(strings[which].equals(getString(R.string.arabic))){
+                                    changeLang(MenuActivity.this,"ar");
+                                    recreate();
+                                }
+                            }
+                        }).create();
+                        mDialog.show();
+                        break;
                     case R.id.about:
                         currentFragment = new AboutFragment();
                         getSupportFragmentManager().beginTransaction().replace(R.id.frameContent, currentFragment).commit();
                         break;
-                    case R.id.userLogout:
-                        SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit();
-                        editor.remove("logged");
-                        editor.remove("Id");
-                        editor.apply();
-                        Intent signin = new Intent(MenuActivity.this, MainActivity.class);
-                        signin.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                        finish();
-                        startActivity(signin);
-                        return true;
                 }
                 drawerLayout.closeDrawers();
                 return true;
@@ -127,7 +156,7 @@ public class MenuActivity extends AppCompatActivity {
         }
          loadProfile = getIntent().getBooleanExtra("load_profile", false);
         if(!loadProfile)
-            LoadHome(false);
+            loadShopTypes();
         else {
             currentFragment = new ProfileFragment();
             ((ProfileFragment)currentFragment).menuActivity = MenuActivity.this;
@@ -139,8 +168,10 @@ public class MenuActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        Intent clientService = new Intent(this, ServerService.class);
-        bindService(clientService, mConnection, BIND_AUTO_CREATE);
+        if(!mBound) {
+            Intent clientService = new Intent(this, ServerService.class);
+            bindService(clientService, mConnection, BIND_AUTO_CREATE);
+        }
     }
 
     private ServiceConnection mConnection = new ServiceConnection() {
@@ -150,7 +181,22 @@ public class MenuActivity extends AppCompatActivity {
             serverService.ConnectServer(MenuActivity.this);
             serverService.setMessage(new HandleMessage());
             mBound = true;
-            LoadMenudata();
+
+            if(loadHome) {
+                LoadHome(true);
+                LoadMenudata();
+                setTitle(getString(R.string.menu));
+            } else {
+                loadShopTypes();
+                try {
+                    JSONObject msg = new JSONObject();
+                    msg.put("Msg", "get_shops");
+                    serverService.sendMessage(msg.toString());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                setTitle(getString(R.string.home));
+            }
         }
 
         @Override
@@ -163,13 +209,23 @@ public class MenuActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        unbindService(mConnection);
+        if (mBound) {
+            unbindService(mConnection);
+            mBound = false;
+        }
+
+    }
+
+    public void loadShopTypes() {
+        currentFragment = new ShopTypeFragment();
+        getSupportFragmentManager().beginTransaction().replace(R.id.frameContent, currentFragment).commit();
     }
 
     public void LoadMenudata() {
         JSONObject message = new JSONObject();
         try {
             message.put("Msg", "all_sections");
+            message.put("dbName", dbName);
             serverService.sendMessage(message.toString());
         } catch (JSONException e) {
             e.printStackTrace();
@@ -266,6 +322,7 @@ public class MenuActivity extends AppCompatActivity {
                         }
                         JSONObject obj = new JSONObject();
                         obj.put("Msg", "section_categories");
+                        obj.put("dbName", dbName);
                         serverService.sendMessage(obj.toString());
                     }
                 } else if (msg.equals("section_categories")) {
@@ -286,6 +343,7 @@ public class MenuActivity extends AppCompatActivity {
                         }
                         JSONObject obj = new JSONObject();
                         obj.put("Msg", "category_items");
+                        obj.put("dbName", dbName);
                         serverService.sendMessage(obj.toString());
 
                     }
@@ -319,6 +377,7 @@ public class MenuActivity extends AppCompatActivity {
                     }
                     JSONObject o = new JSONObject();
                     o.put("Msg", "extra_items");
+                    o.put("dbName", dbName);
                     serverService.sendMessage(o.toString());
                 } else if(msg.equals("extra_items")) {
                  //   Toast.makeText(getApplicationContext(), "Loading Extra items", Toast.LENGTH_SHORT).show();
@@ -352,6 +411,7 @@ public class MenuActivity extends AppCompatActivity {
                     }
                     JSONObject o = new JSONObject();
                     o.put("Msg", "choose_items");
+                    o.put("dbName", dbName);
                     serverService.sendMessage(o.toString());
                 } else if(msg.equals("choose_items")) {
                     JSONArray items = objects.getJSONArray(1);
@@ -384,6 +444,7 @@ public class MenuActivity extends AppCompatActivity {
                     }
                     JSONObject o = new JSONObject();
                     o.put("Msg", "without_items");
+                    o.put("dbName", dbName);
                     serverService.sendMessage(o.toString());
                 } else if(msg.equals("without_items")) {
                     JSONArray items = objects.getJSONArray(1);
@@ -432,6 +493,10 @@ public class MenuActivity extends AppCompatActivity {
                         {
                             ((ProfileFragment)currentFragment).UserUpdate(userUpdated, message);
                         }
+                    } else if(msg.getString("Msg").equals("registered_shops")) {
+                        if(currentFragment instanceof ShopTypeFragment) {
+                            ((ShopTypeFragment)currentFragment).loadShops(msg);
+                        }
                     }
                 } catch (JSONException e1) {
                     e1.printStackTrace();
@@ -468,6 +533,33 @@ public class MenuActivity extends AppCompatActivity {
         if(currentFragment instanceof MenuFragment || loadProfile)
             super.onBackPressed();
         else
-            LoadHome(true);
+        {
+            loadShopTypes();
+            try {
+                JSONObject msg = new JSONObject();
+                msg.put("Msg", "get_shops");
+                serverService.sendMessage(msg.toString());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            setTitle(getString(R.string.home));
+        }
+
     }
+
+    public void changeLang(Context context, String lang) {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString("Language", lang);
+        editor.apply();
+    }
+    @Override
+    protected void attachBaseContext(Context newBase) {
+
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(newBase);
+        language = preferences.getString("Language", "en");
+
+        super.attachBaseContext(MyContextWrapper.wrap(newBase, language));
+    }
+
 }

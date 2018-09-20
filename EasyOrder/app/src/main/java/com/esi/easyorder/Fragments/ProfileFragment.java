@@ -3,6 +3,7 @@ package com.esi.easyorder.Fragments;
 import android.Manifest;
 import android.animation.Animator;
 
+import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -16,7 +17,6 @@ import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.CardView;
 import android.util.Log;
@@ -62,7 +62,7 @@ import mehdi.sakout.fancybuttons.FancyButton;
  * Created by Server on 12/04/2018.
  */
 
-public class ProfileFragment extends Fragment {
+public class ProfileFragment extends android.support.v4.app.Fragment {
     public MenuActivity menuActivity;
     SharedPreferences pref;
     SharedPreferences.Editor editor;
@@ -113,17 +113,20 @@ public class ProfileFragment extends Fragment {
         getLocation = view.findViewById(R.id.getLocation);
         pref = getActivity().getSharedPreferences("global",0);
         editor = pref.edit();
-        final String userString = PreferenceManager.getDefaultSharedPreferences(menuActivity).getString("user", "");
-        if(!userString.equals(""))
-        {
-            user = new User();
-            user.Deseralize(userString);
-            username.setText(user.username);
-            email.setText(user.Email);
-            address.setText(user.Address);
-            phone.setText(user.Telephone);
-            menuActivity.setTitle(user.username + getString(R.string.menuprofile));
+        if (menuActivity != null) {
+            final String userString = PreferenceManager.getDefaultSharedPreferences(menuActivity).getString("user", "");
+            if(!userString.equals(""))
+            {
+                user = new User();
+                user.Deseralize(userString);
+                username.setText(user.username);
+                email.setText(user.Email);
+                address.setText(user.Address);
+                phone.setText(user.Telephone);
+                menuActivity.setTitle(user.username + getString(R.string.menuprofile));
+            }
         }
+
         changePassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -468,10 +471,12 @@ public class ProfileFragment extends Fragment {
             JSONObject msg = new JSONObject();
             try {
                 msg.put("Msg", "update_user");
+
                 msg.put("change_type", "password");
                 msg.put("user_id", user.ID);
                 msg.put("new_password", newpassword);
                 menuActivity.serverService.sendMessage(msg.toString());
+
             } catch (JSONException e) {
                 e.printStackTrace();
             } catch (IOException e) {
@@ -542,6 +547,16 @@ public class ProfileFragment extends Fragment {
                     if(isChangeAddress){
                         try {
                             menuActivity.serverService.sendMessage(icart);
+                            Order order = new Order();
+                            ActiveCart cart = new ActiveCart();
+                            cart.deserialize(getActivity().getIntent().getStringExtra("active_cart"));
+                            order.cartOrder = cart;
+                            order.viewd = false;
+                            order.ID = 1;
+                            order.OrderAddress = user.Address;
+                            user.Orders.add(order);
+                            PreferenceManager.getDefaultSharedPreferences(getActivity()).edit().remove("user").apply();
+                            PreferenceManager.getDefaultSharedPreferences(getActivity()).edit().putString("user", user.toObject().toString()).apply();
                             editor.remove("cart");
                             editor.apply();
                         } catch (IOException e) {

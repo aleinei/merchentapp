@@ -1,14 +1,18 @@
 package com.esi.easyorder.Fragments;
 
+import android.app.Fragment;
 import android.content.Context;
+import android.content.ContextWrapper;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 
-import android.support.v4.app.Fragment;
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.esi.easyorder.MyContextWrapper;
 import com.esi.easyorder.R;
 
 /**
@@ -19,7 +23,10 @@ import com.esi.easyorder.R;
  * Use the {@link AboutFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class AboutFragment extends Fragment {
+public class AboutFragment extends android.support.v4.app.Fragment {
+    SharedPreferences pref;
+    String language;
+
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -60,6 +67,8 @@ public class AboutFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        pref = PreferenceManager.getDefaultSharedPreferences(getContext());
+        language = pref.getString("Language","en");
     }
 
     @Override
@@ -82,5 +91,13 @@ public class AboutFragment extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+
+    protected void attachBaseContext(Context newBase) {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(newBase);
+        language = preferences.getString("Language", "en");
+
+        attachBaseContext(MyContextWrapper.wrap(newBase, language));
     }
 }

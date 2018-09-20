@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="8dp">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/shop_name"
+        android:textColor="@android:color/black"
+        android:text="Shabarawi"
+        android:gravity="center"
+        android:textSize="18sp"
+        android:layout_marginBottom="10dp"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/shop_phone"
+        android:textColor="@android:color/black"
+        android:text="Phone: 01064671195"
+        android:gravity="center"
+        android:textSize="18sp"
+        android:layout_marginBottom="10dp"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/shop_address"
+        android:textColor="@android:color/black"
+        android:text="Address: احمد بن حنبل, الرحاب"
+        android:gravity="center"
+        android:textSize="18sp"
+        android:layout_marginBottom="10dp"/>
+
+
+</LinearLayout>

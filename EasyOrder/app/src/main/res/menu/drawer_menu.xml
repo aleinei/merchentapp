@@ -5,8 +5,9 @@
         <item android:id="@+id/Home" android:title="@string/home" android:icon="@drawable/ic_home_black_24dp" android:checked="true" />
         <item android:id="@+id/userOrders" android:title="@string/orders" android:icon="@drawable/ic_orders" />
         <item android:id="@+id/userSettings" android:title="@string/profile" android:icon="@drawable/ic_settings_black_24dp" />
+        <item android:id="@+id/lang" android:title="@string/lang" android:icon="@drawable/lang"/>
         <item android:id="@+id/about" android:title="@string/about" android:icon="@drawable/ic_info_black_24dp"/>
-        <item android:id="@+id/userLogout" android:title="@string/logout" android:icon="@drawable/ic_exit_to_app_black_24dp" />
+
     </group>
 
 </menu>

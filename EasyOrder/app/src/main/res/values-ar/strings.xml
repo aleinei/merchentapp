@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">فودزينا</string>
+    <string name="app_name">اوْمر</string>
     <string name="unitCurrency">جنيه لكل كجم</string>
     <string name="signup">انشاء حساب</string>
     <string name="signin">نسجيل الدخول</string>
@@ -42,6 +42,11 @@
     <string name="addressconfirmbody">سوف يتم التوصيل علي عنوانك الحالي، هل ترغب بتغيير العنوان؟</string>
     <string name="changeaddress">قم بتغيير العنوان</string>
     <string name="usecurrentaddress">استخدام العنوان الحالي</string>
+    <string name="lang">اللغة</string>
+
+
+    <string name="vegetables">خضار وفاكهة</string>
+    <string name="restaurants">مطاعم</string>
     <!--//profile strings.-->
     <string name="changeusernameemail">غير اسم المستخدم/البريد الالكتروني</string>
     <string name="changephone">غير رقم الهاتف</string>
@@ -86,5 +91,12 @@
     <string name="mStoreType">نوع المتجر</string>
     <string name="mStoreName">اسم المتجر</string>
 
-
+    <string name="arabic">عربي</string>
+    <string name="english">انجليزي</string>
+    <string name="types">انشطه</string>
+    <string name='shops'>المحلات</string>
+    <string name="clothes">ملابس</string>
+    <string name="markets">سوبر ماركت</string>
+    <string name="shop_phone">تليفون: %s</string>
+    <string name="shop_address">العنوان : %s</string>
 </resources>

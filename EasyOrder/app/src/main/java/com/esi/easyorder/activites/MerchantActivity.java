@@ -5,10 +5,12 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.IBinder;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -22,6 +24,7 @@ import android.widget.Toast;
 import android.widget.Toolbar;
 
 import com.dd.processbutton.iml.ActionProcessButton;
+import com.esi.easyorder.MyContextWrapper;
 import com.esi.easyorder.R;
 import com.esi.easyorder.ServerMessage;
 import com.esi.easyorder.services.ServerService;
@@ -53,7 +56,8 @@ public class MerchantActivity extends AppCompatActivity {
     EditText mStoreName;
     FancyButton registerButton;
     ActionProcessButton locateMe;
-
+    SharedPreferences pref;
+    String language;
 
     boolean located;
     Location location;
@@ -63,7 +67,8 @@ public class MerchantActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_merchant);
-
+        pref = PreferenceManager.getDefaultSharedPreferences(this);
+        language = pref.getString("Language","en");
         mName = findViewById(R.id.mName);
         mPhoneNumber = findViewById(R.id.mPhoneNumber);
         mCity = findViewById(R.id.mCity);
@@ -224,5 +229,12 @@ public class MerchantActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
         }
+    }
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(newBase);
+        language = preferences.getString("Language", "en");
+
+        super.attachBaseContext(MyContextWrapper.wrap(newBase, language));
     }
 }

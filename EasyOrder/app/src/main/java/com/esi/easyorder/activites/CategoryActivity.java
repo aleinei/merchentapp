@@ -1,10 +1,12 @@
 package com.esi.easyorder.activites;
 
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.os.IBinder;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -20,8 +22,10 @@ import android.widget.Toast;
 
 import com.esi.easyorder.ActiveCart;
 import com.esi.easyorder.Adapters.CategoryAdapter;
+import com.esi.easyorder.Category;
 import com.esi.easyorder.Item;
 import com.esi.easyorder.MenuData;
+import com.esi.easyorder.MyContextWrapper;
 import com.esi.easyorder.R;
 import com.esi.easyorder.ServerMessage;
 import com.esi.easyorder.services.ServerService;
@@ -30,9 +34,10 @@ import com.github.clans.fab.FloatingActionButton;
 import java.util.ArrayList;
 
 public class CategoryActivity extends AppCompatActivity {
+
     ServerService serverService;
     boolean mBound = false;
-    MenuData menuData;
+    Category menuData;
     RecyclerView gridView;
     GridLayoutManager layoutManager;
     CategoryAdapter gridAdapter;
@@ -43,19 +48,20 @@ public class CategoryActivity extends AppCompatActivity {
     SharedPreferences pref;
     SharedPreferences.Editor editor;
     String menu;
+    String language;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_category);
+        pref = PreferenceManager.getDefaultSharedPreferences(this);
+        language = pref.getString("Language","en");
         gridView = findViewById(R.id.categoryGrid);
         layoutManager = new GridLayoutManager(this, 2);
         gridView.setLayoutManager(layoutManager);
         cartConfirm = findViewById(R.id.confirmCart);
         cartConfirm.setVisibility(View.GONE);
-        menu = getIntent().getStringExtra("menuData");
-        menuData = new MenuData();
-        int section_id = getIntent().getIntExtra("sectionId", 0);
-        int category_id = getIntent().getIntExtra("categoryId", 0);
+        menu = getIntent().getStringExtra("category");
+        menuData = new Category();
         Toolbar toolbar = findViewById(R.id.customActionbar);
         setSupportActionBar(toolbar);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -69,9 +75,7 @@ public class CategoryActivity extends AppCompatActivity {
         editor = pref.edit();
         if(menu != null) {
             menuData.deserialize(menu);
-            sectionId = section_id;
-            categoryId = category_id;
-            setTitle(menuData.Sections.get(sectionId).categories.get(categoryId).name);
+            setTitle(menuData.name);
         }
         cartItems = new ArrayList<>();
 
@@ -128,7 +132,7 @@ public class CategoryActivity extends AppCompatActivity {
     }
 
     private void LoadItems() {
-        gridAdapter = new CategoryAdapter(this, menuData, sectionId, categoryId);
+        gridAdapter = new CategoryAdapter(this, menuData);
         gridView.setAdapter(gridAdapter);
     }
     @Override
@@ -194,5 +198,12 @@ public class CategoryActivity extends AppCompatActivity {
             }
         }
 
+    }
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(newBase);
+        language = preferences.getString("Language", "en");
+
+        super.attachBaseContext(MyContextWrapper.wrap(newBase, language));
     }
 }

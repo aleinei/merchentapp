@@ -1,6 +1,9 @@
 package com.esi.easyorder.Fragments;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -14,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.esi.easyorder.Adapters.MenuReycleAdapter;
+import com.esi.easyorder.MyContextWrapper;
 import com.esi.easyorder.R;
 import com.esi.easyorder.activites.MenuActivity;
 
@@ -25,9 +29,13 @@ public class MenuFragment extends Fragment {
     LinearLayout gridViewLayout;
     LinearLayout loadingStart;
     boolean loaded = false;
+    SharedPreferences pref;
+    String language;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        pref = PreferenceManager.getDefaultSharedPreferences(getContext());
+        language  = pref.getString("Language","en");
         View view = inflater.inflate(R.layout.menu_layout, null);
         loadingStart = view.findViewById(R.id.loadingStart);
         gridViewLayout = view.findViewById(R.id.menuGridLayout);
@@ -62,5 +70,11 @@ public class MenuFragment extends Fragment {
         recyclerView.setAdapter(adapter);
         gridViewLayout.addView(recyclerView);
         loadingStart.setVisibility(View.GONE);
+    }
+    protected void attachBaseContext(Context newBase) {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(newBase);
+        language = preferences.getString("Language", "en");
+
+        attachBaseContext(MyContextWrapper.wrap(newBase, language));
     }
 }

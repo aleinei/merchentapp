@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 
 import com.esi.easyorder.MenuData;
 import com.esi.easyorder.R;
+import com.esi.easyorder.Section;
 import com.esi.easyorder.ViewHolders.SectionViewHolder;
 import com.esi.easyorder.activites.CategoryActivity;
 
@@ -22,13 +23,12 @@ import com.esi.easyorder.activites.CategoryActivity;
 
 public class SectionReycleAdapter extends RecyclerView.Adapter<SectionViewHolder> {
     Context context;
-    MenuData data;
+    Section data;
     int SectionID;
     String UIType;
-    public SectionReycleAdapter(Context context, MenuData data, int id) {
+    public SectionReycleAdapter(Context context, Section data) {
         this.context = context;
         this.data = data;
-        this.SectionID = id;
         UIType = PreferenceManager.getDefaultSharedPreferences(context).getString("uiType", "textandpictures");
     }
 
@@ -40,23 +40,23 @@ public class SectionReycleAdapter extends RecyclerView.Adapter<SectionViewHolder
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final SectionViewHolder holder, @SuppressLint("RecyclerView") int position) {
+    public void onBindViewHolder(@NonNull final SectionViewHolder holder, @SuppressLint("RecyclerView") final int position) {
         final int pos = position;
-        holder.textView.setText(data.Sections.get(SectionID).categories.get(position).name);
+        holder.textView.setText(data.categories.get(position).name);
         holder.sectionID = SectionID;
         holder.categoryID = position;
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent categoryActivity = new Intent(context, CategoryActivity.class);
-                categoryActivity.putExtra("menuData", data.toString());
+                categoryActivity.putExtra("category", data.categories.get(position).toString());
                 categoryActivity.putExtra("sectionId", SectionID);
                 categoryActivity.putExtra("categoryId", pos);
                 context.startActivity(categoryActivity);
             }
         });
         if(UIType.equals("textandpictures") || UIType.equals("pictures"))
-            holder.image.setImageURL(data.Sections.get(SectionID).categories.get(position).category_url);
+            holder.image.setImageURL(data.categories.get(position).category_url);
         else if(UIType.equals("text"))
             holder.image.setVisibility(View.GONE);
         if(UIType.equals("pictures"))
@@ -65,7 +65,7 @@ public class SectionReycleAdapter extends RecyclerView.Adapter<SectionViewHolder
 
     @Override
     public int getItemCount() {
-        return data.Sections.get(SectionID).categories.size();
+        return data.categories.size();
     }
 }
 

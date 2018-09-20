@@ -1,14 +1,23 @@
 package com.esi.easyorder.activites;
 
+import android.support.v4.app.Fragment;
+import com.esi.easyorder.Fragments.ShopTypeFragment;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.Menu;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.TextView;
 
 import com.esi.easyorder.Adapters.CartAdapter;
+import com.esi.easyorder.MyContextWrapper;
 import com.esi.easyorder.Order;
 import com.esi.easyorder.R;
 
@@ -18,10 +27,14 @@ public class ViewOrderActivity extends AppCompatActivity {
     TextView orderPrice;
     EditText orderAddress;
     GridView gridView;
+    String language;
+    SharedPreferences pref;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_order);
+        pref = PreferenceManager.getDefaultSharedPreferences(this);
+        language = pref.getString("Language","en");
         orderName = findViewById(R.id.orderName);
         orderAddress = findViewById(R.id.deliveryAddress);
         gridView = findViewById(R.id.cartGridView);
@@ -47,5 +60,15 @@ public class ViewOrderActivity extends AppCompatActivity {
             gridView.setAdapter(adapter);
             orderPrice.setText(String.valueOf(order1.cartOrder.cost));
         }
+    }
+
+
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(newBase);
+        language = preferences.getString("Language", "en");
+
+        super.attachBaseContext(MyContextWrapper.wrap(newBase, language));
     }
 }

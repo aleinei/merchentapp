@@ -1,9 +1,12 @@
 package com.esi.easyorder.activites;
 
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.content.SharedPreferences;
 import android.os.IBinder;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -20,25 +23,28 @@ import android.widget.Toast;
 import com.esi.easyorder.Adapters.SectionAdapter;
 import com.esi.easyorder.Adapters.SectionReycleAdapter;
 import com.esi.easyorder.MenuData;
+import com.esi.easyorder.MyContextWrapper;
 import com.esi.easyorder.R;
 import com.esi.easyorder.Section;
 import com.esi.easyorder.ServerMessage;
 import com.esi.easyorder.services.ServerService;
 
 public class SectionActivity extends AppCompatActivity {
-
-    MenuData menuData;
+    SharedPreferences pref;
+    Section menuData;
     GridView gridView;
     LinearLayout gridViewLayout;
     SectionAdapter adapter;
     ServerService serverService;
     boolean mBound = false;
+    String language;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_section);
+        pref = PreferenceManager.getDefaultSharedPreferences(this);
+        language = pref.getString("Language","en");
         String menu = getIntent().getStringExtra("menuData");
-        int section_id = getIntent().getIntExtra("sectionId", 0);
         gridViewLayout = findViewById(R.id.sectionGrid);
         Toolbar toolbar = findViewById(R.id.customActionbar);
         setSupportActionBar(toolbar);
@@ -50,10 +56,10 @@ public class SectionActivity extends AppCompatActivity {
         });
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         if(menu != null) {
-            menuData = new MenuData();
-            menuData.deserialize(menu);
-            setTitle(menuData.Sections.get(section_id).name);
-            loadCategories(section_id);
+            menuData = new Section();
+            menuData.deseralize(menu);
+            setTitle(menuData.name);
+            loadCategories();
         }
     }
     @Override
@@ -96,45 +102,26 @@ public class SectionActivity extends AppCompatActivity {
         }
     };
 
-    private void loadCategories(final int sectionId) {
-        if(menuData != null && menuData.Sections != null) {
-            Section s = menuData.Sections.get(sectionId);
-           if(s == null) Toast.makeText(getApplicationContext(), "s is null", Toast.LENGTH_SHORT).show();
-            else {
-               /* adapter = new SectionAdapter(this, s);
-                gridView.setAdapter(adapter);
-                gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                        Intent categoryActivity = new Intent(SectionActivity.this, CategoryActivity.class);
-                        categoryActivity.putExtra("menuData", menuData.toString());
-                        categoryActivity.putExtra("sectionId", sectionId);
-                        categoryActivity.putExtra("categoryId", i);
-                        startActivity(categoryActivity);
-                    }
-                });*/
-               RecyclerView recyclerView = new RecyclerView(this);
-               recyclerView.setHasFixedSize(true);
-               StaggeredGridLayoutManager lm = new StaggeredGridLayoutManager(2,1);
-               GridLayoutManager lm2 = new GridLayoutManager(this, 8);
-               lm2.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
-                   @Override
-                   public int getSpanSize(int position) {
-                       if(menuData.Sections.get(sectionId).categories.size() <= 4)
-                           return 8;
-                       if(position % 5 == 0)
-                           return 8;
-                       else
-                           return 4;
-                   }
-               });
-               recyclerView.setLayoutManager(lm2);
-               SectionReycleAdapter adapter = new SectionReycleAdapter(this, menuData, sectionId);
-               recyclerView.setAdapter(adapter);
-               gridViewLayout.addView(recyclerView);
-                //Toast.makeText(getApplicationContext(), "DONE " + s.name, Toast.LENGTH_SHORT).show();
+    private void loadCategories() {
+        RecyclerView recyclerView = new RecyclerView(this);
+        recyclerView.setHasFixedSize(true);
+        StaggeredGridLayoutManager lm = new StaggeredGridLayoutManager(2,1);
+        GridLayoutManager lm2 = new GridLayoutManager(this, 8);
+        lm2.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+            @Override
+            public int getSpanSize(int position) {
+                if(menuData.categories.size() <= 4)
+                    return 8;
+                if(position % 5 == 0)
+                    return 8;
+                else
+                    return 4;
             }
-        }
+        });
+        recyclerView.setLayoutManager(lm2);
+        SectionReycleAdapter adapter = new SectionReycleAdapter(this, menuData);
+        recyclerView.setAdapter(adapter);
+        gridViewLayout.addView(recyclerView);
     }
 
     private class HandleMessage implements ServerMessage, Runnable {
@@ -154,4 +141,12 @@ public class SectionActivity extends AppCompatActivity {
         super.onDestroy();
         unbindService(mConnection);
     }
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(newBase);
+        language = preferences.getString("Language", "en");
+
+        super.attachBaseContext(MyContextWrapper.wrap(newBase, language));
+    }
+
 }

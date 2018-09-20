@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/shoptypeparent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:padding="6dp">
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="10dp">
+            <android.support.design.widget.CoordinatorLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:id="@+id/shoptypelayout"
+                android:layout_margin="1dp">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="150dp"
+                    android:src="@drawable/vegetables"
+                    android:scaleType="centerCrop"
+                    android:id="@+id/shoptypeimage"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:background="#5634495e">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Vegetables"
+                        android:textSize="30sp"
+                        android:gravity="center"
+                        android:textColor="#fff"
+                        android:id="@+id/shoptypename"/>
+                </LinearLayout>
+
+                <ImageButton
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:layout_gravity="end"
+                    android:src="@drawable/ic_info_outline_black_24dp"
+                    android:background="@android:color/transparent"
+                    android:tint="#ffffff"
+                    android:layout_margin="8dp"
+                    android:id="@+id/shop_info"
+                    android:scaleType="fitCenter"/>
+            </android.support.design.widget.CoordinatorLayout>
+        </android.support.v7.widget.CardView>
+    </LinearLayout>

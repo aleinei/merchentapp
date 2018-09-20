@@ -36,6 +36,7 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.dd.processbutton.iml.ActionProcessButton;
 import com.esi.easyorder.ActiveCart;
 import com.esi.easyorder.Item;
+import com.esi.easyorder.MyContextWrapper;
 import com.esi.easyorder.Order;
 import com.esi.easyorder.R;
 import com.esi.easyorder.ServerMessage;
@@ -73,7 +74,8 @@ public class RegisterActivity extends AppCompatActivity {
 
 
 
-
+    SharedPreferences pref;
+    String language;
     ServerService serverService;
     boolean mBound = false;
     EditText username;
@@ -98,6 +100,8 @@ public class RegisterActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.register_activity);
+        pref = PreferenceManager.getDefaultSharedPreferences(this);
+        language = pref.getString("Language","en");
         username = findViewById(R.id.usernameField);
         password = findViewById(R.id.passwordField);
         phone = findViewById(R.id.phoneField);
@@ -355,7 +359,13 @@ public class RegisterActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(newBase);
+        language = preferences.getString("Language", "en");
 
+        super.attachBaseContext(MyContextWrapper.wrap(newBase, language));
+    }
 
 
 

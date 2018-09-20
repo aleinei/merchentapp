@@ -8,9 +8,9 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@drawable/lettuce"
+        android:icon="@drawable/appicon"
         android:label="@string/app_name"
-        android:roundIcon="@drawable/lettuce"
+        android:roundIcon="@drawable/appicon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".activites.MainActivity">
@@ -32,8 +32,8 @@
         <activity android:name=".activites.SettingsActivity" />
         <activity android:name=".activites.ViewOrderActivity" />
         <activity android:name=".activites.MerchantActivity" />
-        <activity android:name=".activites.ShopType" />
-        <activity android:name=".activites.Shops"></activity>
+        <activity android:name=".activites.ShopTypeActivity" />
+        <activity android:name=".activites.ShopsActivity"></activity>
     </application>
 
 </manifest>

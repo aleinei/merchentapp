@@ -3,6 +3,7 @@ package com.esi.easyorder.Adapters;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -18,8 +19,10 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.esi.easyorder.Category;
 import com.esi.easyorder.Item;
 import com.esi.easyorder.MenuData;
+import com.esi.easyorder.MyContextWrapper;
 import com.esi.easyorder.R;
 import com.esi.easyorder.activites.CategoryActivity;
 import com.esi.easyorder.activites.ItemActivity;
@@ -36,21 +39,22 @@ import pl.polidea.webimageview.WebImageView;
  */
 
 public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ItemViewHolder> {
-    MenuData data;
+    Category data;
     LayoutInflater inflater;
     Context context;
     int sectionId;
     int categoryId;
     boolean usePhoto;
     String UIType;
+    SharedPreferences pref;
+    String language;
 
-    public CategoryAdapter(Context context, MenuData data, int sId, int catId) {
-
+    public CategoryAdapter(Context context, Category data) {
+        pref = PreferenceManager.getDefaultSharedPreferences(context);
+        language=pref.getString("Language","ar");
         this.context = context;
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.data = data;
-        sectionId = sId;
-        categoryId = catId;
         usePhoto = PreferenceManager.getDefaultSharedPreferences(context).getBoolean("usePhoto", true);
         UIType = PreferenceManager.getDefaultSharedPreferences(context).getString("uiType", "textandpictures");
     }
@@ -64,12 +68,12 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ItemVi
     @Override
     public void onBindViewHolder(ItemViewHolder holder,  int position) {
         final int pos = position;
-        holder.bind(data.Sections.get(sectionId).categories.get(categoryId).items.get(position));
+        holder.bind(data.items.get(position));
         holder.image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent itemActivity = new Intent(context, ItemActivity.class);
-                itemActivity.putExtra("item", data.Sections.get(sectionId).categories.get(categoryId).items.get(pos).toObject().toString());
+                itemActivity.putExtra("item", data.items.get(pos).toObject().toString());
                 context.startActivity(itemActivity);
             }
         });
@@ -78,12 +82,12 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ItemVi
 
     @Override
     public long getItemId(int i) {
-        return data.Sections.get(sectionId).categories.get(categoryId).items.get(i).id;
+        return data.items.get(i).id;
     }
 
     @Override
     public int getItemCount() {
-        return data.Sections.get(sectionId).categories.get(categoryId).items.size();
+        return data.items.size();
     }
 
     public class ItemViewHolder extends RecyclerView.ViewHolder {
@@ -124,5 +128,14 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ItemVi
 
             }
 
+
     }
+
+    protected void attachBaseContext(Context newBase) {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(newBase);
+        language = preferences.getString("Language", "en");
+
+        attachBaseContext(MyContextWrapper.wrap(newBase, language));
+    }
+
 }
