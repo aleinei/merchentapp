@@ -287,33 +287,6 @@ public class MainActivity extends AppCompatActivity {
                     user.location.setLatitude(msg.getDouble("lat"));
                     user.location.setLongitude(msg.getDouble("long"));
                     user.Password = msg.getString("pass");
-                    JSONArray orders = msg.getJSONArray("orders");
-                    ArrayList<Order> ordersList = new ArrayList<>();
-                    for(int i = 0; i < orders.length(); i++)
-                    {
-                        JSONObject orderObject = orders.getJSONObject(i);
-                        Order order = new Order();
-                        order.ID = orderObject.getInt("id");
-                        order.viewd = orderObject.getBoolean("viewed");
-                        order.delivered = orderObject.getBoolean("delievered");
-                        order.OrderAddress = user.Address;
-                        JSONArray items = orderObject.getJSONArray("items");
-                        ActiveCart cart = new ActiveCart();
-                        for(int y = 0; y < items.length(); y++)
-                        {
-                            JSONObject item = items.getJSONObject(y);
-                            String name = item.getString("name");
-                            double price = item.getDouble("price");
-                            double qty = item.getDouble("qty");
-                            Item it = new Item(name, price, -1, "");
-                            it.qty = Math.abs(qty);
-                            cart.addItem(it);
-                            Log.d("Loaded item", "Loaded");
-                        }
-                        order.cartOrder = cart;
-                        ordersList.add(order);
-                    }
-                    user.Orders = ordersList;
                     ed.putString("user", user.toObject().toString());
                     ed.putBoolean("logged", true);
                     ed.apply();

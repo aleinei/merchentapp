@@ -157,11 +157,6 @@ public class RegisterActivity extends AppCompatActivity {
                         Toast.makeText(RegisterActivity.this, "Password doesn't match", Toast.LENGTH_SHORT).show();
                         return;
                     }
-                    if(name.contains(" "))
-                    {
-                        Toast.makeText(RegisterActivity.this, "Username can not contain spaces, please remove it to continue", Toast.LENGTH_SHORT).show();
-                        return;
-                    }
                     if(!locationLocated)
                     {
                         Toast.makeText(RegisterActivity.this, "Please Click on locate me to be locate your current address", Toast.LENGTH_SHORT).show();

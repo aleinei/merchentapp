@@ -306,6 +306,7 @@ public class CartActivity extends AppCompatActivity {
                                     JSONObject cart = new JSONObject();
                                     try {
                                         cart.put("Msg", "new_order_d");
+                                        cart.put("dbName", PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString("dbName", ""));
                                         cart.put("user_id", Id);
                                         cart.put("takeaway", true);
                                         JSONArray items = new JSONArray();

@@ -61,6 +61,7 @@ public class ShopTypeFragment extends android.support.v4.app.Fragment {
     ShopsSection markets = new ShopsSection();
     Toolbar customBar;
     User user;
+    boolean loadProfile = false;
 
     public ShopTypeFragment() {
         // Required empty public constructor
@@ -73,7 +74,6 @@ public class ShopTypeFragment extends android.support.v4.app.Fragment {
         // Inflate the layout for this fragment
         final View view = inflater.inflate(R.layout.fragment_shop_type, container, false);
         recyclerView = view.findViewById(R.id.shoptyperecy);
-
 
         //shtoptype code starts here
         String userString = PreferenceManager.getDefaultSharedPreferences(getContext()).getString("user", "");
@@ -119,9 +119,9 @@ public class ShopTypeFragment extends android.support.v4.app.Fragment {
                    float[] distances = new float[3];
                    Location.distanceBetween(lat, longt, user.location.getLatitude(), user.location.getLongitude(), distances);
                    float distance = distances[0] / 1000;
-                   if(distance > 10.0) {
+                   /*if(distance > 50.0) {
                        continue;
-                   }
+                   }*/
                }
                //String img="http://185.181.10.83/Pictures/Merchants"+shop.getName();
 
@@ -162,6 +162,7 @@ public class ShopTypeFragment extends android.support.v4.app.Fragment {
             Intent service = new Intent(getContext(), ServerService.class);
             //getActivity().bindService(service, mConnection, BIND_AUTO_CREATE);
         }
+
     }
 
     @Override

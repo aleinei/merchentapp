@@ -562,7 +562,8 @@ public class ProfileFragment extends android.support.v4.app.Fragment {
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
-                        isChangeAddress = false; }
+                        isChangeAddress = false;
+                    }
             }
             if(isChangingPhone)
             {
@@ -572,6 +573,7 @@ public class ProfileFragment extends android.support.v4.app.Fragment {
             ToggleControls(false);
 
 
+            PreferenceManager.getDefaultSharedPreferences(getActivity()).edit().putString("user", user.toString()).apply();
 
         }
         else

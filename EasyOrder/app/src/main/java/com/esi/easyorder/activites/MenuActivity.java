@@ -155,12 +155,14 @@ public class MenuActivity extends AppCompatActivity {
             email.setText(currentUser.Email);
         }
          loadProfile = getIntent().getBooleanExtra("load_profile", false);
-        if(!loadProfile)
-            loadShopTypes();
-        else {
+        if(loadProfile) {
+            Log.d("LoadProfile: ", String.valueOf(loadProfile));
             currentFragment = new ProfileFragment();
-            ((ProfileFragment)currentFragment).menuActivity = MenuActivity.this;
+            ((ProfileFragment) currentFragment).menuActivity = MenuActivity.this;
             getSupportFragmentManager().beginTransaction().replace(R.id.frameContent, currentFragment).commit();
+        }
+        else {
+            loadShopTypes();
         }
 
     }
@@ -186,7 +188,15 @@ public class MenuActivity extends AppCompatActivity {
                 LoadHome(true);
                 LoadMenudata();
                 setTitle(getString(R.string.menu));
-            } else {
+            }else if(loadProfile){
+                if(loadProfile) {
+                    Log.d("LoadProfile: ", String.valueOf(loadProfile));
+                    currentFragment = new ProfileFragment();
+                    ((ProfileFragment) currentFragment).menuActivity = MenuActivity.this;
+                    getSupportFragmentManager().beginTransaction().replace(R.id.frameContent, currentFragment).commit();
+                }
+            }
+            else {
                 loadShopTypes();
                 try {
                     JSONObject msg = new JSONObject();
@@ -531,6 +541,8 @@ public class MenuActivity extends AppCompatActivity {
             return;
         }
         if(currentFragment instanceof MenuFragment || loadProfile)
+            super.onBackPressed();
+        if(currentFragment instanceof  ShopTypeFragment)
             super.onBackPressed();
         else
         {
