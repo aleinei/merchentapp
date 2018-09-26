@@ -93,6 +93,7 @@ public class ProfileFragment extends android.support.v4.app.Fragment {
     boolean isChangeAddress = false;
     ActionProcessButton getLocation;
     User user = null;
+    String language;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
@@ -115,6 +116,7 @@ public class ProfileFragment extends android.support.v4.app.Fragment {
         actionMenu = view.findViewById(R.id.fab_menu);
         getLocation = view.findViewById(R.id.getLocation);
         pref = getActivity().getSharedPreferences("global",0);
+        language = PreferenceManager.getDefaultSharedPreferences(getActivity()).getString("Language","ar");
         editor = pref.edit();
         if (menuActivity != null) {
             final String userString = PreferenceManager.getDefaultSharedPreferences(menuActivity).getString("user", "");
@@ -363,7 +365,8 @@ public class ProfileFragment extends android.support.v4.app.Fragment {
                         new Thread(new Runnable() {
                             @Override
                             public void run() {
-                                String uri = String.format(Locale.ENGLISH, "https://maps.googleapis.com/maps/api/geocode/json?latlng="+location.getLatitude()+","+location.getLongitude()+"&key=AIzaSyAVA0pPuqzogG_SXD8yhRDKkSPSmNgyBhc");
+                                Log.d("language ", language);
+                                String uri = String.format("https://maps.googleapis.com/maps/api/geocode/json?latlng="+location.getLatitude()+","+location.getLongitude()+"&language="+language+"&key=AIzaSyAVA0pPuqzogG_SXD8yhRDKkSPSmNgyBhc");
                                 OkHttpClient client = new OkHttpClient();
                                 Request request = new Request.Builder().url(uri).build();
                                 Response response = null;

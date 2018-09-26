@@ -101,7 +101,7 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.register_activity);
         pref = PreferenceManager.getDefaultSharedPreferences(this);
-        language = pref.getString("Language","en");
+        language = pref.getString("Language","ar");
         username = findViewById(R.id.usernameField);
         password = findViewById(R.id.passwordField);
         phone = findViewById(R.id.phoneField);
@@ -239,7 +239,7 @@ public class RegisterActivity extends AppCompatActivity {
                         new Thread(new Runnable() {
                             @Override
                             public void run() {
-                                String uri = String.format(Locale.ENGLISH, "https://maps.googleapis.com/maps/api/geocode/json?latlng="+location.getLatitude()+","+location.getLongitude()+"&key=AIzaSyAVA0pPuqzogG_SXD8yhRDKkSPSmNgyBhc");
+                                String uri = String.format("https://maps.googleapis.com/maps/api/geocode/json?latlng="+location.getLatitude()+","+location.getLongitude()+"&language="+language+"&key=AIzaSyAVA0pPuqzogG_SXD8yhRDKkSPSmNgyBhc");
                                 OkHttpClient client = new OkHttpClient();
                                 Request request = new Request.Builder().url(uri).build();
                                 Response response = null;
@@ -358,7 +358,7 @@ public class RegisterActivity extends AppCompatActivity {
     @Override
     protected void attachBaseContext(Context newBase) {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(newBase);
-        language = preferences.getString("Language", "en");
+        language = preferences.getString("Language", "ar");
 
         super.attachBaseContext(MyContextWrapper.wrap(newBase, language));
     }

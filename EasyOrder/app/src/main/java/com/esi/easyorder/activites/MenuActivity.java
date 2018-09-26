@@ -79,7 +79,7 @@ public class MenuActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
         pref = PreferenceManager.getDefaultSharedPreferences(this);
-        language = pref.getString("Language","en");
+        language = pref.getString("Language","ar");
         menuData = new MenuData();
         serverIP = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString("IPAddress", "185.181.10.83");
         toolbar = findViewById(R.id.customActionbar);
@@ -574,7 +574,7 @@ public class MenuActivity extends AppCompatActivity {
     protected void attachBaseContext(Context newBase) {
 
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(newBase);
-        language = preferences.getString("Language", "en");
+        language = preferences.getString("Language", "ar");
 
         super.attachBaseContext(MyContextWrapper.wrap(newBase, language));
     }

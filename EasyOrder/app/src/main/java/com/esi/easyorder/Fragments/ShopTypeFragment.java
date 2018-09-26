@@ -260,7 +260,7 @@ public class ShopTypeFragment extends android.support.v4.app.Fragment {
 
     protected void attachBaseContext(Context newBase) {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(newBase);
-        language = preferences.getString("Language", "en");
+        language = preferences.getString("Language", "ar");
 
         attachBaseContext(MyContextWrapper.wrap(newBase, language));
     }

@@ -83,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         pref = PreferenceManager.getDefaultSharedPreferences(this);
-        language = pref.getString("Language","en");
+        language = pref.getString("Language","ar");
         locale = new Locale(language);
 
         b = findViewById(R.id.signin);
@@ -368,7 +368,7 @@ public class MainActivity extends AppCompatActivity {
     protected void attachBaseContext(Context newBase) {
 
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(newBase);
-        language = preferences.getString("Language", "en");
+        language = preferences.getString("Language", "ar");
 
         super.attachBaseContext(MyContextWrapper.wrap(newBase, language));
     }

@@ -68,7 +68,7 @@ public class ShopTypeActivity extends AppCompatActivity {
             user.Deseralize(userString);
         }
         pref = PreferenceManager.getDefaultSharedPreferences(this);
-        language = pref.getString("Language","en");
+        language = pref.getString("Language","ar");
 
         LinearLayoutManager manager = new LinearLayoutManager(this);
         manager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -231,7 +231,7 @@ public class ShopTypeActivity extends AppCompatActivity {
     @Override
     protected void attachBaseContext(Context newBase) {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(newBase);
-        language = preferences.getString("Language", "en");
+        language = preferences.getString("Language", "ar");
 
         super.attachBaseContext(MyContextWrapper.wrap(newBase, language));
     }

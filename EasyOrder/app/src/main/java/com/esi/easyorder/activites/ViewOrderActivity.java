@@ -34,7 +34,7 @@ public class ViewOrderActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_order);
         pref = PreferenceManager.getDefaultSharedPreferences(this);
-        language = pref.getString("Language","en");
+        language = pref.getString("Language","ar");
         orderName = findViewById(R.id.orderName);
         orderAddress = findViewById(R.id.deliveryAddress);
         gridView = findViewById(R.id.cartGridView);
@@ -67,8 +67,7 @@ public class ViewOrderActivity extends AppCompatActivity {
     @Override
     protected void attachBaseContext(Context newBase) {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(newBase);
-        language = preferences.getString("Language", "en");
-
+        language = preferences.getString("Language", "ar");
         super.attachBaseContext(MyContextWrapper.wrap(newBase, language));
     }
 }

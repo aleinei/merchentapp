@@ -102,7 +102,7 @@ public class ItemActivity extends AppCompatActivity {
         extraButton = findViewById(R.id.btnExtraItems);
         addButton = findViewById(R.id.btnAddItem);
         withoutButton = findViewById(R.id.btnWithouItem);
-        language = pref.getString("Language","en");
+        language = pref.getString("Language","ar");
 
 
         String item = getIntent().getExtras().getString("item");
@@ -558,8 +558,8 @@ public class ItemActivity extends AppCompatActivity {
     void updateCount(){
 
         if(isUsingKG) {
-            itemCount.setText(kgCount + " " + getString(R.string.kg));
-            gItemCount.setText(gCount + " " + getString(R.string.grams));
+            itemCount.setText((int)kgCount + " " + getString(R.string.kg));
+            gItemCount.setText((int)gCount + " " + getString(R.string.grams));
         } else{
             if(kgCount >1){
                 itemCount.setText((int)kgCount + " " + getString(R.string.units));
@@ -574,7 +574,7 @@ public class ItemActivity extends AppCompatActivity {
     @Override
     protected void attachBaseContext(Context newBase) {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(newBase);
-        language = preferences.getString("Language", "en");
+        language = preferences.getString("Language", "ar");
 
         super.attachBaseContext(MyContextWrapper.wrap(newBase, language));
     }

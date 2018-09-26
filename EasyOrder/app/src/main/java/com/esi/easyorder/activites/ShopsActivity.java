@@ -33,7 +33,7 @@ public class ShopsActivity extends AppCompatActivity {
         customBar = findViewById(R.id.customActionbar);
         setSupportActionBar(customBar);
         getSupportActionBar().setTitle(getString(R.string.shops));
-        language = pref.getString("Language","en");
+        language = pref.getString("Language","ar");
         String shop  = getIntent().getStringExtra("shop");
         ShopsSection shopsSection = new ShopsSection();
         shopsSection.toClass(shop);
@@ -47,7 +47,7 @@ public class ShopsActivity extends AppCompatActivity {
     @Override
     protected void attachBaseContext(Context newBase) {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(newBase);
-        language = preferences.getString("Language", "en");
+        language = preferences.getString("Language", "ar");
 
         super.attachBaseContext(MyContextWrapper.wrap(newBase, language));
     }
