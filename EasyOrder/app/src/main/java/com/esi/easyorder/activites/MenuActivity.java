@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.net.Uri;
+import android.os.Handler;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
@@ -51,9 +52,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class MenuActivity extends AppCompatActivity {
-    String LANG_CURRENT = "en";
     public ServerService serverService;
     boolean mBound = false;
     public boolean menuLoaded = false;
@@ -174,7 +176,9 @@ public class MenuActivity extends AppCompatActivity {
             Intent clientService = new Intent(this, ServerService.class);
             bindService(clientService, mConnection, BIND_AUTO_CREATE);
         }
+
     }
+
 
     private ServiceConnection mConnection = new ServiceConnection() {
         @Override
@@ -223,7 +227,6 @@ public class MenuActivity extends AppCompatActivity {
             unbindService(mConnection);
             mBound = false;
         }
-
     }
 
     public void loadShopTypes() {
@@ -300,6 +303,8 @@ public class MenuActivity extends AppCompatActivity {
             serverService.setMessage(new HandleMessage());
         }
     }
+
+
 
     class HandleMessage implements Runnable, ServerMessage {
 
@@ -573,5 +578,7 @@ public class MenuActivity extends AppCompatActivity {
 
         super.attachBaseContext(MyContextWrapper.wrap(newBase, language));
     }
+
+
 
 }

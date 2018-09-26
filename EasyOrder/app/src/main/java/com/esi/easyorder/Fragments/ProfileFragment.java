@@ -167,6 +167,7 @@ public class ProfileFragment extends android.support.v4.app.Fragment {
                 ToggleControls(false);
                 ToggleEmailNPassword(false);
                 ToggleAddress(false);
+                address.setText(user.Address);
                 TogglePhone(false);
             }
         });
@@ -326,6 +327,7 @@ public class ProfileFragment extends android.support.v4.app.Fragment {
                         Toast.makeText(menuActivity, "Please enter your new phone number!", Toast.LENGTH_SHORT).show();
                     }
                 }
+
             }
         });
         getLocation.setOnClickListener(new View.OnClickListener() {
@@ -451,6 +453,8 @@ public class ProfileFragment extends android.support.v4.app.Fragment {
         if(show)
         {
             addressLayout.setVisibility(View.VISIBLE);
+            address.setText("");
+
         }
         else
         {
@@ -555,8 +559,7 @@ public class ProfileFragment extends android.support.v4.app.Fragment {
                             order.ID = 1;
                             order.OrderAddress = user.Address;
                             user.Orders.add(order);
-                            PreferenceManager.getDefaultSharedPreferences(getActivity()).edit().remove("user").apply();
-                            PreferenceManager.getDefaultSharedPreferences(getActivity()).edit().putString("user", user.toObject().toString()).apply();
+
                             editor.remove("cart");
                             editor.apply();
                         } catch (IOException e) {
@@ -573,8 +576,8 @@ public class ProfileFragment extends android.support.v4.app.Fragment {
             ToggleControls(false);
 
 
-            PreferenceManager.getDefaultSharedPreferences(getActivity()).edit().putString("user", user.toString()).apply();
-
+            PreferenceManager.getDefaultSharedPreferences(getActivity()).edit().remove("user").apply();
+            PreferenceManager.getDefaultSharedPreferences(getActivity()).edit().putString("user", user.toObject().toString()).apply();
         }
         else
         {

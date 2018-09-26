@@ -5,6 +5,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
@@ -46,6 +48,7 @@ public class Item implements Serializable{
     public Item(String name, double price, int id, String image) {
         itemName = name;
         itemPrice = price;
+        itemPrice = round(itemPrice,2);
         this.id = id;
         imageURL = image;
         qty = 1;
@@ -186,5 +189,12 @@ public class Item implements Serializable{
             itemPrice -= WithoutItems.get(pos).price * WithoutItems.get(pos).Qty;
         }
         WithoutItems.remove(pos);
+    }
+    public static double round(double value, int places) {
+        if (places < 0) throw new IllegalArgumentException();
+
+        BigDecimal bd = new BigDecimal(value);
+        bd = bd.setScale(places, RoundingMode.HALF_UP);
+        return bd.doubleValue();
     }
 }

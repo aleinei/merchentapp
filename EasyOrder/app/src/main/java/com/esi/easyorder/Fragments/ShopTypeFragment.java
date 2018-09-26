@@ -75,6 +75,7 @@ public class ShopTypeFragment extends android.support.v4.app.Fragment {
         final View view = inflater.inflate(R.layout.fragment_shop_type, container, false);
         recyclerView = view.findViewById(R.id.shoptyperecy);
 
+
         //shtoptype code starts here
         String userString = PreferenceManager.getDefaultSharedPreferences(getContext()).getString("user", "");
         if(!userString.equals(""))
@@ -117,8 +118,13 @@ public class ShopTypeFragment extends android.support.v4.app.Fragment {
                    double lat = shopObj.getDouble("lat");
                    double longt = shopObj.getDouble("long");
                    float[] distances = new float[3];
-                   Location.distanceBetween(lat, longt, user.location.getLatitude(), user.location.getLongitude(), distances);
-                   float distance = distances[0] / 1000;
+                   try {
+                       Location.distanceBetween(lat, longt, user.location.getLatitude(), user.location.getLongitude(), distances);
+                       float distance = distances[0] / 1000;
+                   } catch (Exception e) {
+                       e.printStackTrace();
+                   }
+
                    /*if(distance > 50.0) {
                        continue;
                    }*/
