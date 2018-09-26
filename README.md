@@ -62,3 +62,15 @@ to-do
 20180911:
 
 23- The item's screen should show the quantity in-stock According to [MerchantClient - 11]
+
+24- The Item's screen should not contain decimal points [AT ALL]
+
+25- ممكن نخلي العنوان المطبوع على أمر الشغل:
+    م81، د5، ش512
+    مبنى81، الدور5، شقة512
+    
+26- Return [Ctrl+S] for settings and [Ctrl+D] for Design in the Merchant Client
+
+27- We need to find a Location API that reports the accurate Address (in both Arabic and English) based on the Application's landguage
+
+28- On the Info button for the merchant, please add a [Google Maps] button when pressed, google maps should show indicating the location of the merchant, if the merchant has branches, show the neerest branch
