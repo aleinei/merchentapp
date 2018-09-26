@@ -75,8 +75,8 @@ public class ShopsAdapter extends Adapter {
         }
 
         private void bind(final Shop shop) {
-            final String lang = PreferenceManager.getDefaultSharedPreferences(mContext).getString("Language", "en");
-            shopName.setText(lang.equals("en") ? shop.getName() : shop.getName_ar());
+            final String lang = PreferenceManager.getDefaultSharedPreferences(mContext).getString("Language", "ar");
+            shopName.setText(lang.equals("ar") ? shop.getName() : shop.getName_ar());
             shopImage.setImageResource(shop.getImage());
             shopImage.setImageURL("http://185.181.10.83/Pictures/Merchants/"+shop.getName().replace(" ","%20")+".jpg");
             if(!shop.getIsActive()){
