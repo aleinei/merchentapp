@@ -1,6 +1,7 @@
 package com.esi.easyorder.activites;
 
 import android.content.DialogInterface;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.content.ComponentName;
 import android.content.Context;
@@ -16,6 +17,7 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.InputType;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -25,6 +27,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.DialogAction;
@@ -53,6 +56,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
@@ -68,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
     CheckBox rememberMe;
     User user;
     Button merchantRegister;
-    MaterialStyledDialog mDialog;
+    MaterialDialog mDialog;
     boolean verifyCancelled = false;
     boolean authinticated = false;
     String mVerificationId = "";
@@ -77,6 +81,7 @@ public class MainActivity extends AppCompatActivity {
     String language;
     Locale locale;
     ImageButton imageButton;
+    Calendar timeSent;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -150,7 +155,7 @@ public class MainActivity extends AppCompatActivity {
         b.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String username = phoneEditText.getText().toString();
+                final String username = phoneEditText.getText().toString();
                 String password = passwordText.getText().toString();
                 if (username.equals("")) {
                     Toast.makeText(getApplicationContext(), "You need to enter your username and password", Toast.LENGTH_SHORT).show();
@@ -165,24 +170,60 @@ public class MainActivity extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(), "Please enter a valid phone number", Toast.LENGTH_SHORT).show();
                         return;
                     }
-                    PhoneAuthProvider.getInstance().verifyPhoneNumber("+2" + username,120, TimeUnit.SECONDS,MainActivity.this, mCallbacks);
-                    LinearLayout layout = new LinearLayout(MainActivity.this);
-                    layout.setOrientation(LinearLayout.VERTICAL);
-                    LinearLayout.LayoutParams lP = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
-                    lP.setMargins(5,5,5,5);
-                    layout.setLayoutParams(lP);
-                    final EditText editText = new EditText(MainActivity.this);
-                    editText.setRawInputType(InputType.TYPE_CLASS_NUMBER);
-                    editText.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-                    editText.setEnabled(true);
-                    editText.setHint("Phone code");
-                    editText.setTag("codeText");
-                    layout.addView(editText);
-                    layout.setPadding(10,10,10,10);
+                    verifyCancelled = false;
+                    PhoneAuthProvider.getInstance().verifyPhoneNumber("+2" + username,60, TimeUnit.SECONDS,MainActivity.this, mCallbacks);
+                    View layout = LayoutInflater.from(MainActivity.this).inflate(R.layout.verify_dialog_layout, null);
+                    final EditText editText = layout.findViewById(R.id.code);
+                    final TextView timeToResend = layout.findViewById(R.id.time_to_resend);
+                    final Button resendCode = layout.findViewById(R.id.resend_code);
+                    timeSent = Calendar.getInstance();
+                    timeToResend.setText(getString(R.string.resend_time, "1:00"));
+                    new Handler(getMainLooper()).postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            if(verifyCancelled) return;
+                            resendCode.setEnabled(true);
+                        }
+                    }, 60000);
+                    final Handler timerHandler = new Handler(getMainLooper());
+                    final Runnable timerRunnable = new Runnable() {
+                        @Override
+                        public void run() {
+                            if(verifyCancelled) return;
+                            Calendar currentTime = Calendar.getInstance();
+                            long diff = currentTime.getTimeInMillis() - timeSent.getTimeInMillis();
+                            int remainingMinutes = (int) ((diff / (1000*60)) % 60);
+                            int reminingseconds = (int) (diff / 1000) % 60;
+                            if(remainingMinutes == 1) {
+                                timeToResend.setText(getString(R.string.resend_time, "00:00"));
+                                return;
+                            }
+                            reminingseconds = reminingseconds - 60;
+                            reminingseconds = reminingseconds * -1;
 
-                    mDialog = new MaterialStyledDialog.Builder(MainActivity.this).setTitle("Verifying your phone").setCustomView(layout).
-                            setPositiveText("Verify").
-                            setNegativeText("cancel").
+                            String time = remainingMinutes < 10 ? "0" + remainingMinutes : remainingMinutes + "";
+                            time += ":";
+                            time += reminingseconds < 10 ? "0" + reminingseconds : reminingseconds + "";
+                            timeToResend.setText(getString(R.string.resend_time, time));
+                            timerHandler.postDelayed(this, 500);
+                        }
+                    };
+                    timerHandler.post(timerRunnable);
+                    resendCode.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            if(view.isEnabled()) {
+                                PhoneAuthProvider.getInstance().verifyPhoneNumber("+2" + username,60, TimeUnit.SECONDS,MainActivity.this, mCallbacks);
+                                resendCode.setEnabled(false);
+                                verifyCancelled = false;
+                                timeSent = Calendar.getInstance();
+                                timerHandler.post(timerRunnable);
+                            }
+                        }
+                    });
+                    mDialog = new MaterialDialog.Builder(MainActivity.this).title(R.string.please_wait).customView(layout, true).
+                            positiveText(R.string.verify).
+                            negativeText(R.string.cancel).
                             onPositive(new MaterialDialog.SingleButtonCallback() {
                                 @Override
                                 public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
@@ -198,10 +239,11 @@ public class MainActivity extends AppCompatActivity {
                                 public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
                                     verifyCancelled = true;
                                     dialog.dismiss();
+                                    timerHandler.removeCallbacks(timerRunnable);
                                 }
                             }).
                             autoDismiss(false).
-                            setCancelable(false).
+                            cancelable(false).
                             build();
                     mDialog.show();
 

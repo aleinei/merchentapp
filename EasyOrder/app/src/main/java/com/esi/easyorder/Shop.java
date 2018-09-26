@@ -13,9 +13,11 @@ public class Shop {
     boolean isActive;
     String address;
     String phone;
+    double longtiude;
+    double latiude;
 
     public Shop() {}
-    public Shop(String shopName, String shopName_ar, String dbName, int shopImage, boolean isActive, String address, String phone) {
+    public Shop(String shopName, String shopName_ar, String dbName, int shopImage, boolean isActive, String address, String phone, double lat, double longt) {
         this.shopName = shopName;
         this.shopName_ar = shopName_ar;
         this.dbName = dbName;
@@ -23,6 +25,8 @@ public class Shop {
         this.isActive = isActive;
         this.address = address;
         this.phone = phone;
+        this.latiude = lat;
+        this.longtiude = longt;
     }
 
     public String getName() {
@@ -64,6 +68,8 @@ public class Shop {
             shop.put("isActive", isActive);
             shop.put("address", address);
             shop.put("phone", phone);
+            shop.put("longt", longtiude);
+            shop.put("lat", latiude);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -81,8 +87,18 @@ public class Shop {
             this.isActive = shop.getBoolean("isActive");
             this.phone = shop.getString("phone");
             this.address = shop.getString("address");
+            this.latiude = shop.getDouble("lat");
+            this.longtiude = shop.getDouble("longt");
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+
+    public double getLat() {
+        return this.latiude;
+    }
+
+    public double getLongtiude() {
+        return this.longtiude;
     }
 }

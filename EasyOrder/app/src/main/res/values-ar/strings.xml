@@ -101,4 +101,13 @@
     <string name="shop_address">العنوان : %s</string>
 
     <string name="geocoderApiKey">AIzaSyAVA0pPuqzogG_SXD8yhRDKkSPSmNgyBhc</string>
+
+
+    <string name="verifying_phone">برجاء الانتظار حتي يتم ارسال رساله لك لتاكيد رقم الهاتف</string>
+    <string name="phone_code">الرمز المرسل</string>
+    <string name="resend_code">اعاده ارسال الرمز</string>
+    <string name="resend_time">يمكنك اعاده ارسال الرمز بعد %s</string>
+    <string name="please_wait">برجاء الانتظار....</string>
+    <string name="verify">تاكيد الرمز</string>
+    <string name="directions">الاتجاهات</string>
 </resources>

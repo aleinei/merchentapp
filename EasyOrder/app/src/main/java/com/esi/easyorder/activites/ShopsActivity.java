@@ -15,6 +15,7 @@ import com.esi.easyorder.Adapters.ShopsAdapter;
 import com.esi.easyorder.MyContextWrapper;
 import com.esi.easyorder.R;
 import com.esi.easyorder.ShopsSection;
+import com.esi.easyorder.User;
 
 public class ShopsActivity extends AppCompatActivity {
 
@@ -24,6 +25,7 @@ public class ShopsActivity extends AppCompatActivity {
     SharedPreferences pref;
     String language;
     Toolbar customBar;
+    User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +42,13 @@ public class ShopsActivity extends AppCompatActivity {
         shopsRecycler = findViewById(R.id.shops);
         manager = new LinearLayoutManager(this);
         manager.setOrientation(LinearLayoutManager.VERTICAL);
-        ShopsAdapter adapter = new ShopsAdapter(this, shopsSection.shops);
+        final String userString = PreferenceManager.getDefaultSharedPreferences(this).getString("user", "");
+        if(!userString.equals(""))
+        {
+            user = new User();
+            user.Deseralize(userString);
+        }
+        ShopsAdapter adapter = new ShopsAdapter(this, shopsSection.shops, user);
         shopsRecycler.setLayoutManager(manager);
         shopsRecycler.setAdapter(adapter);
     }
