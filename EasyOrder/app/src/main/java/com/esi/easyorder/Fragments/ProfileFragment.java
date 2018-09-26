@@ -57,6 +57,9 @@ import java.util.List;
 import java.util.Locale;
 
 import mehdi.sakout.fancybuttons.FancyButton;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 /**
  * Created by Server on 12/04/2018.
@@ -296,7 +299,7 @@ public class ProfileFragment extends android.support.v4.app.Fragment {
                         }
                         else
                         {
-                            String finalLocation = "Building number " + buildingNumber + " Floor Number " + floor + ", Apt Number  " + aprt + " , " + address.getText().toString();
+                            String finalLocation = "مبني " + buildingNumber + " الدور " + floor + ", الشقة  " + aprt + " , " + address.getText().toString();
                             UpdateUserAdress(finalLocation);
                             user.Address = finalLocation;
                             address.setText(finalLocation);
@@ -347,6 +350,7 @@ public class ProfileFragment extends android.support.v4.app.Fragment {
                     getLocation.setProgress(-1);
                     return;
                 }
+
                 getLocation.setProgress(50);
                 locationClient.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
                     @Override
@@ -356,7 +360,36 @@ public class ProfileFragment extends android.support.v4.app.Fragment {
                         locationLocated = true;
                         getLocation.setProgress(100);
 
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                String uri = String.format(Locale.ENGLISH, "https://maps.googleapis.com/maps/api/geocode/json?latlng="+location.getLatitude()+","+location.getLongitude()+"&key=AIzaSyAVA0pPuqzogG_SXD8yhRDKkSPSmNgyBhc");
+                                OkHttpClient client = new OkHttpClient();
+                                Request request = new Request.Builder().url(uri).build();
+                                Response response = null;
+                                try {
+                                    response = client.newCall(request).execute();
+                                    String fullString = response.body().string();
+                                    JSONObject object = new JSONObject(fullString);
+                                    Log.d("JSON Recieved", fullString);
+                                    JSONArray results = object.getJSONArray("results");
+                                    final String formattedaddress = results.getJSONObject(0).getString("formatted_address");
+                                    Log.d("Address is: ", formattedaddress);
+                                    menuActivity.runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            address.setText(formattedaddress);
+                                        }
+                                    });
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }).start();
                     }
+
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {

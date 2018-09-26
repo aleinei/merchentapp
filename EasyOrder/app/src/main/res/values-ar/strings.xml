@@ -99,4 +99,6 @@
     <string name="markets">سوبر ماركت</string>
     <string name="shop_phone">تليفون: %s</string>
     <string name="shop_address">العنوان : %s</string>
+
+    <string name="geocoderApiKey">AIzaSyAVA0pPuqzogG_SXD8yhRDKkSPSmNgyBhc</string>
 </resources>

@@ -239,7 +239,7 @@ public class RegisterActivity extends AppCompatActivity {
                         new Thread(new Runnable() {
                             @Override
                             public void run() {
-                                String uri = String.format(Locale.ENGLISH, "https://maps.googleapis.com/maps/api/geocode/json?latlng=%f,%f&key=AIzaSyCRd8xi9kaak4xo7EuqkQLLQhjaaaNbxac", location.getLatitude(), location.getLongitude());
+                                String uri = String.format(Locale.ENGLISH, "https://maps.googleapis.com/maps/api/geocode/json?latlng="+location.getLatitude()+","+location.getLongitude()+"&key=AIzaSyAVA0pPuqzogG_SXD8yhRDKkSPSmNgyBhc");
                                 OkHttpClient client = new OkHttpClient();
                                 Request request = new Request.Builder().url(uri).build();
                                 Response response = null;
@@ -250,6 +250,7 @@ public class RegisterActivity extends AppCompatActivity {
                                     Log.d("JSON Recieved", fullString);
                                     JSONArray results = object.getJSONArray("results");
                                     final String address = results.getJSONObject(0).getString("formatted_address");
+                                    Log.d("Address is: ", address);
                                     runOnUiThread(new Runnable() {
                                         @Override
                                         public void run() {

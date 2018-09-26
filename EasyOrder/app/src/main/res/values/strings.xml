@@ -95,6 +95,7 @@
     <string name="markets">Supermarkets</string>
     <string name="shop_phone">Phone: %s</string>
     <string name="shop_address">Address : %s</string>
+    <string name="geocoderApiKey">AIzaSyAVA0pPuqzogG_SXD8yhRDKkSPSmNgyBhc</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
