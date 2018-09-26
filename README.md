@@ -82,5 +82,7 @@ to-do
     
     We should study the condition of showing the [Quantity in stock] in a later stage
     
-30- 
+30- We should consider in a later stage showing the item's discounts (if any) on the item's activity
+
+
 
