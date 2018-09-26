@@ -73,11 +73,16 @@ to-do
 
 27- We need to find a Location API that reports the accurate Address (in both Arabic and English) based on the Application's landguage
 
-28- On the Info button for the merchant, please add a [Google Maps] button when pressed, google maps should show indicating the location of the merchant, if the merchant has branches, show the neerest branch
+28- On the Info button for the merchant, please add a [Google Maps] button when pressed, google maps should show indicating the location 
+
+    of the merchant, if the merchant has branches, show the neerest branch
 
 29- The Items to be shown on the application are of the following condition
+
     a-  منتج / خامة  and منتج مصنع the field [Inactive] should be false
+    
     b-  منتج نهائي should show all the time
+    
     c-  خامة should never be shown.
     
     We should study the condition of showing the [Quantity in stock] in a later stage
