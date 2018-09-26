@@ -14,8 +14,8 @@ android {
         applicationId 'com.esi.easyorder'
         targetSdkVersion 27
         minSdkVersion 16
-        versionCode 14
-        versionName "1.0.12"
+        versionCode 15
+        versionName "1.0.13"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -63,6 +63,7 @@ dependencies {
     //firebase
     implementation 'com.google.firebase:firebase-core:16.0.1'
     implementation 'com.google.firebase:firebase-auth:16.0.3'
+    implementation 'com.afollestad.material-dialogs:core:0.9.6.0'
 }
 //firebase
 apply plugin: 'com.google.gms.google-services'

@@ -113,10 +113,11 @@ public class ShopTypeFragment extends android.support.v4.app.Fragment {
            for(int i = 0; i < shops.length(); i++) {
                JSONObject shopObj = shops.getJSONObject(i);
                int type = shopObj.getInt("type");
-               Shop shop = new Shop(shopObj.getString("name"), shopObj.getString("name_ar"), shopObj.getString("dbName"), R.drawable.vegetables, shopObj.getBoolean("active"), shopObj.getString("address"), shopObj.getString("phone"));
+               double lat = shopObj.getDouble("lat");
+               double longt = shopObj.getDouble("long");
+               Shop shop = new Shop(shopObj.getString("name"), shopObj.getString("name_ar"), shopObj.getString("dbName"), R.drawable.vegetables, shopObj.getBoolean("active"), shopObj.getString("address"), shopObj.getString("phone"), lat, longt);
                if(shop.getIsActive()) {
-                   double lat = shopObj.getDouble("lat");
-                   double longt = shopObj.getDouble("long");
+
                    float[] distances = new float[3];
                    try {
                        Location.distanceBetween(lat, longt, user.location.getLatitude(), user.location.getLongitude(), distances);

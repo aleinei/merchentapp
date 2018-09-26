@@ -34,5 +34,15 @@
         android:textSize="18sp"
         android:layout_marginBottom="10dp"/>
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/shop_direction"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:drawableEnd="@drawable/ic_location_on_red_500_24dp"
+        android:drawableRight="@drawable/ic_location_on_red_500_24dp"
+        android:text="@string/directions"/>
+
 
 </LinearLayout>
