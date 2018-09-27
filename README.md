@@ -74,3 +74,22 @@ to-do
 27- We need to find a Location API that reports the accurate Address (in both Arabic and English) based on the Application's landguage
 
 28- On the Info button for the merchant, please add a [Google Maps] button when pressed, google maps should show indicating the location of the merchant, if the merchant has branches, show the neerest branch
+
+29- The Items to be shown on the application are of the following condition
+
+    a-  منتج / خامة  and منتج مصنع the field [Inactive] should be false
+    
+    b-  منتج نهائي should show all the time
+    
+    c-  خامة should never be shown.
+    
+    We should study the condition of showing the [Quantity in stock] in a later stage
+    
+30- We should consider in a later stage showing the item's discounts (if any) on the item's activity
+
+31- The Merchant Image should not show the merchant's name, only the merchant's picture
+
+32  The Merchant's Info button should not be transparant and be of solid colour with [i] in different colour
+
+33- The merchant's picture should be center alligned not left alligned
+
