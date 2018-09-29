@@ -29,6 +29,7 @@ import com.esi.easyorder.Shop;
 import com.esi.easyorder.User;
 import com.esi.easyorder.activites.MenuActivity;
 import com.esi.easyorder.activites.RegisterActivity;
+import com.github.clans.fab.FloatingActionButton;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -78,7 +79,7 @@ public class ShopsAdapter extends Adapter {
 
         TextView shopName;
         WebImageView shopImage;
-        ImageButton infoButton;
+        FloatingActionButton infoButton;
         ImageView underConstruction;
 
         public ShopsHolder(View itemView) {
@@ -91,7 +92,7 @@ public class ShopsAdapter extends Adapter {
 
         private void bind(final Shop shop) {
             final String lang = PreferenceManager.getDefaultSharedPreferences(mContext).getString("Language", "ar");
-            shopName.setText(lang.equals("ar") ? shop.getName() : shop.getName_ar());
+            shopName.setVisibility(View.GONE);
             shopImage.setImageResource(shop.getImage());
             shopImage.setImageURL("http://185.181.10.83/Pictures/Merchants/"+shop.getName().replace(" ","%20")+".jpg");
             if(!shop.getIsActive()){

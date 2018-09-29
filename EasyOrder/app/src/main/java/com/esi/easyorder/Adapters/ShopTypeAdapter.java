@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.esi.easyorder.R;
 import com.esi.easyorder.ShopsSection;
 import com.esi.easyorder.activites.ShopsActivity;
+import com.github.clans.fab.FloatingActionButton;
 
 import java.util.ArrayList;
 
@@ -57,7 +58,7 @@ public class ShopTypeAdapter extends RecyclerView.Adapter<ShopTypeAdapter.ViewHo
 
         TextView shoptypeName;
         WebImageView shoptypeImage;
-        ImageButton info;
+        FloatingActionButton info;
         public ViewHolder(View itemView) {
             super(itemView);
             shoptypeName = itemView.findViewById(R.id.shoptypename);
