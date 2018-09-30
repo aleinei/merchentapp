@@ -108,4 +108,6 @@
     <string name="please_wait">Please wait....</string>
     <string name="verify">Verify</string>
     <string name="directions">Directions</string>
+    <string name="date">Pick a date</string>
+    <string name="ok">Continue</string>
 </resources>

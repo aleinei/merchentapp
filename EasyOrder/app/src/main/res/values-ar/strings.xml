@@ -110,4 +110,6 @@
     <string name="please_wait">برجاء الانتظار....</string>
     <string name="verify">تاكيد الرمز</string>
     <string name="directions">الاتجاهات</string>
+    <string name="date">قم باختيار يوم</string>
+    <string name="ok">الاستمرار</string>
 </resources>

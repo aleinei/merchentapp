@@ -37,6 +37,10 @@ import com.esi.easyorder.R;
 import com.esi.easyorder.ServerMessage;
 import com.esi.easyorder.User;
 import com.esi.easyorder.services.ServerService;
+import com.kunzisoft.switchdatetime.SwitchDateTimeDialogFragment;
+import com.tsongkha.spinnerdatepicker.DatePicker;
+import com.tsongkha.spinnerdatepicker.DatePickerDialog;
+import com.tsongkha.spinnerdatepicker.SpinnerDatePickerDialogBuilder;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -45,6 +49,10 @@ import org.w3c.dom.Text;
 
 import java.io.IOException;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.Set;
 
 public class CartActivity extends AppCompatActivity {
@@ -63,6 +71,7 @@ public class CartActivity extends AppCompatActivity {
     public boolean isChangeAddress = false;
     String iiCart ="";
     String language;
+    String date;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,7 +80,7 @@ public class CartActivity extends AppCompatActivity {
         pref = getSharedPreferences("global", 0);
         editor = pref.edit();
         String cart = pref.getString("cart", null);
-        language = pref.getString("Language","en");
+        language = pref.getString("Language","ar");
         mCart = new ActiveCart();
         gridView = findViewById(R.id.cartGridView);
         cartCost = findViewById(R.id.cartCost);
@@ -228,6 +237,7 @@ public class CartActivity extends AppCompatActivity {
                                         cart.put("dbName", PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString("dbName", ""));
                                         cart.put("user_id", Id);
                                         cart.put("takeaway", false);
+                                        cart.put("d_time", date);
                                         JSONArray items = new JSONArray();
                                         for (Item i : gridAdapter.cart.Items) {
                                             items.put(i.toObject());
@@ -256,6 +266,7 @@ public class CartActivity extends AppCompatActivity {
                                             cart.put("dbName", PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString("dbName", ""));
                                             cart.put("user_id", Id);
                                             cart.put("takeaway", false);
+                                            cart.put("d_time", date);
                                             JSONArray items = new JSONArray();
                                             for (Item i : gridAdapter.cart.Items) {
                                                 items.put(i.toObject());
@@ -288,7 +299,36 @@ public class CartActivity extends AppCompatActivity {
                                 }
                             });
                             final Dialog dialog2 = builder1.create();
-                            dialog.show();
+                            Calendar calendar = Calendar.getInstance();
+                            SwitchDateTimeDialogFragment dFramgnet = SwitchDateTimeDialogFragment.newInstance(getString(R.string.date), getString(R.string.ok), getString(R.string.cancel));
+                            dFramgnet.startAtCalendarView();
+                            dFramgnet.setMaximumDateTime(new GregorianCalendar(2022, 1, 1).getTime());
+                            dFramgnet.setMinimumDateTime(calendar.getTime());
+                            dFramgnet.setOnButtonClickListener(new SwitchDateTimeDialogFragment.OnButtonClickListener() {
+                                @Override
+                                public void onPositiveButtonClick(Date date) {
+                                    SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd hh:mm aa");
+                                    CartActivity.this.date = format.format(date);
+                                    dialog.show();
+                                }
+
+                                @Override
+                                public void onNegativeButtonClick(Date date) {
+
+                                }
+                            });
+                            dFramgnet.show(getSupportFragmentManager(), "Date pick");
+                            /*new SpinnerDatePickerDialogBuilder().context(CartActivity.this)
+                                    .callback(new DatePickerDialog.OnDateSetListener() {
+                                        @Override
+                                        public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                                            date = year + "-" + monthOfYear + "-" + dayOfMonth;
+                                            dialog.show();
+                                        }
+                                    })
+                            .maxDate(2020, 1,1).minDate(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH))
+                            .build().show();*/
+                            //dialog.show();
                             option1.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View view) {
@@ -309,6 +349,7 @@ public class CartActivity extends AppCompatActivity {
                                         cart.put("dbName", PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString("dbName", ""));
                                         cart.put("user_id", Id);
                                         cart.put("takeaway", true);
+                                        cart.put("d_time", date);
                                         JSONArray items = new JSONArray();
                                         for (Item i : gridAdapter.cart.Items) {
 
@@ -375,7 +416,7 @@ public class CartActivity extends AppCompatActivity {
     @Override
     protected void attachBaseContext(Context newBase) {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(newBase);
-        language = preferences.getString("Language", "en");
+        language = preferences.getString("Language", "ar");
 
         super.attachBaseContext(MyContextWrapper.wrap(newBase, language));
     }
