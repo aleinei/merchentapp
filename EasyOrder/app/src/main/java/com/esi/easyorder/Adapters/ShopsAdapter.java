@@ -64,6 +64,7 @@ public class ShopsAdapter extends Adapter {
                 Intent intent = new Intent(mContext, MenuActivity.class);
                 intent.putExtra("dbName", shops.get(position).getDbName());
                 intent.putExtra("loadHome", true);
+                intent.putExtra("shopName", shops.get(position).getName());
                 mContext.startActivity(intent);
             }
         });
@@ -94,7 +95,7 @@ public class ShopsAdapter extends Adapter {
             final String lang = PreferenceManager.getDefaultSharedPreferences(mContext).getString("Language", "ar");
             shopName.setVisibility(View.GONE);
             shopImage.setImageResource(shop.getImage());
-            shopImage.setImageURL("http://185.181.10.83/Pictures/Merchants/"+shop.getName().replace(" ","%20")+".jpg");
+            shopImage.setImageURL("http://185.181.10.83/Pictures/Merchants/"+shop.getName().replace(" ","%20")+"/logo.jpg");
             if(!shop.getIsActive()){
             underConstruction.setVisibility(View.VISIBLE);
             }

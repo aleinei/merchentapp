@@ -74,6 +74,7 @@ public class MenuActivity extends AppCompatActivity {
     SharedPreferences pref;
     String language;
     boolean loadHome;
+    String shopName;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -89,6 +90,7 @@ public class MenuActivity extends AppCompatActivity {
         drawerLayout.addDrawerListener(toggler);
         loadHome = getIntent().getBooleanExtra("loadHome", false);
         dbName = getIntent().getStringExtra("dbName");
+        shopName = getIntent().getStringExtra("shopName");
         PreferenceManager.getDefaultSharedPreferences(this).edit().putString("dbName", dbName).apply();
         toggler.syncState();
         NavView = findViewById(R.id.navView);
@@ -329,7 +331,7 @@ public class MenuActivity extends AppCompatActivity {
                             JSONObject object = objects.getJSONObject(i);
                             SectionNames[i - 1] = object.getString("section_name");
                             StringBuilder s = new StringBuilder(100);
-                            s.append("http://" + serverIP + "/Pictures/Menus/Guest%20Menu/Sections/");
+                            s.append("http://" + serverIP + "/Pictures/Merchants/" + shopName +"/Sections/");
                             s.append(Uri.encode(object.getString("section_name")));
                             s.append(".jpg");
                             menuData.Sections.add(new Section(object.getString("section_name"), object.getInt("section_id"), s.toString()));
@@ -348,7 +350,7 @@ public class MenuActivity extends AppCompatActivity {
                             for (int i = 0; i < menuData.Sections.size(); i++) {
                                 if (menuData.Sections.get(i).Id == section_id) {
                                     StringBuilder s = new StringBuilder(100);
-                                    s.append("http://" + serverIP + "/Pictures/Menus/Guest%20Menu/Categories/");
+                                    s.append("http://" + serverIP + "/Pictures/Merchants/" + shopName +"/Categories/");
                                     s.append(Uri.encode(jsonObject.getString("Name")));
                                     s.append(".jpg");
                                     Category category = new Category(jsonObject.getString("Name"), jsonObject.getInt("Id"), menuData.Sections.get(i).name, s.toString());
@@ -373,7 +375,7 @@ public class MenuActivity extends AppCompatActivity {
                                 for (int y = 0; y <  menuData.Sections.get(i).categories.size(); y++) {
                                     if ( menuData.Sections.get(i).categories.get(y).Id == category_id) {
                                         StringBuilder s = new StringBuilder(100);
-                                        s.append("http://" + serverIP + "/Pictures/Menus/Guest%20Menu/Items/");
+                                        s.append("http://" + serverIP + "/Pictures/Merchants/" + shopName +"/Items/");
                                         s.append(Uri.encode(item.getString("Name")));
                                         s.append(".jpg");
                                         Item it = new Item(item.getString("Name"), item.getDouble("Price"), item.getInt("Id"), s.toString());

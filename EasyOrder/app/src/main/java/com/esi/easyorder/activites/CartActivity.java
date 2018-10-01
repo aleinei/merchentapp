@@ -299,7 +299,7 @@ public class CartActivity extends AppCompatActivity {
                                 }
                             });
                             final Dialog dialog2 = builder1.create();
-                            Calendar calendar = Calendar.getInstance();
+                            final Calendar calendar = Calendar.getInstance();
                             SwitchDateTimeDialogFragment dFramgnet = SwitchDateTimeDialogFragment.newInstance(getString(R.string.date), getString(R.string.ok), getString(R.string.cancel));
                             dFramgnet.startAtCalendarView();
                             dFramgnet.setMaximumDateTime(new GregorianCalendar(2022, 1, 1).getTime());
@@ -307,6 +307,13 @@ public class CartActivity extends AppCompatActivity {
                             dFramgnet.setOnButtonClickListener(new SwitchDateTimeDialogFragment.OnButtonClickListener() {
                                 @Override
                                 public void onPositiveButtonClick(Date date) {
+                                    long now = calendar.getTimeInMillis();
+                                    long chosen = date.getTime();
+
+                                    if(chosen - now < 0) {
+                                        Toast.makeText(CartActivity.this, R.string.invalid_date, Toast.LENGTH_SHORT).show();
+                                        return;
+                                    }
                                     SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd hh:mm aa");
                                     CartActivity.this.date = format.format(date);
                                     dialog.show();

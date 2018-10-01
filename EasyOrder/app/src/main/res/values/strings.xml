@@ -110,4 +110,5 @@
     <string name="directions">Directions</string>
     <string name="date">Pick a date</string>
     <string name="ok">Continue</string>
+    <string name="invalid_date">Please choose a valid date</string>
 </resources>

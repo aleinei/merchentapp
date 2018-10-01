@@ -112,4 +112,5 @@
     <string name="directions">الاتجاهات</string>
     <string name="date">قم باختيار يوم</string>
     <string name="ok">الاستمرار</string>
+    <string name="invalid_date">برجاء اختيار تاريخ صالح</string>
 </resources>
