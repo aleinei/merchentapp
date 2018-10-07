@@ -41,6 +41,12 @@ public class ShopsSection {
         return type;
     }
 
+    public boolean containShop(String dbName) {
+        for(Shop shop : shops) {
+            if(shop.dbName.equals(dbName)) return true;
+        }
+        return false;
+    }
     @Override
     public String toString() {
         JSONObject shopSection = new JSONObject();

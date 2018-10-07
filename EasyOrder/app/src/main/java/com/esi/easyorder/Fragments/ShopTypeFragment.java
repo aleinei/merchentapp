@@ -133,15 +133,27 @@ public class ShopTypeFragment extends android.support.v4.app.Fragment {
                //String img="http://185.181.10.83/Pictures/Merchants"+shop.getName();
 
                if(type == Constants.TYPE_VEG) {
+                   if(veg.containShop(shop.getDbName())) {
+                       return;
+                   }
                    shop.setImage(R.drawable.vegetables);
                    veg.shops.add(shop);
                } else if(type == Constants.TYPE_SUPERMARKET){
+                   if(markets.containShop(shop.getDbName())) {
+                       return;
+                   }
                    shop.setImage(R.drawable.markets);
                    markets.shops.add(shop);
                } else if(type == Constants.TYPE_REST) {
+                   if(rest.containShop(shop.getDbName())) {
+                       return;
+                   }
                    shop.setImage(R.drawable.resturant);
                    rest.shops.add(shop);
                } else {
+                   if(clothes.containShop(shop.getDbName())) {
+                       return;
+                   }
                    shop.setImage(R.drawable.clothes_shop);
                    clothes.shops.add(shop);
                }
@@ -176,7 +188,6 @@ public class ShopTypeFragment extends android.support.v4.app.Fragment {
     public void onDestroy() {
         super.onDestroy();
         if(mBound) {
-            getActivity().unbindService(mConnection);
             mBound = false;
         }
     }

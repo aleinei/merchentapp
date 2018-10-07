@@ -368,6 +368,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onVerificationFailed(FirebaseException e) {
             Toast.makeText(MainActivity.this, "Please Provide us with a correct phone number", Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
         }
 
         @Override
