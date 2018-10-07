@@ -14,8 +14,8 @@ android {
         applicationId 'com.esi.easyorder'
         targetSdkVersion 27
         minSdkVersion 16
-        versionCode 17
-        versionName "1.0.15"
+        versionCode 20
+        versionName "1.0.18"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -65,7 +65,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-auth:16.0.3'
     implementation 'com.afollestad.material-dialogs:core:0.9.6.0'
     implementation 'com.github.drawers:SpinnerDatePicker:1.0.6'
-    implementation "com.github.Kunzisoft:Android-SwitchDateTimePicker:2.0"
+    implementation 'com.github.Kunzisoft:Android-SwitchDateTimePicker:2.0'
 }
 //firebase
 apply plugin: 'com.google.gms.google-services'

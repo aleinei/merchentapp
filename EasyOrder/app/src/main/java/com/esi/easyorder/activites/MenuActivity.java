@@ -331,9 +331,10 @@ public class MenuActivity extends AppCompatActivity {
                             JSONObject object = objects.getJSONObject(i);
                             SectionNames[i - 1] = object.getString("section_name");
                             StringBuilder s = new StringBuilder(100);
-                            s.append("http://" + serverIP + "/Pictures/Merchants/" + shopName +"/Sections/");
+                            s.append("http://" + serverIP + "/Pictures/Merchants/" + shopName.replace(" ","%20") +"/Sections/");
                             s.append(Uri.encode(object.getString("section_name")));
                             s.append(".jpg");
+                            Log.d("S is:" , s.toString());
                             menuData.Sections.add(new Section(object.getString("section_name"), object.getInt("section_id"), s.toString()));
                             System.out.println("New section " +object.getString("section_name"));
                         }
@@ -350,7 +351,7 @@ public class MenuActivity extends AppCompatActivity {
                             for (int i = 0; i < menuData.Sections.size(); i++) {
                                 if (menuData.Sections.get(i).Id == section_id) {
                                     StringBuilder s = new StringBuilder(100);
-                                    s.append("http://" + serverIP + "/Pictures/Merchants/" + shopName +"/Categories/");
+                                    s.append("http://" + serverIP + "/Pictures/Merchants/" + shopName.replace(" ","%20") +"/Categories/");
                                     s.append(Uri.encode(jsonObject.getString("Name")));
                                     s.append(".jpg");
                                     Category category = new Category(jsonObject.getString("Name"), jsonObject.getInt("Id"), menuData.Sections.get(i).name, s.toString());
@@ -375,7 +376,7 @@ public class MenuActivity extends AppCompatActivity {
                                 for (int y = 0; y <  menuData.Sections.get(i).categories.size(); y++) {
                                     if ( menuData.Sections.get(i).categories.get(y).Id == category_id) {
                                         StringBuilder s = new StringBuilder(100);
-                                        s.append("http://" + serverIP + "/Pictures/Merchants/" + shopName +"/Items/");
+                                        s.append("http://" + serverIP + "/Pictures/Merchants/" + shopName.replace(" ","%20") +"/Items/");
                                         s.append(Uri.encode(item.getString("Name")));
                                         s.append(".jpg");
                                         Item it = new Item(item.getString("Name"), item.getDouble("Price"), item.getInt("Id"), s.toString());
