@@ -14,8 +14,13 @@ android {
         applicationId 'com.esi.easyorder'
         targetSdkVersion 27
         minSdkVersion 16
+<<<<<<< HEAD
         versionCode 20
         versionName "1.0.18"
+=======
+        versionCode 18
+        versionName "1.1"
+>>>>>>> 054163aa25439b9213900cfe27ab107d1a6db273
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
