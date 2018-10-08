@@ -184,7 +184,7 @@ public class MainActivity extends AppCompatActivity {
                             if(verifyCancelled) return;
                             resendCode.setEnabled(true);
                         }
-                    }, 60000);
+                    }, 120000);
                     final Handler timerHandler = new Handler(getMainLooper());
                     final Runnable timerRunnable = new Runnable() {
                         @Override
@@ -194,12 +194,14 @@ public class MainActivity extends AppCompatActivity {
                             long diff = currentTime.getTimeInMillis() - timeSent.getTimeInMillis();
                             int remainingMinutes = (int) ((diff / (1000*60)) % 60);
                             int reminingseconds = (int) (diff / 1000) % 60;
-                            if(remainingMinutes == 1) {
+                            if(remainingMinutes == 2) {
                                 timeToResend.setText(getString(R.string.resend_time, "00:00"));
                                 return;
                             }
                             reminingseconds = reminingseconds - 60;
                             reminingseconds = reminingseconds * -1;
+                            remainingMinutes = remainingMinutes - 1;
+                            remainingMinutes = remainingMinutes * -1;
 
                             String time = remainingMinutes < 10 ? "0" + remainingMinutes : remainingMinutes + "";
                             time += ":";

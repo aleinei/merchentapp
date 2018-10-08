@@ -65,7 +65,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-auth:16.0.3'
     implementation 'com.afollestad.material-dialogs:core:0.9.6.0'
     implementation 'com.github.drawers:SpinnerDatePicker:1.0.6'
-    implementation "com.github.Kunzisoft:Android-SwitchDateTimePicker:2.0"
+    implementation 'com.github.Kunzisoft:Android-SwitchDateTimePicker:2.0'
 }
 //firebase
 apply plugin: 'com.google.gms.google-services'
