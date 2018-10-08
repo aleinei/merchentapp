@@ -30,6 +30,12 @@ public class SectionReycleAdapter extends RecyclerView.Adapter<SectionViewHolder
         this.context = context;
         this.data = data;
         UIType = PreferenceManager.getDefaultSharedPreferences(context).getString("uiType", "textandpictures");
+        setHasStableIds(true);
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return data.categories.get(position).Id;
     }
 
     @Override
@@ -42,7 +48,7 @@ public class SectionReycleAdapter extends RecyclerView.Adapter<SectionViewHolder
     @Override
     public void onBindViewHolder(@NonNull final SectionViewHolder holder, @SuppressLint("RecyclerView") final int position) {
         final int pos = position;
-        holder.textView.setText(data.categories.get(position).name);
+        holder.bind(data.categories.get(pos));
         holder.sectionID = SectionID;
         holder.categoryID = position;
         holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -55,12 +61,6 @@ public class SectionReycleAdapter extends RecyclerView.Adapter<SectionViewHolder
                 context.startActivity(categoryActivity);
             }
         });
-        if(UIType.equals("textandpictures") || UIType.equals("pictures"))
-            holder.image.setImageURL(data.categories.get(position).category_url);
-        else if(UIType.equals("text"))
-            holder.image.setVisibility(View.GONE);
-        if(UIType.equals("pictures"))
-            holder.textView.setVisibility(View.GONE);
     }
 
     @Override
