@@ -223,7 +223,7 @@ public class CartActivity extends AppCompatActivity {
                             text.setTextSize(18);
                             builder1.setView(text);
                             builder1.setTitle(getString(R.string.addressconfirm));
-
+                            JSONObject cart = new JSONObject();
                             builder1.setPositiveButton(R.string.changeaddress, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface tdialog, int which) {
@@ -260,7 +260,7 @@ public class CartActivity extends AppCompatActivity {
                                 public void onClick(DialogInterface tdialog, int which) {
                                     tdialog.dismiss();
                                     if(!isChangeAddress){
-                                        JSONObject cart = new JSONObject();
+                                        
                                         try {
                                             cart.put("Msg", "new_order_d");
                                             cart.put("dbName", PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString("dbName", ""));
